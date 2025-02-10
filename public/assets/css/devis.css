@@ -1,0 +1,278 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+/*--------------------------------    HEADER         ----------------------------------------------------- */
+
+header {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  padding: 20px;
+  position: fixed;
+  z-index: 3;
+  width: 100%;
+}
+
+header div {
+  text-align: left;
+  width: 30%;
+
+  display: flex;
+  flex-wrap: wrap;
+}
+
+header div h2 {
+  font-family: "Black-Mango";
+  color: white;
+  width: 100%;
+}
+
+header div p {
+  font-family: "Montserrat-regular";
+  color: white;
+  text-align: center;
+}
+
+header button {
+  font-size: 20px;
+  color: white;
+  background: transparent;
+  border: 2px solid;
+  border-image: linear-gradient(to right, gold, #7a5c32);
+  border-image-slice: 1;
+  padding: 10px 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+header nav a {
+  text-decoration: none;
+  color: white;
+  font-family: "Montserrat-regular";
+  font-size: 16px;
+  margin-right: 20px;
+}
+
+header button a {
+  text-decoration: none;
+  color: white;
+  font-family: "Montserrat-regular";
+}
+header button:hover {
+  background: rgba(255, 215, 0, 0.1);
+}
+
+/*--------------------------------    BANNIERE         ----------------------------------------------------- */
+
+.banniere {
+  width: 100%;
+  height: 600px;
+}
+
+.bw-image {
+  filter: grayscale(100%);
+  z-index: 0;
+  width: 100%;
+  height: 600px;
+  object-fit: cover;
+  position: absolute;
+}
+
+.banniere div {
+  width: 100%;
+  height: 100%;
+  background-color: #00000072;
+  z-index: 2;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.banniere div h1 {
+  font-family: "Black-Mango";
+  text-align: center;
+  color: white;
+  font-size: 80px;
+}
+
+/*--------------------------------    section du centre         ----------------------------------------------------- */
+.centre {
+  width: 100%;
+  display: flex;
+}
+
+.fond {
+  width: 100%;
+  height: auto;
+  background-color: #0c0602;
+  z-index: 2;
+  position: absolute;
+  justify-content: center;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.fond p {
+  font-family: "Montserrat-regular";
+  font-size: 24px;
+  color: white;
+  width: 70%;
+  margin-top: 40px;
+  text-align: center;
+}
+.fond2 {
+  margin-top: 600px;
+  width: 100%;
+  height: 600px;
+  background-color: #f2e9d3;
+}
+
+/*--------------------------------    FORMULAIRE         ----------------------------------------------------- */
+.formulaire {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  z-index: 6;
+  position: relative;
+  margin-top: 250px;
+}
+
+.formulaire form {
+  background-color: #faf8f2;
+  width: 55%;
+  height: 900px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
+}
+
+.informations {
+  width: 40%;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+}
+
+label {
+  text-align: left;
+  font-family: "Montserrat-regular";
+  color: #000000;
+}
+
+input {
+  padding: 10px;
+  color: #545454;
+  border-radius: 2px;
+  border: solid 1px;
+  border-color: #a3a3a3;
+  margin-bottom: 20px;
+  background-color: #00000000;
+}
+
+select {
+  padding: 10px;
+  color: #545454;
+  border-radius: 5px;
+  border: solid 1px;
+  border-color: #a3a3a3;
+  margin-bottom: 20px;
+  background-color: #00000000;
+}
+.formulaire form textarea {
+  padding: 10px;
+  color: #545454;
+  border-radius: 5px;
+  border: solid 1px;
+  border-color: #a3a3a3;
+  background-color: #00000000;
+}
+
+.dessus {
+  width: 100%;
+  height: auto;
+}
+
+.dessus h2 {
+  color: #57370d;
+  font-family: "Black-Mango";
+}
+
+.dessus p {
+  color: #000000;
+  font-family: "Montserrat-regular";
+  margin-bottom: 20px;
+}
+
+.dessus h3 {
+  color: #000000;
+  font-family: "Montserrat-regular";
+  font-size: 32px;
+}
+
+.dessus h4 {
+  color: #000000;
+  font-family: "Montserrat-regular";
+  font-size: 24px;
+}
+
+.description {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+}
+.rdv {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.formulaire button {
+  background-image: linear-gradient(
+    to right,
+    #57370d 0%,
+    #ffe998 51%,
+    #7b5729 100%
+  );
+}
+.formulaire button {
+  margin: 10px;
+  padding: 15px 45px;
+  text-align: center;
+  text-transform: uppercase;
+  transition: 0.5s;
+  background-size: 200% auto;
+  color: white;
+  box-shadow: 0 0 20px #eee;
+  border-radius: 3px;
+  display: block;
+  border: solid transparent;
+}
+
+.formulaire button:hover {
+  background-position: right center; /* change the direction of the change here */
+  color: #fff;
+  text-decoration: none;
+}
+
+/*--------------------------------    TYPOGRAPHIE      ----------------------------------------------------- */
+
+@font-face {
+  font-family: "Black-Mango";
+  src: url("../police/black-mango-regular.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Montserrat-regular";
+  src: url("../police/montserrat-regular.ttf") format("truetype");
+}
