@@ -122,6 +122,8 @@
                         <input type="text" id="datepicker" name="rdv_date" placeholder="Sélectionnez une date">
 
                         <label for="rdv_horaire">Choisissez votre horaire<span style="color:#A60000;">*</span></label>
+                        <input type="hidden" id="disponibilite_id" name="disponibilite_id">
+
                         <select id="horaire_select" name="rdv_horaire" required>
                             <option value="">-- Sélectionnez un horaire --</option>
                         </select>
@@ -159,44 +161,70 @@
 
 
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        // Récupérer les dates disponibles depuis l'API
-        fetch('index.php?action=disponibilites')
-            .then(response => response.json()) // Convertir la réponse en JSON
-            .then(data => {
-                // Extraire toutes les dates disponibles
-                let datesDisponibles = data.map(item => item.date_disponible);
 
-                // Initialiser Flatpickr
-                flatpickr("#datepicker", {
-                    dateFormat: "Y-m-d", // Format de la date (AAAA-MM-JJ)
-                    disable: [
-                        // Désactiver les dates non disponibles
-                        function (date) {
-                            let dateStr = date.toISOString().split('T')[0]; // Convertir la date en format YYYY-MM-DD
-                            return !datesDisponibles.includes(dateStr); // Si la date n'est pas dans la liste, elle est désactivée
-                        }
-                    ],
-                    onChange: function (selectedDates, dateStr) {
-                        // Quand une date est sélectionnée, on affiche les horaires disponibles pour cette date
-                        let horaires = data.filter(item => item.date_disponible === dateStr).map(item => item.horaire);
-                        let horaireSelect = document.getElementById("horaire_select");
+document.addEventListener("DOMContentLoaded", function () {
+    fetch('index.php?action=disponibilites')
+        .then(response => response.json())
+        .then(data => {
+            // Créer une map pour stocker les créneaux et leurs IDs
+            let disponibilitesMap = {};
+            let disponibilitesParDate = {};
 
-                        // Vider la liste des horaires avant de la remplir avec les nouveaux horaires
-                        horaireSelect.innerHTML = '<option value="">-- Sélectionnez un horaire --</option>';
+            data.forEach(item => {
+                let key = item.date_disponible + '-' + item.horaire;
+                disponibilitesMap[key] = item.id;  // Lier l'ID du créneau avec la combinaison date-horaire
 
-                        // Ajouter les horaires disponibles à la liste déroulante
-                        horaires.forEach(horaire => {
+                if (!disponibilitesParDate[item.date_disponible]) {
+                    disponibilitesParDate[item.date_disponible] = [];
+                }
+
+                if (item.est_reserve == 0) {  // Si le créneau est disponible
+                    disponibilitesParDate[item.date_disponible].push(item.horaire);
+                }
+            });
+
+            // Initialisation de flatpickr
+            flatpickr("#datepicker", {
+                dateFormat: "Y-m-d",
+                disable: [
+                    function (date) {
+                        let dateStr = date.toISOString().split('T')[0];
+                        return !disponibilitesParDate[dateStr];  // Désactiver les dates sans créneaux
+                    }
+                ],
+                onChange: function (selectedDates, dateStr) {
+                    let horaireSelect = document.getElementById("horaire_select");
+                    horaireSelect.innerHTML = '<option value="">-- Sélectionnez un horaire --</option>';
+
+                    // Ajouter les horaires disponibles pour cette date
+                    if (disponibilitesParDate[dateStr]) {
+                        disponibilitesParDate[dateStr].forEach(horaire => {
                             let option = document.createElement("option");
                             option.value = horaire;
                             option.textContent = horaire;
                             horaireSelect.appendChild(option);
                         });
                     }
-                });
-            })
-            .catch(error => console.error('Erreur de récupération des données:', error));
-    });
+                }
+            });
+
+            // Quand un horaire est sélectionné, on récupère l'ID du créneau
+            document.getElementById("horaire_select").addEventListener("change", function () {
+                let selectedHoraire = this.value;
+                let selectedDate = document.getElementById("datepicker").value;
+
+                // Créer une clé unique combinant date et horaire pour retrouver l'ID
+                let selectedKey = selectedDate + '-' + selectedHoraire;
+                let disponibiliteId = disponibilitesMap[selectedKey];
+
+                // Assigner l'ID au champ caché
+                document.getElementById("disponibilite_id").value = disponibiliteId;
+            });
+        })
+        .catch(error => console.error('Erreur de récupération des données:', error));
+});
+
+
 
     const emailInput = document.getElementById('email');
     emailInput.addEventListener('blur', () => {

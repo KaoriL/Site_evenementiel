@@ -1,22 +1,28 @@
 <?php
-class DevisModel {
+class DevisModel
+{
     private $db;
 
-    public function __construct($db) {
+    public function __construct($db)
+    {
         $this->db = $db;
     }
 
-    public function fetchDisponibilites() {
-        $sql = "SELECT date_disponible, horaire, est_reserve FROM disponibilites WHERE est_reserve = 0 ORDER BY date_disponible, horaire";
+    // DevisModel.php
+    public function fetchDisponibilites()
+    {
+        $sql = "SELECT id, date_disponible, horaire, est_reserve FROM disponibilites WHERE est_reserve = 0 ORDER BY date_disponible, horaire";
         $stmt = $this->db->query($sql);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+
     // Fonction pour enregistrer le devis dans la base de données
-    public function saveDevis($data) {
-        $query = "INSERT INTO prestations (nom, prenom, email, telephone, date_evenement, rdv_date, rdv_horaire, service, lieu, message) 
-                  VALUES (:nom, :prenom, :email, :telephone, :date_evenement, :rdv_date,:rdv_horaire, :service, :lieu, :message)";
-        
+    public function saveDevis($data)
+    {
+        $query = "INSERT INTO prestations (nom, prenom, email, telephone, date_evenement, rdv_date, rdv_horaire, service, lieu, message,disponibilite_id) 
+                  VALUES (:nom, :prenom, :email, :telephone, :date_evenement, :rdv_date,:rdv_horaire, :service, :lieu, :message,:disponibilite_id)";
+
         $stmt = $this->db->prepare($query);
         $stmt->bindParam(':nom', $data['nom']);
         $stmt->bindParam(':prenom', $data['prenom']);
@@ -28,8 +34,16 @@ class DevisModel {
         $stmt->bindParam(':service', $data['service']);
         $stmt->bindParam(':lieu', $data['lieu']);
         $stmt->bindParam(':message', $data['message']);
-        
-        return $stmt->execute(); // Retourne true si l'insertion est réussie
+        $stmt->bindParam(':disponibilite_id', $data['disponibilite_id']);
+
+        if ($stmt->execute()) {
+            // Mettre à jour la disponibilité en utilisant son ID
+            $updateQuery = "UPDATE disponibilites SET est_reserve = 1 WHERE id = :disponibilite_id";
+            $updateStmt = $this->db->prepare($updateQuery);
+            $updateStmt->bindParam(':disponibilite_id', $data['disponibilite_id']);
+            return $updateStmt->execute();
+        }
+        return false;
     }
 }
 ?>
