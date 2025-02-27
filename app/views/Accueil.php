@@ -8,5 +8,6 @@
 <body>
     <h1>accueil</h1>
     <a href="/Projet_deejay13/index.php?action=devis">Devis</a>
+    <a href="/Projet_deejay13/index.php?action=mariage">Mariage</a>
 </body>
 </html>

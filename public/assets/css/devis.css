@@ -1,69 +1,6 @@
-* {
-  margin: 0;
-  padding: 0;
-}
 
-/*--------------------------------    HEADER         ----------------------------------------------------- */
 
-header {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
-  padding: 20px;
-  position: fixed;
-  z-index: 3;
-  width: 100%;
-}
 
-header div {
-  text-align: left;
-  width: 30%;
-
-  display: flex;
-  flex-wrap: wrap;
-}
-
-header div h2 {
-  font-family: "Black-Mango";
-  color: white;
-  width: 100%;
-}
-
-header div p {
-  font-family: "Montserrat-regular";
-  color: white;
-  text-align: center;
-}
-
-header button {
-  font-size: 20px;
-  color: white;
-  background: transparent;
-  border: 2px solid;
-  border-image: linear-gradient(to right, gold, #7a5c32);
-  border-image-slice: 1;
-  padding: 10px 20px;
-  text-align: center;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-header nav a {
-  text-decoration: none;
-  color: white;
-  font-family: "Montserrat-regular";
-  font-size: 16px;
-  margin-right: 20px;
-}
-
-header button a {
-  text-decoration: none;
-  color: white;
-  font-family: "Montserrat-regular";
-}
-header button:hover {
-  background: rgba(255, 215, 0, 0.1);
-}
 
 /*--------------------------------    BANNIERE         ----------------------------------------------------- */
 
@@ -103,11 +40,17 @@ header button:hover {
 .centre {
   width: 100%;
   display: flex;
+  background-color: #f2e9d3;
+  padding-bottom: 5%;
 }
-
+h5{
+  color: #6c6c6c;
+  margin-top: 10px;
+  font-family: 'Montserrat-regular';
+}
 .fond {
   width: 100%;
-  height: auto;
+  height: 50%;
   background-color: #0c0602;
   z-index: 2;
   position: absolute;
@@ -125,12 +68,6 @@ header button:hover {
   margin-top: 40px;
   text-align: center;
 }
-.fond2 {
-  margin-top: 600px;
-  width: 100%;
-  height: 600px;
-  background-color: #f2e9d3;
-}
 
 /*--------------------------------    FORMULAIRE         ----------------------------------------------------- */
 .formulaire {
@@ -145,31 +82,34 @@ header button:hover {
 
 .formulaire form {
   background-color: #faf8f2;
-  width: 55%;
-  height: 900px;
+  width: 50%;
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
   padding: 40px;
   box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
 }
 
 .informations {
-  width: 40%;
+  margin-top: 20px;
+  width: 48%;
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
+
 }
 
 label {
   text-align: left;
   font-family: "Montserrat-regular";
   color: #000000;
+  margin-top: 5px;
+  
 }
 
 input {
-  padding: 10px;
+  padding: 15px;
   color: #545454;
   border-radius: 2px;
   border: solid 1px;
@@ -189,6 +129,7 @@ select {
 }
 .formulaire form textarea {
   padding: 10px;
+  width: 100%;
   color: #545454;
   border-radius: 5px;
   border: solid 1px;
@@ -228,6 +169,15 @@ select {
   width: 100%;
   display: flex;
   flex-wrap: wrap;
+  justify-content: space-around;
+  text-align: left;
+  
+}
+.evenement{
+  margin-top: 20px;
+  width: 40%;
+  display: flex;
+  flex-wrap: wrap;
   flex-direction: column;
 }
 .rdv {
@@ -238,6 +188,7 @@ select {
 }
 
 .formulaire button {
+ 
   background-image: linear-gradient(
     to right,
     #57370d 0%,
@@ -263,6 +214,128 @@ select {
   background-position: right center; /* change the direction of the change here */
   color: #fff;
   text-decoration: none;
+}
+
+.available {
+  background-color: green !important;
+  color: white !important;
+}
+.unavailable {
+  background-color: gray !important;
+  color: white !important;
+  pointer-events: none;
+  opacity: 0.6;
+}
+.flatpickr-day.available {
+  background: #28a745 !important;
+  /* Vert */
+  color: white !important;
+  border-radius: 5px;
+}
+.horaire-btn {
+  margin: 5px;
+  padding: 10px;
+  background: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+.horaire-btn:hover {
+  background: #0056b3;
+}
+
+#erreur p{
+  color: red;
+  border-radius: 10px;
+  border: solid 1px ;
+  border-color: rgba(255, 0, 0, 0.497);
+  padding: 10px;
+ text-align: center;
+ width: 30%;
+}
+
+#erreur{
+  width: 100%;
+  justify-content: center;
+  display: flex;
+  display: none;
+  margin-top: 10px;
+}
+
+.info{
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  border: solid 1px;
+  border-color: #000000;
+  padding: 20px;
+  flex-wrap: wrap;
+  padding-top: 0;
+  margin-top: 10px;
+}
+
+.info input, select{
+  padding: 15px;
+  color: #545454;
+  border-radius: 5px;
+  border: solid 1px;
+  border-color: #c8c7c7;
+  margin-bottom: 20px;
+  background-color: #00000000;
+  width: 100%;
+  font-size: 16px;
+  max-width: 100%; /* Empêche de dépasser le parent */
+  box-sizing: border-box; /* Inclut padding et border dans la largeur */
+}
+/*--------------------------------    LOADER & Pop up       ----------------------------------------------------- */
+
+
+.loader {
+  width: 60px;
+  aspect-ratio: 2;
+  --_g: no-repeat radial-gradient(circle closest-side,#ffffff 90%,#ffffff00);
+  background: 
+    var(--_g) 0%   50%,
+    var(--_g) 50%  50%,
+    var(--_g) 100% 50%;
+  background-size: calc(100%/3) 50%;
+  animation: l3 1s infinite linear;
+}
+@keyframes l3 {
+    20%{background-position:0%   0%, 50%  50%,100%  50%}
+    40%{background-position:0% 100%, 50%   0%,100%  50%}
+    60%{background-position:0%  50%, 50% 100%,100%   0%}
+    80%{background-position:0%  50%, 50%  50%,100% 100%}
+}
+
+.overlay {
+  display: none; /* Masquer l'overlay par défaut */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+}
+
+.popup {
+  display: none; /* Masquer le pop-up par défaut */
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  
+ 
+  padding: 20px;
+  z-index: 1000;
+}
+
+
+.error-message{
+  color: red;
+  padding: 5px;
+  font-family: 'Montserrat-regular';
 }
 
 /*--------------------------------    TYPOGRAPHIE      ----------------------------------------------------- */

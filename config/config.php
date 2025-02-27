@@ -1,13 +1,30 @@
 <?php
-$host = 'localhost';     // L'adresse de ta base de données
-$dbname = 'site_evenementiel';  // Le nom de ta base de données
-$username = 'root';      // Ton identifiant (souvent 'root' en local)
-$password = 'root';          // Ton mot de passe (souvent vide en local)
+require 'vendor/autoload.php';
 
-// Connexion à la base de données avec PDO
+session_start();
+
+$dotenv = Dotenv\Dotenv::createImmutable(dirname(__DIR__));
+$dotenv->load();
+
+// Vérification des variables d'environnement
+//var_dump($_ENV);
+//var_dump(getenv('DB_USER'));
+
+// Affichage des variables d'environnement
+//echo $_ENV['DB_HOST']; // localhost
+//echo $_ENV['DB_USER']; // Affiche "root"
+
+// Variables pour la connexion à la base de données
+$dbHost = $_ENV['DB_HOST'];
+$dbUser = $_ENV['DB_USER'];
+$dbName = $_ENV['DB_NAME'];
+$dbPass = $_ENV['DB_PASS'];
+
+// Connexion à la base de données
 try {
-    $db = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password);
-    $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $db = new PDO("mysql:host=$dbHost;dbname=$dbName", $dbUser, $dbPass, [
+        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
+    ]);
 } catch (PDOException $e) {
     die("Erreur de connexion : " . $e->getMessage());
 }

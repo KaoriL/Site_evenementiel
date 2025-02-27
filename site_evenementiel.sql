@@ -28,3 +28,23 @@ CREATE TABLE IF NOT EXISTS prestations (
     disponibilite_id INT,               -- (Optionnel) Référence vers le créneau dans la table disponibilites
     FOREIGN KEY (disponibilite_id) REFERENCES disponibilites(id)
 );
+
+-- Table prestations_mariage : stocke les informations des rendez-vous pour les mariages
+CREATE TABLE IF NOT EXISTS prestations_mariage (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nom_marie VARCHAR(50) NOT NULL,
+    prenom_marie VARCHAR(50) NOT NULL,
+    email_marie VARCHAR(100) NOT NULL,
+    telephone_marie VARCHAR(20) NOT NULL,
+    nom_mariee VARCHAR(50) NOT NULL,
+    prenom_mariee VARCHAR(50) NOT NULL,
+    email_mariee VARCHAR(100) NOT NULL,
+    telephone_mariee VARCHAR(20) NOT NULL,
+    date_evenement DATE NOT NULL,       -- Date de l'événement pour lequel le client souhaite une prestation
+    rdv_date DATE NOT NULL,             -- Date choisie pour le rendez-vous en ligne
+    rdv_horaire TIME NOT NULL,          -- Créneau horaire choisi pour le rendez-vous
+    message TEXT,                       -- Description ou besoins supplémentaires
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    disponibilite_id INT,               -- (Optionnel) Référence vers le créneau dans la table disponibilites
+    FOREIGN KEY (disponibilite_id) REFERENCES disponibilites(id)
+);

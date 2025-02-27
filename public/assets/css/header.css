@@ -1,0 +1,62 @@
+/*--------------------------------    HEADER         ----------------------------------------------------- */
+
+header {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    padding: 20px;
+    position: fixed;
+    z-index: 3;
+    width: 100%;
+  }
+  
+  header div {
+    text-align: left;
+    width: 30%;
+  
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  header div h2 {
+    font-family: "Black-Mango";
+    color: white;
+    width: 100%;
+  }
+  
+  header div p {
+    font-family: "Montserrat-regular";
+    color: white;
+    text-align: center;
+  }
+  
+  header button {
+    font-size: 20px;
+    color: white;
+    background: transparent;
+    border: 2px solid;
+    border-image: linear-gradient(to right, gold, #7a5c32);
+    border-image-slice: 1;
+    padding: 10px 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+  
+  header nav a {
+    text-decoration: none;
+    color: white;
+    font-family: "Montserrat-regular";
+    font-size: 16px;
+    margin-right: 20px;
+  }
+  
+  header button a {
+    text-decoration: none;
+    color: white;
+    font-family: "Montserrat-regular";
+  }
+  header button:hover {
+    background: rgba(255, 215, 0, 0.1);
+  }
+  

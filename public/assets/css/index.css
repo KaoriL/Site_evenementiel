@@ -1,0 +1,16 @@
+/*--------------------------------    TYPOGRAPHIE      ----------------------------------------------------- */
+
+@font-face {
+    font-family: "Black-Mango";
+    src: url("../police/black-mango-regular.ttf") format("truetype");
+  }
+  
+  @font-face {
+    font-family: "Montserrat-regular";
+    src: url("../police/montserrat-regular.ttf") format("truetype");
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+  }
