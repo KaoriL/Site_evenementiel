@@ -73,6 +73,7 @@ class DevisController
         }
     }
 
+
     public function submitDevisMariage()
     {
         if ($_SERVER["REQUEST_METHOD"] === "POST") {
