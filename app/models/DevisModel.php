@@ -228,7 +228,7 @@ class DevisModel
         try {
             // Configurer le serveur SMTP 
             $mail->isSMTP();
-            
+
             $mail->Host = $_ENV['MAIL_HOST'];
             $mail->SMTPAuth = true;
             $mail->Username = $_ENV['MAIL_USERNAME'];
@@ -354,8 +354,8 @@ class DevisModel
     public function sendTelegramNotification($message)
     {
         //Token et Chat ID du bot Telegram 
-        $token = '7771505149:AAGOB9LWV1X2uJ2TnOt-AUaQL2hPwjrcxLQ';
-        $chat_id = '7747512072';
+        $token = $_ENV['TELEGRAM_BOT_TOKEN'];
+        $chat_id = $_ENV['TELEGRAM_CHAT_ID'];
         // URL de l'API Telegram 
         $url = "https://api.telegram.org/bot$token/sendMessage";
         // Paramètre pour l'envoie du message 
