@@ -337,7 +337,17 @@ select {
   padding: 5px;
   font-family: 'Montserrat-regular';
 }
+/*--------------------------------    Responsive      ----------------------------------------------------- */
+@media (max-width:768px){
+  .banniere{
+    height: 350px;
+    
+  }
 
+  .banniere div h1{
+   font-size: 24px;
+  }
+}
 /*--------------------------------    TYPOGRAPHIE      ----------------------------------------------------- */
 
 @font-face {
