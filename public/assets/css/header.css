@@ -9,8 +9,13 @@ header {
   justify-content: space-around;
   padding: 20px;
   position: fixed;
-  z-index: 3;
+  z-index: 10;
   width: 100%;
+  transition: background-color 0.4s ease-in-out, padding 0.3s ease-in-out;
+}
+
+header.scrolled{
+  background-color: #0f0f0f;
 }
 .milieu{
   display: flex;
@@ -80,6 +85,9 @@ header button{
   
 }
 
+header{
+  z-index: 10;
+}
   button a span{
     display: none;
   }

@@ -163,7 +163,7 @@
                         <h4>Prise de rendez-vous en ligne</h4>
                         <h5>(En visioconférence)</h5>
                     </div>
-                    <div class="rdv"></div>
+                    <div class="rdv">
                     <div class="informations">
 
                         <label for="nom">Nom<span style="color:#A60000;">*</span></label>
@@ -215,7 +215,7 @@
                         <label for="lieu">Lieu de l'événement<span style="color:#A60000;">*</span></label>
                         <input type="text" id="lieu" name="lieu" placeholder="Paris" required>
                     </div>
-
+                    </div>
                     <div class="description"> <label style="margin-top:30px;margin-bottom:20px; "
                             for="message">Racontez-nous tous les détails de votre événement</label>
                         <textarea

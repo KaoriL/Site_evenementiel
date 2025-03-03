@@ -54,6 +54,15 @@
                 navMenu.style.display = "none";
             }
         });
+        window.addEventListener("scroll", function() {
+    const navbar = document.querySelector("header");
+    if (window.scrollY > 50) { // Change après 50px de scroll
+        navbar.classList.add("scrolled");
+    } else {
+        navbar.classList.remove("scrolled");
+    }
+});
+
     </script>
 </body>
 

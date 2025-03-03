@@ -10,6 +10,15 @@
     src: url("../police/montserrat-regular.ttf") format("truetype");
   }
 
+  @font-face {
+    font-family: "Poppins-Regular";
+    src: url("../police/Poppins-Regular.ttf") format("truetype");
+  }
+
+  @font-face {
+    font-family: "Poppins-light";
+    src: url("../police/Poppins-Light.ttf") format("truetype");
+  }
   * {
     margin: 0;
     padding: 0;
