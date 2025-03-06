@@ -20,7 +20,7 @@
         </div>
     </section>
 
-    <section class="centre">
+    <section  class="centre">
         <div class="ruban">
             <p>GALA • CONFÉRENCES • ANNIVERSAIRE • MARIAGE • SÉMINAIRE • SOIRÉE PRIVÉE • AFTER WORK </p>
         </div>
@@ -30,15 +30,15 @@
             <p>UNE OFFRE ADAPTÉE À TOUS VOS ÉVÉNEMENTS</p>
             <div class="sommaire">
                 <ul>
-                    <li><a href="">Pack Essentiel</a> - L’indispensable pour une ambiance réussie </li>
-                    <li><a href="">Pack Confort</a> - Un niveau supérieur pour plus d'animations et d'effets</li>
-                    <li><a href="">Pack Privilège</a> - Une mise en scène immersive et spéctaculaire</li>
-                    <li><a href="">Pack Royal Dream</a> - L'expérience ultime pour un événement inoubliable</li>
+                    <li><a id="scroll-link" href="#essentiel">Pack Essentiel</a> - L’indispensable pour une ambiance réussie </li>
+                    <li><a id="scroll-link" href="#confort">Pack Confort</a> - Un niveau supérieur pour plus d'animations et d'effets</li>
+                    <li><a id="scroll-link" href="#privilege">Pack Privilège</a> - Une mise en scène immersive et spéctaculaire</li>
+                    <li><a id="scroll-link" href="#royal">Pack Royal Dream</a> - L'expérience ultime pour un événement inoubliable</li>
                 </ul>
             </div>
         </div>
 
-        <div class="essentiel">
+        <div id="essentiel" class="essentiel">
             <div class="description">
                 <h2>PACK ESSENTIEL</h2>
                 <h3>L'INCONTOURNABLE POUR UNE AMBIANCE RÉUSSIE</h3>
@@ -66,7 +66,7 @@
 
 
 
-        <div class="confort">
+        <div id="confort" class="confort">
             <div class="img-confort">
                 <img class="img-fond" src="public/assets/image/img-confort.jpeg" alt="">
             </div>
@@ -97,7 +97,7 @@
 
         </div>
 
-        <div class="privilege">
+        <div id="privilege" class="privilege">
             <div class="description">
                 <div class="left">
                     <h2>PACK PRIVILÈGE</h2>
@@ -145,7 +145,7 @@
             </div>
         </div>
 
-        <div class="royal">
+        <div id="royal" class="royal">
             <div class="img-royal">
                 <img class="img-fond-royal" src="public/assets/image/img-royal.jpeg" alt="">
 
@@ -184,5 +184,31 @@
     <?php require_once 'footer.php'; // Inclure ton footer ?>
 
 </body>
+<script>
+  // Sélectionner tous les liens de la page
+  const links = document.querySelectorAll('a[href^="#"]');
+
+  // Ajouter un gestionnaire d'événement pour chaque lien
+  links.forEach(link => {
+    link.addEventListener('click', function(event) {
+      event.preventDefault(); // Empêcher le comportement par défaut du lien
+
+      // Cibler l'élément vers lequel on veut défiler
+      const targetId = link.getAttribute('href');
+      const targetElement = document.querySelector(targetId);
+
+      // Faire défiler jusqu'à l'élément cible
+      targetElement.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      });
+
+      // Ajouter un léger décalage après le défilement pour être plus haut
+      window.scrollBy(0, -20);  // Décalage supplémentaire de -20px, ajustez selon votre besoin
+    });
+  });
+</script>
+
+
 
 </html>

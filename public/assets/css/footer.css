@@ -3,15 +3,27 @@
   padding: 0;
 }
 
-footer {
+.img-footer{
   width: 100%;
-  height: auto;
+  height: 500px;
   position: relative;
   overflow: hidden;
-  background-image: url('../public/assets/image/img-devis.jpeg');
-  background-size: cover; /* L'image couvrira toute la zone sans être déformée */
-  background-position: center; /* Centrer l'image pour éviter qu'elle soit décalée */
-  background-repeat: no-repeat; /* Éviter que l'image se répète */
+  position: absolute;
+  z-index: -1;
+  box-sizing: border-box;
+  object-fit: cover;
+}
+
+footer{
+  width: 100%;
+  height: 450px;
+  position: relative;
+  overflow: hidden;
+}
+
+.img-footer img{
+  width: 100%;
+  object-fit: cover;
 }
 
 footer .tableau {

@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -9,10 +10,10 @@
 
 <body>
     <footer>
-        <!--<div class="img-footer">
+        <div class="img-footer">
             <img src="public/assets/image/img-footer.jpeg" alt="Image d'un couple" class="brightness">
-        </div>-->
-        
+        </div>
+
         <div class="tableau">
             <div class="foot">
                 <h1>DEEJAY 13</h1>
@@ -39,14 +40,28 @@
                 <ul>
                     <li><a href="https://www.instagram.com/deejay13officiel/?hl=fr"><i
                                 class="fa-brands fa-square-instagram" style="color: #ffffff;"></i></a></li>
-                    <li><a href="index.php?action=mention-legales">Mentions légales et autres informations en cours..</a></li>
+                    <li><a href="index.php?action=mention-legales">Mentions légales et autres informations en
+                            cours..</a></li>
                 </ul>
 
 
             </div>
-            
+
         </div>
     </footer>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+    var footer = document.querySelector('.img-footer');
+    var imageUrl = footer.getAttribute('public/assets/image/img-footer.jpeg'); // Récupère l'URL de l'image
+
+    if (imageUrl) {
+        footer.style.backgroundImage = 'url("' + imageUrl + '")';
+        footer.style.backgroundSize = "cover";
+        footer.style.backgroundPosition = "center";
+    }
+});
+
+    </script>
 </body>
 
 </html>

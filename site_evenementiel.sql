@@ -48,3 +48,12 @@ CREATE TABLE IF NOT EXISTS prestations_mariage (
     disponibilite_id INT,               -- (Optionnel) Référence vers le créneau dans la table disponibilites
     FOREIGN KEY (disponibilite_id) REFERENCES disponibilites(id)
 );
+
+CREATE TABLE users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(255) NOT NULL UNIQUE,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+

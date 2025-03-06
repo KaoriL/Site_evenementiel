@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Font Awesome CDN -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
+    <link rel="stylesheet" href="public/assets/css/index.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" href="public/assets/css/header.css?v=<?php echo time(); ?>">
 </head>
 
@@ -23,7 +23,9 @@
             </svg>
         </label>
 
-        <nav><a href=""> À propos</a>
+        <nav>
+            <a href="index.php?action=login"><i class="fa-solid fa-user"></i></a>
+            <a href=""> À propos</a>
             <a href=""> Avis</a>
             <a href="">Contact</a>
             <a href="">Prestations</a>
@@ -40,9 +42,14 @@
             <h2>DEEJAY 13</h2>
             <p>100% JESUS</p>
         </div>
+        <div class="bouton">
 
-        <button><a class="gradient" href="https://www.instagram.com/deejay13officiel/?hl=fr"><i
-                    class="fa-brands fa-instagram"></i> <span>Suivez-nous</span> </a></button>
+            <button><a class="gradient" href="https://www.instagram.com/deejay13officiel/?hl=fr"><i
+                        class="fa-brands fa-instagram"></i> <span>Suivez-nous</span> </a></button>
+        </div>
+
+
+
     </header>
 
     <script>
@@ -54,14 +61,14 @@
                 navMenu.style.display = "none";
             }
         });
-        window.addEventListener("scroll", function() {
-    const navbar = document.querySelector("header");
-    if (window.scrollY > 50) { // Change après 50px de scroll
-        navbar.classList.add("scrolled");
-    } else {
-        navbar.classList.remove("scrolled");
-    }
-});
+        window.addEventListener("scroll", function () {
+            const navbar = document.querySelector("header");
+            if (window.scrollY > 50) { // Change après 50px de scroll
+                navbar.classList.add("scrolled");
+            } else {
+                navbar.classList.remove("scrolled");
+            }
+        });
 
     </script>
 </body>
