@@ -354,8 +354,8 @@ class DevisModel
     public function sendTelegramNotification($message)
     {
         //Token et Chat ID du bot Telegram 
-        $token = $_ENV['TELEGRAM_BOT_TOKEN'];
-        $chat_id = $_ENV['TELEGRAM_CHAT_ID'];
+        $token = $_ENV['TOKEN'];
+        $chat_id = $_ENV['CHAT_ID'];
         // URL de l'API Telegram 
         $url = "https://api.telegram.org/bot$token/sendMessage";
         // Paramètre pour l'envoie du message 

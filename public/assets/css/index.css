@@ -11,8 +11,18 @@
   }
 
   @font-face {
+    font-family: "Montserrat-semibold";
+    src: url("../police/montserrat-semibold.ttf") format("truetype");
+  }
+
+  @font-face {
     font-family: "Poppins-Regular";
     src: url("../police/Poppins-Regular.ttf") format("truetype");
+  }
+
+  @font-face {
+    font-family: "Poppins-semibold";
+    src: url("../police/Poppins-SemiBold.ttf") format("truetype");
   }
 
   @font-face {

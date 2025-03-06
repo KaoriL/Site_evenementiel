@@ -1,23 +1,28 @@
-*{
+* {
   margin: 0;
   padding: 0;
 }
 
-.footer {
+footer {
   width: 100%;
-  height: 400px;
+  height: auto;
+  position: relative;
+  overflow: hidden;
+  background-image: url('../public/assets/image/img-devis.jpeg');
+  background-size: cover; /* L'image couvrira toute la zone sans être déformée */
+  background-position: center; /* Centrer l'image pour éviter qu'elle soit décalée */
+  background-repeat: no-repeat; /* Éviter que l'image se répète */
 }
 
-.tableau {
+footer .tableau {
   width: 100%;
-  z-index: 5;
+  z-index: 3;
   position: relative;
   color: white;
   display: flex;
   justify-content: space-around;
   flex-wrap: wrap;
   padding-top: 30px;
-  
 }
 
 .tableau div {
@@ -37,19 +42,9 @@ td {
   margin-top: 30px;
 }
 
-ul {
+footer ul {
   display: flex;
   flex-direction: row;
-  
-}
-
-ul li{
-    margin-right: 10px;
-    color: rgb(180, 180, 180);
-    font-size: 16px;
-    font-family: "Montserrat-regular";
-    list-style-type: none;
-    padding: 20px;
 }
 
 .brightness {
@@ -57,12 +52,29 @@ ul li{
   -moz-filter: brightness(0.25);
   -o-filter: brightness(0.25);
   filter: brightness(0.25);
-  z-index: 1;
   width: 100%;
-  height: 400px;
   object-fit: cover;
-  position: absolute;
+  box-sizing: border-box;
 }
+
+footer ul li {
+  margin-right: 10px;
+  color: rgb(180, 180, 180);
+  font-size: 16px;
+  font-family: "Montserrat-regular";
+  list-style-type: none;
+  padding: 20px;
+}
+
+
+
+
+
+
+
+
+
+
 
 footer h1 {
   font-family: "Black-Mango";
@@ -98,41 +110,38 @@ footer a {
   width: 100%;
 }
 
-@media (max-width: 768px){
-  .tableau h1{
-    font-size: 16px
+@media (max-width: 768px) {
+  .tableau h1 {
+    font-size: 16px;
   }
 
-  .tableau p{
-    font-size: 12px
+  .tableau p {
+    font-size: 12px;
   }
 
-  footer h2{
+  footer h2 {
     margin-bottom: 10px;
   }
 
-  footer h2 a{
+  footer h2 a {
     font-size: 14px;
   }
 
-  footer a{
+  footer a {
     font-size: 10px;
     max-width: 100%;
     width: 100%;
     box-sizing: border-box;
   }
 
-  .foot{
+  .foot {
     width: 25%;
     margin: 10px;
     word-wrap: break-word;
     overflow-wrap: break-word;
   }
 
-  .mention{
+  .mention {
     width: 100%;
   }
-
-
-
 }

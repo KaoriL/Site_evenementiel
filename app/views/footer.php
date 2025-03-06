@@ -9,7 +9,10 @@
 
 <body>
     <footer>
-        <img src="public/assets/image/img-footer.jpeg" alt="Image d'un couple" class="brightness">
+        <!--<div class="img-footer">
+            <img src="public/assets/image/img-footer.jpeg" alt="Image d'un couple" class="brightness">
+        </div>-->
+        
         <div class="tableau">
             <div class="foot">
                 <h1>DEEJAY 13</h1>

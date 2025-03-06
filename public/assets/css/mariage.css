@@ -35,14 +35,7 @@
 
   text-align: center;
   padding-top: 20px;
-}
 
-.centre a {
-  color: white;
-  text-decoration: none;
-  text-align: center;
-  font-size: 45px;
-  margin-top: 20px;
 }
 
 .ruban {
@@ -77,6 +70,7 @@
   font-size: 36px;
   color: white;
   font-family: "Black-mango";
+  border-bottom: solid 0px;
 }
 
 .pack p {
@@ -88,28 +82,361 @@
 .sommaire {
   width: 60%;
   border: solid 1px;
-  border-image: linear-gradient(to right, gold, #7a5c32,gold,#7a5c32);
+  border-image: linear-gradient(to right, #FFE998, #7a5c32, #FFE998, #7a5c32);
   border-image-slice: 1;
   margin-top: 20px;
   background-color: #66666664;
   padding: 20px;
 }
 
-.sommaire ul{
+.sommaire ul {
   text-align: left;
   display: flex;
   gap: 10px;
   flex-wrap: wrap;
 }
 
-.sommaire li{
+.sommaire li {
   list-style-type: none;
-  font-family: 'Poppins-light';
+  font-family: "Poppins-light";
   color: white;
+}
+
+.sommaire li a {
+  font-size: 24px;
+  color: #ecddbb;
+  text-decoration: none;
+}
+
+.essentiel {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  margin-top: 10%;
+  padding-bottom: 50px;
+}
+
+.description {
+  text-align: left;
+  width: 45%;
+}
+
+h2 {
+  color: #ecddbb;
+  font-family: "Black-mango";
+  font-size: 46px;
+  border-bottom: solid 1px;
+  border-image: linear-gradient(to right, #FFE998, #7a5c32);
+  border-image-slice: 1;
+}
+
+h3 {
+  color: #ffffff;
+  font-family: "Montserrat-regular";
+  margin-top: 5px;
+  font-size: 18px;
+  margin-bottom: 30px;
+}
+
+p {
+  color: #ffffff;
+  font-family: "Poppins-light";
+  font-size: 18px;
+}
+
+.img-essentiel {
+  width: 400px;
+  padding: 50px;
+  height: 400px;
+}
+
+.img-border {
+  width: 100%;
+  height: 400px;
+  object-fit: cover;
+  border-top-left-radius: 200px;
+  border-top-right-radius: 200px;
+}
+
+.essentiel ul {
+  width: 90%;
+  list-style-type: none;
+  color: white;
+  text-align: left;
+  margin-top: 10%;
+  font-family: "Poppins-Regular";
+}
+
+ul li {
+  margin-bottom: 10px;
+  color: white;
+  list-style-type: none;
+}
+ul li i {
+  color: #ecddbb;
+}
+h4 {
+  color: white;
+  font-family: "Montserrat-semibold";
+  margin-bottom: 10px;
+}
+
+/*//////////////////////////  Bouton  //////////////////////////::*/
+/* From Uiverse.io by mrhyddenn */
+button a {
+  font-size: 14px;
+  text-decoration: none;
+  color: white;
+  border-radius: 7px;
+  font-family: 'Poppins-Regular';
+}
+
+.btn{
+  width: 100%;
+  text-align: center;
+  margin-top: 20px;
+}
+button {
+  width: 200px;
+  position: relative;
+  padding: 10px 20px;
+  border-radius: 7px;
+  border: solid 1px;
+  background: linear-gradient(to right,#FFE998, #7a5c32);
+  border-color: #FFE998;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  
+  overflow: hidden;
+  box-shadow: 0 0 0 0 transparent;
+  -webkit-transition: all 0.2s ease-in;
+  -moz-transition: all 0.2s ease-in;
+  transition: all 0.2s ease-in;
+}
+
+button:hover {
+  background: linear-gradient(to left, #FFE998, #7a5c32);
+  box-shadow: 0 0 30px 5px #ecddbb;
+  -webkit-transition: all 0.2s ease-out;
+  -moz-transition: all 0.2s ease-out;
+  transition: all 0.2s ease-out;
+  border: solid 0px;
+  
+}
+
+button:hover::before {
+  -webkit-animation: sh02 0.5s 0s linear;
+  -moz-animation: sh02 0.5s 0s linear;
+  animation: sh02 0.5s 0s linear;
+}
+
+button::before {
+  content: "";
+  display: block;
+  width: 0px;
+  height: 86%;
+  position: absolute;
+  top: 7%;
+  left: 0%;
+  opacity: 0;
+  background: #fff;
+  box-shadow: 0 0 50px 30px #fff;
+  -webkit-transform: skewX(-20deg);
+  -moz-transform: skewX(-20deg);
+  -ms-transform: skewX(-20deg);
+  -o-transform: skewX(-20deg);
+  transform: skewX(-20deg);
+}
+
+@keyframes sh02 {
+  from {
+    opacity: 0;
+    left: 0%;
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+    left: 100%;
+  }
+}
+
+button:active {
+  box-shadow: 0 0 0 0 transparent;
+  -webkit-transition: box-shadow 0.2s ease-in;
+  -moz-transition: box-shadow 0.2s ease-in;
+  transition: box-shadow 0.2s ease-in;
+}
+
+
+h5{
+  font-family: 'Poppins-semibold';
+  color: white;
+  margin-top: 30px;
+  width: 100%;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.confort{
+  width: 100%;
+  display: flex;
+  justify-content: right;
+  height: 660px;
+  max-height: 700px;
+}
+
+.img-confort{
+  width: 100%;
+
+  position: absolute;
+  z-index: 2;
+  display: flex;
+  object-fit: cover;
+  box-sizing: border-box;
+}
+
+.img-fond{
+  width: 100%;
+  height: 660px;
+  max-height: 700px;
+  object-fit: cover;
+  object-position: center 15%;
+  box-sizing: border-box;
+}
+
+.confort .description{
+  z-index: 3;
+  height: 660px;
+
+  width: 50%;
+  position: relative;
+  background-color: #000000a6;
+  padding: 30px 30px 0 30px ;
+  color: white;
+  font-family: 'Poppins-Regular';
+  box-sizing: border-box;
+  
+}
+
+.description ul{
+  margin-top: 50px;
+}
+
+span{
+  font-family: 'Poppins-semibold';
+}
+
+.left{
+  width: 50%;
+}
+h6{
+  font-family: 'Poppins-light';
+  font-size: 14px;
+  margin-top: 20px;
+  color: white;
+  margin-bottom: 20px;
 
 }
 
-.sommaire li a{
-  font-size: 24px;
-  color: #ECDDBB;
+.privilege{
+  width: 100%;
+  display: flex;
+  padding-top: 30px;
+}
+
+.privilege .description{
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  font-family: 'Poppins-Regular';
+  box-sizing: border-box;
+}
+
+.img-privilege{
+  width: 30%;
+  display: flex;
+  position: relative;
+}
+.img-priv{
+  width: 80%;
+  height: 500px;
+  object-fit: cover;
+  z-index: 3;
+  position: relative;
+}
+
+.img-priv2{
+  width: 150px;
+  height: 250px;
+  object-fit: cover;
+  position: absolute;
+  z-index: 4;
+  bottom: 0;
+  right: 0;
+  filter: grayscale(100%);
+
+  
+}
+
+.royal{
+  width: 100%;
+ height: auto;
+  display: flex;
+  justify-content: center;
+  position: relative; /* Ajouté pour positionner .img-royal */
+  overflow: hidden;
+}
+
+.img-royal{
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  z-index: 2;
+  display: flex;
+  object-fit: cover;
+  box-sizing: border-box;
+}
+
+.img-fond-royal{
+  width: 100%;
+  object-fit: cover;
+  box-sizing: border-box;
+}
+
+.royal .description{
+  z-index: 3;
+  position: relative;
+  width: 70%;
+  padding: 40px;
+  background-color: #000000ae;
+  margin-top: 10%;
+  margin-bottom: 10%;
+  font-family: 'Poppins-Regular';
+}
+
+.royal h2{
+  color: white;
+  text-align: center;
+  border: solid transparent;
+}
+
+.royal h3{
+  color: white;
+  text-align: center;
+}
+
+.royal p{
+  color: white;
+  text-align: center;
+  width: 100%;
+  
+  word-wrap: break-word;
+overflow-wrap: break-word;
 }
