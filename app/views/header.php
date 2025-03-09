@@ -22,31 +22,67 @@
                 <path class="line" d="M7 16 27 16"></path>
             </svg>
         </label>
-
         <nav>
-            <a href="index.php?action=login"><i class="fa-solid fa-user"></i></a>
-            <a href=""> À propos</a>
-            <a href=""> Avis</a>
-            <a href="">Contact</a>
-            <a href="">Prestations</a>
-            <a href="index.php?action=home">Accueil</a>
+        <a class="gradient" href="https://www.instagram.com/deejay13officiel/?hl=fr"><i
+        class="fa-brands fa-instagram"></i></a>
         </nav>
-        <nav id="navMenu">
-            <a href=""><i class="fa-solid fa-users"></i> À propos</a>
-            <a href=""><i class="fa-solid fa-comments"></i> Avis</a>
-            <a href=""><i class="fa-solid fa-address-book"></i> Contact</a>
-            <a href=""><i class="fa-solid fa-calendar"></i> Prestations</a>
-            <a href="index.php?action=home"><i class="fa-solid fa-house"></i> Accueil</a>
-        </nav>
+        
+        
         <div class="milieu">
             <h2>DEEJAY 13</h2>
             <p>100% JESUS</p>
         </div>
-        <div class="bouton">
+        
+        
+        <nav>
+            <ul>
+                <a href=""> À propos</a>
+                <a href=""> Avis</a>
+                <a href="">Contact</a>
+                <a href="index.php?action=presta">Prestations</a>
+                <a href="index.php?action=home">Accueil</a>
+                <?php if (isset($_SESSION['user_id'])): ?>
+                    <a href="index.php?action=rdv"><i class="fa-solid fa-calendar"></i></a>
+                    <a href="index.php?action=mes_devis"><i class="fa-solid fa-receipt"></i></a>
+                    <a href="index.php?action=logout"><i class="fa-solid fa-power-off"></i></a>
+                <?php else: ?>
+                    <a href="index.php?action=login"><i class="fa-solid fa-user"></i></a>
+                <?php endif; ?>
+            </ul>
+        </nav>
+           
+           
+       
 
-            <button><a class="gradient" href="https://www.instagram.com/deejay13officiel/?hl=fr"><i
-                        class="fa-brands fa-instagram"></i> <span>Suivez-nous</span> </a></button>
-        </div>
+        <nav id="navMenu">
+            <ul>
+                <a href="index.php?action=home"><i class="fa-solid fa-house"></i> Accueil</a>
+                <a href=""><i class="fa-solid fa-music"></i> Prestations</a>
+                <a href=""><i class="fa-solid fa-address-book"></i> Contact</a>
+                <a href=""><i class="fa-solid fa-comments"></i> Avis</a>
+                <a href=""><i class="fa-solid fa-users"></i> À propos</a>
+
+
+                <?php if (isset($_SESSION['user_id'])): ?>
+                    <a href="index.php?action=rdv"><i class="fa-solid fa-calendar"></i> Mes rendez-vous</a>
+                    <a href="index.php?action=mes_devis"><i class="fa-solid fa-receipt"></i> Mes devis</a>
+                    <a href="index.php?action=logout"><i class="fa-solid fa-power-off"></i> Déconnexion</a>
+                <?php else: ?>
+                    <a href="index.php?action=login"><i class="fa-solid fa-user"></i> Connexion</a>
+
+                <?php endif; ?>
+            </ul>
+        </nav>
+
+
+
+
+
+
+
+
+
+
 
 
 

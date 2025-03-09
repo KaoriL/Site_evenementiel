@@ -6,9 +6,10 @@
 header {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-around;
+  justify-content: center;
   padding: 20px;
   position: fixed;
+  flex-direction: row-reverse;
   z-index: 10;
   width: 100%;
   transition: background-color 0.4s ease-in-out, padding 0.3s ease-in-out;
@@ -18,9 +19,11 @@ header.scrolled{
   background-color: #0f0f0f;
 }
 .milieu{
+  width: 50%;
   display: flex;
 flex-wrap: wrap;
 text-align: center;
+justify-content: center;
 }
 .milieu h2 {
   font-family: "Black-Mango";
@@ -141,7 +144,7 @@ header{
     width: 50vw;
     height: 400px;
     flex-direction: column-reverse;
-    left: 0;
+    right: 0;
     justify-content: center;
     z-index:10;
     position: absolute;
@@ -167,6 +170,10 @@ header{
     margin-right: 10px;
   }
 
+  #navMenu ul{
+    display: flex;
+    flex-wrap: wrap;
+  }
   /* Style pour afficher la nav quand elle est active */
   #menuToggle:checked ~ nav {
     display: flex;

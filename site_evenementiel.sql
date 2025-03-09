@@ -42,7 +42,9 @@ CREATE TABLE IF NOT EXISTS prestations_mariage (
     telephone_mariee VARCHAR(20) NOT NULL,
     date_evenement DATE NOT NULL,       -- Date de l'événement pour lequel le client souhaite une prestation
     rdv_date DATE NOT NULL,             -- Date choisie pour le rendez-vous en ligne
-    rdv_horaire TIME NOT NULL,          -- Créneau horaire choisi pour le rendez-vous
+    rdv_horaire TIME NOT NULL,  
+    service VARCHAR(50) NOT NULL, 
+    lieu VARCHAR(100),      -- Type de prestation        -- Créneau horaire choisi pour le rendez-vous
     message TEXT,                       -- Description ou besoins supplémentaires
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     disponibilite_id INT,               -- (Optionnel) Référence vers le créneau dans la table disponibilites
@@ -57,3 +59,8 @@ CREATE TABLE users (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+ALTER TABLE prestations ADD COLUMN user_id INT;
+ALTER TABLE prestations_mariage ADD COLUMN user_id INT;
+
+ALTER TABLE prestations ADD FOREIGN KEY (user_id) REFERENCES users(id);
+ALTER TABLE prestations_mariage ADD FOREIGN KEY (user_id) REFERENCES users(id);

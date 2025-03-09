@@ -1,4 +1,9 @@
 <?php
+
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
 require_once __DIR__ . '/../config/config.php';
 
 class Router
@@ -71,6 +76,15 @@ class Router
                 require_once 'app/views/Presta_mariage.php';
                 break;
 
+            case 'rdv':
+                require_once __DIR__ . '/../app/controllers/DevisController.php';
+                $controller = new DevisController($db);
+                $controller->getRendezVous();
+                break;
+
+            case 'presta':
+                require_once __DIR__ . '/../app/views/Prestations.php';
+            break;
 
             default:
                 require_once __DIR__ . '/../app/views/Accueil.php';

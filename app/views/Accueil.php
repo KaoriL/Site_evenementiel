@@ -11,16 +11,55 @@
 
 <body>
     <?php require_once 'header.php'; // Inclure ton header ?>
+    <?php
+
+
+    // Vérifie si l'utilisateur est connecté
+    if (!isset($_SESSION['user_id'])) {
+        echo "Erreur : utilisateur non connecté.";
+        header('Location: login.php');  // Redirige vers la page de login
+        exit;
+    }
+
+    // Si connecté, afficher les infos de l'utilisateur
+//echo "Bonjour " . $_SESSION['username'];
+    ?>
     <section class="banniere">
         <img src="public/assets/image/img-accueil.jpeg" alt="Image en noir et blanc" class="bw-image">
         <div>
-            
+
             <h1>
-            <span>Avec Deejay13</span>
+                <span class="left">Avec Deejay13</span>
                 VIVEZ DES INSTANTS UNIQUE
                 <span class="right">Pour des souvenirs éternels</span>
             </h1>
-            
+            <button>
+                <a href="index.php?action=presta">Prestations</a>
+            </button>
+
+        </div>
+    </section>
+    
+    <section class="centre">
+        <div class="ruban">
+            <p>GALA • CONFÉRENCES • ANNIVERSAIRE • MARIAGE • SÉMINAIRE • SOIRÉE PRIVÉE • AFTER WORK </p>
+        </div>
+
+        <div id="essentiel" class="essentiel">
+            <div class="description">
+                <h2>PACK CONFORT</h2>
+                <h3>PARCE QUE VOUS LE MERITEZ</h3>
+                <p>Un pack pensé pour votre bien-être
+                     et votre tranquillité, avec tout ce dont 
+                     vous avez besoin pour briller sans stress.
+                   </p>
+                   
+                   <button> <a href="index.php?action=devis&type=mariage">Je veux ce moment de confort</a></button>
+            </div>
+            <div class="img-essentiel">
+                <img class="img-border" src="public/assets/image/img-confort-accueil.jpg" alt="">
+                <img class="img-door" src="public/assets/image/img-confort-accueil2.jpg" alt="">
+            </div>
         </div>
     </section>
 

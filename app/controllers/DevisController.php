@@ -17,11 +17,12 @@ class DevisController
         $disponibilites = $this->model->fetchDisponibilites();
         echo json_encode($disponibilites);
     }
-    public function submitDevis()
+   public function submitDevis()
     {
         // Vérifier si le formulaire est soumis 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $data = [
+                'user_id' => $_SESSION['user_id'], // Utilisation de l'ID utilisateur connecté
                 'nom' => $_POST['nom'] ?? '',
                 'prenom' => $_POST['prenom'] ?? '',
                 'email' => $_POST['email'] ?? '',
@@ -37,6 +38,7 @@ class DevisController
                 'disponibilite_id' => $_POST['disponibilite_id'] ?? null,
                 // Ajout de la donnée type_prestation
             'type_prestation' => $_POST['type_prestation'] ?? 'standard',
+            
 
             ];
 
@@ -75,10 +77,15 @@ class DevisController
 
 
     public function submitDevisMariage()
-    {
+    { //echo "appel de la fonction submit mariage";
+       //echo "Formulaire de devis mariage"; // Test d'affichage
+       
+       //var_dump($_SERVER["REQUEST_METHOD"]);
+       //var_dump($_POST);
         if ($_SERVER["REQUEST_METHOD"] === "POST") {
-
+            
             $data = [
+                'user_id' => $_SESSION['user_id'], // Utilisation de l'ID utilisateur connecté
                 'nom_marie' => $_POST['nom_marie'] ?? '',
                 'prenom_marie' => $_POST['prenom_marie'] ?? '',
                 'nom_mariee' => $_POST['nom_mariee'] ?? '',
@@ -101,6 +108,7 @@ class DevisController
                 'message' => $_POST['message'] ?? '',
                 'disponibilite_id' => $_POST['disponibilite_id'] ?? null,
                 'type_prestation' => 'mariage',
+                
             ];
 
             // Vérifie si disponibilite_id est bien transmis 
@@ -148,7 +156,7 @@ class DevisController
             } else {
                 require_once __DIR__ . '/../views/devis.php';
             }
-        }
+        }require_once __DIR__ . '/../views/devis.php'; //
     }
 
     public function traiterDevis() {
@@ -175,6 +183,23 @@ class DevisController
         }
     }
     
+    public function getRendezVous()
+{
+    // Vérifie si l'utilisateur est connecté
+    if (!isset($_SESSION['user_id'])) {
+        echo "Erreur : utilisateur non connecté.";
+        return;
+    }
+
+    $user_id = $_SESSION['user_id'];
+    $rendez_vous = $this->model->fetchRendezVous($user_id); // Récupère les rendez-vous avec l'ID utilisateur
+
+    require_once __DIR__ . '/../views/rdv.php';  // Passe la variable à la vue
+}
+
+
+
+
     
 
 }

@@ -164,57 +164,57 @@
                         <h5>(En visioconférence)</h5>
                     </div>
                     <div class="rdv">
-                    <div class="informations">
+                        <div class="informations">
 
-                        <label for="nom">Nom<span style="color:#A60000;">*</span></label>
-                        <input placeholder="Votre nom" type="text" id="nom" name="nom" required>
+                            <label for="nom">Nom<span style="color:#A60000;">*</span></label>
+                            <input placeholder="Votre nom" type="text" id="nom" name="nom" required>
 
-                        <label for="prenom">Prenom<span style="color:#A60000;">*</span></label>
-                        <input placeholder="Votre prénom" type="text" id="prenom" name="prenom" required>
+                            <label for="prenom">Prenom<span style="color:#A60000;">*</span></label>
+                            <input placeholder="Votre prénom" type="text" id="prenom" name="prenom" required>
 
-                        <label for="email">Email<span style="color:#A60000;">*</span></label>
-                        <input placeholder="Votre E-mail" type="email" id="email" name="email" required>
-                        <div id="error-email" class="error-message"></div>
+                            <label for="email">Email<span style="color:#A60000;">*</span></label>
+                            <input placeholder="Votre E-mail" type="email" id="email" name="email" required>
+                            <div id="error-email" class="error-message"></div>
 
-                        <label for="telephone">Téléphone<span style="color:#A60000;">*</span> </label>
-                        <input placeholder="Votre numéro de téléphone" type="text" id="telephone" name="telephone"
-                            maxlength="20" required>
-                        <div id="error-telephone" class="error-message"></div>
-                    </div>
+                            <label for="telephone">Téléphone<span style="color:#A60000;">*</span> </label>
+                            <input placeholder="Votre numéro de téléphone" type="text" id="telephone" name="telephone"
+                                maxlength="20" required>
+                            <div id="error-telephone" class="error-message"></div>
+                        </div>
 
-                    <div class="informations">
-                        <label for="date_evenement">Date de votre événement<span style="color:#A60000;">*</span>
-                        </label>
-                        <input type="date" id="date_evenement" name="date_evenement" required>
-
-
-                        <label for="rdv_date">Choisissez votre date de rendez-vous<span
-                                style="color:#A60000;">*</span></label>
-                        <input type="text" id="datepicker" name="rdv_date" placeholder="Sélectionnez une date">
-
-                        <label for="rdv_horaire">Choisissez votre horaire<span style="color:#A60000;">*</span></label>
-                        <input type="hidden" id="disponibilite_id" name="disponibilite_id">
-
-                        <select id="horaire_select" name="rdv_horaire" required>
-                            <option value="">-- Sélectionnez un horaire --</option>
-                        </select>
+                        <div class="informations">
+                            <label for="date_evenement">Date de votre événement<span style="color:#A60000;">*</span>
+                            </label>
+                            <input type="date" id="date_evenement" name="date_evenement" required>
 
 
+                            <label for="rdv_date">Choisissez votre date de rendez-vous<span
+                                    style="color:#A60000;">*</span></label>
+                            <input type="text" id="datepicker" name="rdv_date" placeholder="Sélectionnez une date">
 
-                        <label for="service">Prestation<span style="color:#A60000;">*</span></label>
-                        <select id="service" name="service" required>
-                            <option value="">-- Sélectionnez une prestation --</option>
-                            <option value="Gala">Gala</option>
-                            <option value="Soiree_privee">Soirée Privée</option>
-                            <option value="Anniversaire">Anniversaire</option>
-                            <option value="Conference">Conférence</option>
-                            <option value="After_work">After work</option>
-                            <option value="Autre">Demande personnalisée</option>
-                        </select>
+                            <label for="rdv_horaire">Choisissez votre horaire<span style="color:#A60000;">*</span></label>
+                            <input type="hidden" id="disponibilite_id" name="disponibilite_id">
 
-                        <label for="lieu">Lieu de l'événement<span style="color:#A60000;">*</span></label>
-                        <input type="text" id="lieu" name="lieu" placeholder="Paris" required>
-                    </div>
+                            <select id="horaire_select" name="rdv_horaire" required>
+                                <option value="">-- Sélectionnez un horaire --</option>
+                            </select>
+
+
+
+                            <label for="service">Prestation<span style="color:#A60000;">*</span></label>
+                            <select id="service" name="service" required>
+                                <option value="">-- Sélectionnez une prestation --</option>
+                                <option value="Gala">Gala</option>
+                                <option value="Soiree_privee">Soirée Privée</option>
+                                <option value="Anniversaire">Anniversaire</option>
+                                <option value="Conference">Conférence</option>
+                                <option value="After_work">After work</option>
+                                <option value="Autre">Demande personnalisée</option>
+                            </select>
+
+                            <label for="lieu">Lieu de l'événement<span style="color:#A60000;">*</span></label>
+                            <input type="text" id="lieu" name="lieu" placeholder="Paris" required>
+                        </div>
                     </div>
                     <div class="description"> <label style="margin-top:30px;margin-bottom:20px; "
                             for="message">Racontez-nous tous les détails de votre événement</label>
@@ -245,40 +245,40 @@
 
 <script>
 
+
     document.addEventListener("DOMContentLoaded", function () {
         // Récupération des disponibilités
         fetch('index.php?action=disponibilites')
             .then(response => response.text())
             .then(text => {
-                // Debug : Vérification de la réponse
-                 console.log("📩 Réponse brute du serveur:", text);
+                // Vérification de la réponse
+                console.log("📩 Réponse brute du serveur:", text);
 
-                // Vérification du format JSON
                 if (!text.trim().startsWith("{") && !text.trim().startsWith("[")) {
                     throw new Error("⚠️ Réponse invalide : Ce n'est pas du JSON !");
                 }
 
-                // Tenter de parser le JSON
                 let data;
                 try {
                     data = JSON.parse(text);
-                    // console.log("✅ Données JSON parsées avec succès:", data);
                 } catch (e) {
-                    // console.error("⚠️ Réponse invalide : Ce n'est pas du JSON !", e);
-                    // console.error("Texte reçu :", text);
-                    return; // Quitte si la réponse n'est pas valide
+                    console.error("⚠️ Réponse invalide : Ce n'est pas du JSON !", e);
+                    return;
                 }
 
                 // Traitement des disponibilités
                 let disponibilitesMap = {};
                 let disponibilitesParDate = {};
 
+                // Stockage des disponibilités par date
                 data.forEach(item => {
                     const key = `${item.date_disponible}-${item.horaire}`;
                     disponibilitesMap[key] = item.id;
+
                     if (!disponibilitesParDate[item.date_disponible]) {
                         disponibilitesParDate[item.date_disponible] = [];
                     }
+
                     if (item.est_reserve === 0) { // Créneaux disponibles
                         disponibilitesParDate[item.date_disponible].push(item.horaire);
                     }
@@ -291,6 +291,15 @@
                         dateFormat: "Y-m-d",
                         disable: [
                             function (date) {
+                                // Désactiver les dates antérieures à aujourd'hui et le jour même
+                                let today = new Date();
+                                let selectedDate = new Date(date);
+
+                                // Comparer la date sélectionnée avec aujourd'hui
+                                if (selectedDate < today || selectedDate.toISOString().split('T')[0] === today.toISOString().split('T')[0]) {
+                                    return true;  // Désactiver la date
+                                }
+
                                 let dateLocal = new Date(date.getTime() - date.getTimezoneOffset() * 60000);
                                 let dateStr = dateLocal.toISOString().split('T')[0]; // Format YYYY-MM-DD
                                 return !disponibilitesParDate[dateStr]; // Désactiver les dates non disponibles
@@ -345,19 +354,18 @@
                     }
                 });
 
-                // Validation de la date d'événement
+                // Désactiver la date du jour pour la date de l'événement
                 const eventDateInput = document.getElementById('date_evenement');
                 if (eventDateInput) {
-                    const today = new Date().toISOString().split('T')[0];
-                    eventDateInput.setAttribute('min', today);
+                    let tomorrow = new Date();
+                    tomorrow.setDate(tomorrow.getDate() + 1); // On passe à demain
+                    eventDateInput.setAttribute('min', tomorrow.toISOString().split('T')[0]);
                 } else {
                     console.error("⛔ L'élément #date_evenement est introuvable.");
                 }
+
             })
             .catch(error => console.error('🚨 Erreur de récupération des données:', error));
-
-
-
     });
 
 
@@ -401,49 +409,49 @@
     });
 
     // Validation du téléphone (uniquement chiffres + max 20 caractères)
-function validatePhoneNumber(input) {
-    input.value = input.value.replace(/\D/g, ""); // Supprime tout sauf les chiffres
-    if (input.value.length > 20) {
-        input.value = input.value.substring(0, 20);
+    function validatePhoneNumber(input) {
+        input.value = input.value.replace(/\D/g, ""); // Supprime tout sauf les chiffres
+        if (input.value.length > 20) {
+            input.value = input.value.substring(0, 20);
+        }
     }
-}
-// Vérification de l'email
-function validateEmail(input) {
-    let emailRegex = /^[a-zA-Z0-9._%+-]+@(gmail|outlook|icloud|yahoo)\.(com|fr|net|org|[a-z]{2,})$/i;
-    let errorDiv = document.getElementById("error-" + input.id);
-    if (input.value.trim() !== "" && !emailRegex.test(input.value)) {
-        errorDiv.textContent = "Veuillez entrer une adresse email valide.";
+    // Vérification de l'email
+    function validateEmail(input) {
+        let emailRegex = /^[a-zA-Z0-9._%+-]+@(gmail|outlook|icloud|yahoo)\.(com|fr|net|org|[a-z]{2,})$/i;
+        let errorDiv = document.getElementById("error-" + input.id);
+        if (input.value.trim() !== "" && !emailRegex.test(input.value)) {
+            errorDiv.textContent = "Veuillez entrer une adresse email valide.";
+        } else {
+            errorDiv.textContent = "";
+        }
+    }
+    // Ajout des écouteurs pour les champs mariage
+    if ('<?php echo $typeFormulaire; ?>' == "mariage") {
+        ["telephone_marie", "telephone_mariee"].forEach(function (id) {
+            let input = document.getElementById(id);
+            if (input) {
+                input.addEventListener("input", function () {
+                    validatePhoneNumber(this);
+                });
+            }
+        });
+        ["email_marie", "email_mariee"].forEach(function (id) {
+            let input = document.getElementById(id);
+            if (input) {
+                input.addEventListener("input", function () {
+                    validateEmail(this);
+                });
+            }
+        });
     } else {
-        errorDiv.textContent = "";
-    }
-}
-// Ajout des écouteurs pour les champs mariage
-if ('<?php echo $typeFormulaire; ?>' == "mariage") {
-    ["telephone_marie", "telephone_mariee"].forEach(function (id) {
-        let input = document.getElementById(id);
-        if (input) {
-            input.addEventListener("input", function () {
-                validatePhoneNumber(this);
-            });
-        }
-    });
-    ["email_marie", "email_mariee"].forEach(function (id) {
-        let input = document.getElementById(id);
-        if (input) {
-            input.addEventListener("input", function () {
-                validateEmail(this);
-            });
-        }
-    });
-} else {
-    // Appliquer les validations aux inputs téléphone et email
-    document.getElementById("telephone").addEventListener("input", function () {
-        validatePhoneNumber(this);
-    });
-    document.getElementById("email").addEventListener("input", function () {
-        validateEmail(this);
-    });
-};
+        // Appliquer les validations aux inputs téléphone et email
+        document.getElementById("telephone").addEventListener("input", function () {
+            validatePhoneNumber(this);
+        });
+        document.getElementById("email").addEventListener("input", function () {
+            validateEmail(this);
+        });
+    };
 
 </script>
 

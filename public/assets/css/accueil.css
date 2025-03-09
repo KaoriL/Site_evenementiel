@@ -1,49 +1,231 @@
 .banniere {
-    width: 100%;
-    height: 600px;
-  }
-  
-  .bw-image {
-    z-index: 0;
-    width: 100%;
-    height: 600px;
-    object-fit: cover;
-    position: absolute;
-  }
-  
-  .banniere div {
-    width: 100%;
-    height: 100%;
-    background-color: #00000086;
-    z-index: 2;
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
-  }
-  
-h1 span{
-    font-family: "Montserrat-regular";
-    color: white;
-    text-align: left;
-    font-size: 18px;
-    width: 100%;
+  width: 100%;
+  height: 600px;
 }
 
-.right{
-    text-align: right;
-    width: 100%;
+.bw-image {
+  z-index: 0;
+  width: 100%;
+  height: 600px;
+  object-fit: cover;
+  position: absolute;
 }
 
-  .banniere div h1 {
-    font-family: "Black-Mango";
-    text-align: center;
-    color: white;
-    width: 100%;
-    display: flex;
-    flex-wrap: wrap;
-    
-    font-size: 70px;
+.banniere div {
+  width: 100%;
+  height: 100%;
+  background-color: #00000086;
+  z-index: 2;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  flex-direction: column;
+}
+
+span {
+  font-family: "Montserrat-regular";
+  color: white;
+  font-size: 18px;
+  width: 80%;
+  position: absolute;
+  white-space: nowrap; /* Empêche le retour à la ligne */
+}
+.left {
+  text-align: left;
+  left: 0;
+}
+
+.right {
+  right: 0;
+  text-align: right;
+  bottom: 0; /* Aligne verticalement au texte principal */
+}
+
+.banniere div h1 {
+  font-family: "Black-Mango";
+  text-align: center;
+  color: white;
+  position: relative; /* Permet au span d'être positionné par rapport au h1 */
+  display: inline-block;
+  max-width: 1200px;
+  font-size: 70px;
+}
+
+/*//////////////////////////  Bouton  //////////////////////////::*/
+/* From Uiverse.io by mrhyddenn */
+button a {
+  font-size: 16px;
+  text-decoration: none;
+  color: #000000;
+  border-radius: 7px;
+  font-family: "Poppins-semibold";
+}
+
+button {
+  margin-top: 30px;
+  position: relative;
+  padding: 10px 20px;
+  border-radius: 7px;
+  border: solid 0px transparent;
+  background: linear-gradient(to right, #ffe998, #7a5c32);
+  border-color: #ffe998;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 2px;
+
+  overflow: hidden;
+  box-shadow: 0 0 0 0 transparent;
+  -webkit-transition: all 0.2s ease-in;
+  -moz-transition: all 0.2s ease-in;
+  transition: all 0.2s ease-in;
+}
+
+button:hover {
+  background: linear-gradient(to left, #ffe998, #7a5c32);
+  box-shadow: 0 0 30px 5px #ecddbb;
+  -webkit-transition: all 0.2s ease-out;
+  -moz-transition: all 0.2s ease-out;
+  transition: all 0.2s ease-out;
+  border: solid 0px;
+}
+
+button:hover::before {
+  -webkit-animation: sh02 0.5s 0s linear;
+  -moz-animation: sh02 0.5s 0s linear;
+  animation: sh02 0.5s 0s linear;
+}
+
+button::before {
+  content: "";
+  display: block;
+  width: 0px;
+  height: 86%;
+  position: absolute;
+  top: 7%;
+  left: 0%;
+  opacity: 0;
+  background: #fff;
+  box-shadow: 0 0 50px 30px #fff;
+  -webkit-transform: skewX(-20deg);
+  -moz-transform: skewX(-20deg);
+  -ms-transform: skewX(-20deg);
+  -o-transform: skewX(-20deg);
+  transform: skewX(-20deg);
+}
+
+@keyframes sh02 {
+  from {
+    opacity: 0;
+    left: 0%;
   }
 
+  50% {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+    left: 100%;
+  }
+}
+
+button:active {
+  box-shadow: 0 0 0 0 transparent;
+  -webkit-transition: box-shadow 0.2s ease-in;
+  -moz-transition: box-shadow 0.2s ease-in;
+  transition: box-shadow 0.2s ease-in;
+}
+
+.essentiel {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  margin-top: 10%;
+  padding-bottom: 50px;
+}
+
+.description {
+  text-align: left;
+  width: 45%;
+}
+
+h2 {
+  color: #ecddbb;
+  font-family: "Black-Mango";
+  font-size: 46px;
+  border-bottom: solid 1px;
+  border-image: linear-gradient(to right, #ffe998, #7a5c32);
+  border-image-slice: 1;
+}
+
+h3 {
+  color: #ffffff;
+  font-family: "Montserrat-regular";
+  margin-top: 5px;
+  font-size: 18px;
+  margin-bottom: 30px;
+}
+
+p {
+  color: #ffffff;
+  font-family: "Poppins-light";
+  font-size: 18px;
+}
+
+.img-essentiel {
+  width: 500px;
+  height: 425px;
+  position: relative;
+  display: flex;
+}
+
+.img-border {
+  width: 400px;
+  height: 400px;
+  object-fit: cover;
+  position: relative;
+  z-index: 2;
+  margin-left: auto;
+  filter: sepia(60%) brightness(0.8);
+}
+
+.img-door {
+  width: 225px;
+  height: 400px;
+  object-fit: cover;
+  z-index: 3;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  border-top-left-radius: 200px;
+  border-top-right-radius: 200px;
+  filter: grayscale(80%) sepia(20%);
+  border: solid 1px;
+  border-color: black;
+}
+
+.essentiel ul {
+  width: 90%;
+  list-style-type: none;
+  color: white;
+  text-align: left;
+  margin-top: 10%;
+  font-family: "Poppins-Regular";
+}
+
+ul li {
+  margin-bottom: 10px;
+  color: white;
+  list-style-type: none;
+}
+ul li i {
+  color: #ecddbb;
+}
+h4 {
+  color: white;
+  font-family: "Montserrat-semibold";
+  margin-bottom: 10px;
+}

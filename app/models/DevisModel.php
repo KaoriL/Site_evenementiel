@@ -10,26 +10,33 @@ class DevisModel
         $this->db = $db;
     }
 
+
     public function fetchDisponibilites()
     {
         $sql = "SELECT id, date_disponible, horaire, est_reserve FROM disponibilites WHERE est_reserve = 0 ORDER BY date_disponible, horaire";
         $stmt = $this->db->query($sql);
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-        //Convertir les dates au format Y-m-d 
+        $disponibilites = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    
+        // Convertir les dates au format Y-m-d 
         foreach ($disponibilites as &$dispo) {
-            $dispo['date_disponible'] = date('d-m-Y', strtotime($dispo['date_disponible']));
+            $dispo['date_disponible'] = date('Y-m-d', strtotime($dispo['date_disponible']));
         }
+    
+        return $disponibilites;
     }
+    
+
 
 
     public function saveDevisStandard($data)
     {
-        $query = "INSERT INTO prestations (nom, prenom, email, telephone, date_evenement, rdv_date, rdv_horaire, service, lieu, message, disponibilite_id)
-        VALUES (:nom, :prenom, :email, :telephone, :date_evenement, :rdv_date, :rdv_horaire, :service, :lieu, :message, :disponibilite_id)";
+        $query = "INSERT INTO prestations (user_id,nom, prenom, email, telephone, date_evenement, rdv_date, rdv_horaire, service, lieu, message, disponibilite_id)
+        VALUES (:user_id, :nom, :prenom, :email, :telephone, :date_evenement, :rdv_date, :rdv_horaire, :service, :lieu, :message, :disponibilite_id)";
 
         $stmt = $this->db->prepare($query);
 
         // Lier les paramètres
+        $stmt->bindParam(':user_id', $data['user_id']); // Ajout du user_id
         $stmt->bindParam(':nom', $data['nom']);
         $stmt->bindParam(':prenom', $data['prenom']);
         $stmt->bindParam(':email', $data['email']);
@@ -54,16 +61,21 @@ class DevisModel
         return false;
     }
 
+
     public function saveDevisMariage($data)
     {
-        $query = "INSERT INTO prestations_mariage (nom_marie, prenom_marie, email_marie, telephone_marie, nom_mariee, prenom_mariee, email_mariee, telephone_mariee, 
-        date_evenement, rdv_date, rdv_horaire, message, disponibilite_id)
-    VALUES (:nom_marie, :prenom_marie, :email_marie, :telephone_marie, :nom_mariee, :prenom_mariee, :email_mariee, :telephone_mariee, 
-        :date_evenement, :rdv_date, :rdv_horaire, :message, :disponibilite_id)";
+
+        $query = "INSERT INTO prestations_mariage (user_id, nom_marie, prenom_marie, email_marie, telephone_marie,
+      nom_mariee, prenom_mariee, email_mariee, telephone_mariee, origine_marie, origine_mariee, 
+      lieu, service, date_evenement, rdv_date, rdv_horaire, message, disponibilite_id)
+    VALUES (:user_id, :nom_marie, :prenom_marie, :email_marie, :telephone_marie, :nom_mariee,
+    :prenom_mariee, :email_mariee, :telephone_mariee, :origine_marie, :origine_mariee, 
+    :lieu, :service, :date_evenement, :rdv_date, :rdv_horaire, :message, :disponibilite_id)";
 
         $stmt = $this->db->prepare($query);
-
         // Lier les paramètres
+        ///Information des mariées
+        $stmt->bindParam(':user_id', $data['user_id']);
         $stmt->bindParam(':nom_marie', $data['nom_marie']);
         $stmt->bindParam(':prenom_marie', $data['prenom_marie']);
         $stmt->bindParam(':email_marie', $data['email_marie']);
@@ -72,28 +84,46 @@ class DevisModel
         $stmt->bindParam(':prenom_mariee', $data['prenom_mariee']);
         $stmt->bindParam(':email_mariee', $data['email_mariee']);
         $stmt->bindParam(':telephone_mariee', $data['telephone_mariee']);
+        $stmt->bindParam(':origine_marie', $data['origine_marie']);
+        $stmt->bindParam(':origine_mariee', $data['origine_mariee']);
+
+        ///Informations de événements
         $stmt->bindParam(':date_evenement', $data['date_evenement']);
         $stmt->bindParam(':rdv_date', $data['rdv_date']);
         $stmt->bindParam(':rdv_horaire', $data['rdv_horaire']);
         $stmt->bindParam(':message', $data['message']);
+        $stmt->bindParam(':service', $data['service']);
+        $stmt->bindParam(':lieu', $data['lieu']);
         $stmt->bindParam(':disponibilite_id', $data['disponibilite_id']);
 
+
+
+
+
+        // Si les données sont insérées avec succès
         if ($stmt->execute()) {
-            // Mise à jour de est_reserve
+            // Mise à jour de 'est_reserve' dans la table 'disponibilites'
             $updateQuery = "UPDATE disponibilites SET est_reserve = 1 WHERE id = :id";
             $updateStmt = $this->db->prepare($updateQuery);
             $updateStmt->bindParam(':id', $data['disponibilite_id']);
             $updateStmt->execute();
-
             return true;
         }
+
+        // Si l'exécution échoue
         return false;
     }
+    public function fetchRendezVous($user_id)
+    {
+        // Assure-toi que les deux requêtes renvoient le même nombre de colonnes
+        $sql = "SELECT id, user_id, rdv_date, rdv_horaire, message, service, date_evenement  FROM prestations WHERE user_id = :user_id 
+                UNION 
+                SELECT id, user_id, rdv_date, rdv_horaire, message, service, date_evenement  FROM prestations_mariage WHERE user_id = :user_id";
 
-
-
-
-
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute(['user_id' => $user_id]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 
 
     public function envoyerMailConfirmationMariage($data)

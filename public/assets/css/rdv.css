@@ -1,0 +1,102 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.img {
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  z-index: -1;
+  object-fit: cover;
+
+  overflow: hidden;
+}
+
+.img img {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  filter: blur(5px);
+  transform: scale(1.1);
+}
+
+section {
+  padding-top: 15%;
+
+  width: 100vw;
+  color: whitesmoke;
+  height: 800px;
+  font-family: "Montserrat-regular";
+}
+
+.filtre {
+  width: 100vw;
+  display: flex;
+  flex-wrap: wrap;
+  box-sizing: border-box;
+  padding: 10px;
+}
+
+.retour {
+  text-align: center;
+  font-size: 22px;
+  background-color: rgba(255, 255, 255, 0.22);
+  backdrop-filter: blur(5px);
+  transform: scale(1.1);
+  color: white;
+  border-radius: 100px;
+  border: solid transparent;
+  padding: 10px;
+}
+
+.retour a {
+    color: white;
+    text-decoration: none;
+}
+
+.filtre h1 {
+  width: 100vw;
+  font-size: 28px;
+  margin-top: 10px;
+  font-family: "Montserrat-semibold";
+}
+ul {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  list-style-type: none;
+  padding: 20px;
+}
+.card {
+  width: 35vw;
+  height: 35vw;
+  background-color: rgba(255, 255, 255, 0.16);
+  border-radius: 20px;
+  border-left: 1px solid rgba(255, 255, 255, 0.3);
+  border-top: 1px solid rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  -moz-backdrop-filter: blur(10px);
+  box-shadow: 20px 20px 40px -6px rgba(0, 0, 0, 0.2);
+  box-sizing: content-box;
+  display: flex;
+  text-align: center;
+  flex-wrap: wrap;
+  padding: 10px;
+}
+
+li h2 {
+  font-size: 16px;
+  font-family: "Montserrat-semibold";
+  text-align: center;
+  width: 100%;
+}
+
+h3 {
+  font-size: 14px;
+  color: rgb(216, 216, 216);
+  text-align: center;
+  width: 100%;
+}
