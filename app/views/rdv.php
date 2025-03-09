@@ -10,45 +10,47 @@
 </head>
 
 <body>
-    <div class="img">
-        <img src="public/assets/image/img-rdv.jpg" alt="">
+<?php require_once 'header.php'; // Inclure ton header ?>
+<section class="banniere">
+    <img src="public/assets/image/img-accueil.jpeg" alt="Image en noir et blanc" class="bw-image">
+    <div>
+        <h1>Mes Rendez-vous
+        </h1>
     </div>
-    <?php require_once 'header.php'; // Inclure ton header ?>
-    <section>
-        <div class="filtre">
-            <button class="retour"><a href="index.php?action=home"><</a></button>
-                    <h1>Mes rendez-vous</h1>
-        </div>
+</section>
+    
+    <section class="center">
+   <?php if (isset($rendez_vous) && !empty($rendez_vous)): ?>
+    <ul class="column">
+        <h5>Mes rendez-vous à venir</h5>
+        <?php foreach ($rendez_vous as $rdv): ?>
+            <li class="card">
+                <!-- Affichez d'autres informations selon le besoin -->
+                <div class="card-border-top">
+                </div>
+                <div class="img">
+                </div>
+                <span>
+                    <h2><?= date('d.m.Y', strtotime($rdv['rdv_date'])); ?></h2>
+                </span>
+                <p class="job">
+                <h3> <?= date('H\h i', strtotime($rdv['rdv_horaire'])); ?></h3>
+                </p>
+                <button> Lien zoom
+                </button>
+            </li>
 
-        <?php if (isset($rendez_vous) && !empty($rendez_vous)): ?>
-            <ul>
-                <?php foreach ($rendez_vous as $rdv): ?>
-                    <li class="card">
-                        <h2><?= date('d.m.Y', strtotime($rdv['rdv_date'])); ?></h2>
-                        <h3> <?= date('H\h i', strtotime($rdv['rdv_horaire'])); ?></h3>
-                        <!-- Affichez d'autres informations selon le besoin -->
-                    </li>
-                <?php endforeach; ?>
-            </ul>
-        <?php else: ?>
-            <p>Aucun rendez-vous trouvé.</p>
-        <?php endif; ?>
+            <div>
 
+            </div>
+
+        <?php endforeach; ?>
+    </ul>
+<?php else: ?>
+    <p>Aucun rendez-vous trouvé.</p>
+<?php endif; ?>
+        
     </section>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     <?php require_once 'footer.php'; // Inclure ton footer ?>
 </body>

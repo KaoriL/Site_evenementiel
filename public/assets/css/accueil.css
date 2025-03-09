@@ -64,6 +64,7 @@ button a {
 }
 
 button {
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.3); /* Ombre douce */
   margin-top: 30px;
   position: relative;
   padding: 10px 20px;
@@ -74,9 +75,9 @@ button {
   font-size: 14px;
   font-weight: 600;
   letter-spacing: 2px;
-
+  right: 0;
   overflow: hidden;
-  box-shadow: 0 0 0 0 transparent;
+
   -webkit-transition: all 0.2s ease-in;
   -moz-transition: all 0.2s ease-in;
   transition: all 0.2s ease-in;
@@ -142,14 +143,14 @@ button:active {
   width: 100%;
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-around;
+  justify-content: center;
   margin-top: 10%;
   padding-bottom: 50px;
 }
 
-.description {
+.essentiel .description {
   text-align: left;
-  width: 45%;
+  width: 35%;
 }
 
 h2 {
@@ -173,28 +174,41 @@ p {
   color: #ffffff;
   font-family: "Poppins-light";
   font-size: 18px;
+  width: 80%;
 }
 
 .img-essentiel {
-  width: 500px;
-  height: 425px;
+  width: 40%;
+  height: 35%;
+  max-width: 1000px;
   position: relative;
   display: flex;
+  box-sizing: border-box;
+  margin-right: 50px;
 }
 
 .img-border {
-  width: 400px;
-  height: 400px;
+  width: 90%;
+  height: 80%;
+  max-width: 920px;
+  max-height: 820px;
+  min-width: 425px;
+  min-height: 400px;
   object-fit: cover;
   position: relative;
   z-index: 2;
+  margin-bottom: 20px;
   margin-left: auto;
   filter: sepia(60%) brightness(0.8);
 }
 
 .img-door {
-  width: 225px;
-  height: 400px;
+  width: 30%;
+  height: 90%;
+ 
+  max-height: 900px;
+  min-height: 400px;
+  min-width: 200px;
   object-fit: cover;
   z-index: 3;
   position: absolute;
@@ -202,7 +216,7 @@ p {
   left: 0;
   border-top-left-radius: 200px;
   border-top-right-radius: 200px;
-  filter: grayscale(80%) sepia(20%);
+  filter: grayscale(100%);
   border: solid 1px;
   border-color: black;
 }
@@ -229,3 +243,151 @@ h4 {
   font-family: "Montserrat-semibold";
   margin-bottom: 10px;
 }
+
+/*----------------------------------- Section gala -------------------------*/
+
+.gala {
+  width: 100%;
+  background-color: #f2e9d3;
+  display: flex;
+  flex-wrap: wrap;
+  padding-top: 50px;
+  gap: 40px;
+  padding-bottom: 50px;
+  justify-content: center;
+}
+
+.gala h2 {
+  color: #57370d;
+  border: solid 0 transparent;
+}
+
+.img-gala {
+  width: 35%;
+  height: 35%;
+  
+}
+.description {
+  width: 40%;
+  text-align: left;
+}
+.img-gala img {
+  width: 100%;
+  height: 100%;
+  max-height: 700px;
+  object-fit: cover;
+  filter: grayscale(100%) sepia(70%);
+}
+
+.gala p {
+  color: #000000;
+}
+
+.gala h3 {
+  color: black;
+}
+
+.gala a {
+  color: #492e0d;
+}
+
+
+.btn-r{
+  width:80%;
+  display: flex;
+  justify-content: right;
+}
+
+/*----------------------------------- Section moments  -------------------------*/
+
+.moment {
+  width: 100%;
+  background-color: #0c0602;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 50px;
+  text-align: center;
+  gap: 40px;
+  padding-bottom: 50px;
+  
+}
+.moment h2 {
+text-align: center;
+  border: solid 0 transparent;
+  width: 100%;
+}
+
+.moment_photo{
+width: 100%;
+display: flex;
+flex-direction: row;
+flex-wrap: wrap;
+justify-content: center;
+gap: 20px;
+position: relative;
+
+  
+}
+.description {
+  width: 40%;
+  text-align: left;
+}
+.moment_photo img {
+  width: 30%;
+  min-width:100px ;
+  max-width: 350px;
+
+  min-height: 200px;
+  height: 90%;
+  max-height: 900px;
+  z-index: 1;
+  position: relative;
+  object-fit: cover;
+  margin-bottom: 50px;
+  
+}
+
+.gala p {
+  color: #000000;
+}
+
+.moment h3 {
+  text-align: center;
+}
+
+.moment .btn-r{
+  background-color: #F2E9D3;
+  width: 60%;
+  height: 20%;
+  position: absolute;
+  z-index: 2;
+  display: flex;
+  bottom: 0;
+  align-items: center;
+  justify-content: space-around;
+  max-width: 600px;
+  align-self: center;
+}
+.moment button{
+  margin: 0;
+  
+}
+
+.moment button a{
+  font-size: 16px;
+}
+.line{
+  width: 2px;
+  height: 60%;
+  background-color: #492e0d;
+}
+
+.moment .btn-r p{
+  color: #492e0d;
+  text-align: center;
+  width: 40%;
+
+  font-size: 18px;
+}
+

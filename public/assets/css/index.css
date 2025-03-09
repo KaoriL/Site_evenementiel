@@ -18,6 +18,9 @@
   width: 100%;
   text-align: center;
   padding-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 /*--------------------------------    TYPOGRAPHIE      ----------------------------------------------------- */
@@ -25,31 +28,37 @@
 @font-face {
   font-family: "Black-Mango";
   src: url("../police/black-mango-regular.ttf") format("truetype");
+  font-display: swap;
 }
 
 @font-face {
   font-family: "Montserrat-regular";
   src: url("../police/montserrat-regular.ttf") format("truetype");
+  font-display: swap;
 }
 
 @font-face {
   font-family: "Montserrat-semibold";
   src: url("../police/montserrat-semibold.ttf") format("truetype");
+  font-display: swap;
 }
 
 @font-face {
   font-family: "Poppins-Regular";
   src: url("../police/Poppins-Regular.ttf") format("truetype");
+  font-display: swap;
 }
 
 @font-face {
   font-family: "Poppins-semibold";
   src: url("../police/Poppins-SemiBold.ttf") format("truetype");
+  font-display: swap;
 }
 
 @font-face {
   font-family: "Poppins-light";
   src: url("../police/Poppins-Light.ttf") format("truetype");
+  font-display: swap;
 }
 * {
   margin: 0;
