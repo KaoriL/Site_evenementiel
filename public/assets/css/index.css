@@ -4,7 +4,7 @@
   color: white;
   border-bottom: solid 1px;
   border-top: solid 1px;
-  border-image: linear-gradient(to right, #FFE998, #7a5c32);
+  border-image: linear-gradient(to right, #ffe998, #7a5c32);
   border-image-slice: 1;
   display: flex;
   justify-content: center;
@@ -21,6 +21,35 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.contact {
+  width: 100vw;
+  background-color: #0c0602;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100vh;
+  color: white;
+  justify-content: center;
+}
+
+.contact div{
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.contact h1{
+  font-size: 64px;
+  font-family: 'Black-mango';
+}
+
+.contact p{
+  font-family: 'Montserrat-regular';
+  font-size:24px;
 }
 
 /*--------------------------------    TYPOGRAPHIE      ----------------------------------------------------- */

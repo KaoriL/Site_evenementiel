@@ -64,3 +64,20 @@ ALTER TABLE prestations_mariage ADD COLUMN user_id INT;
 
 ALTER TABLE prestations ADD FOREIGN KEY (user_id) REFERENCES users(id);
 ALTER TABLE prestations_mariage ADD FOREIGN KEY (user_id) REFERENCES users(id);
+
+ALTER TABLE users ADD COLUMN role ENUM('user', 'admin') NOT NULL DEFAULT 'user';
+
+ALTER TABLE prestations MODIFY COLUMN date_evenement DATE NULL;
+ALTER TABLE prestations MODIFY COLUMN lieu VARCHAR(255) NULL;
+
+ALTER TABLE prestations_mariage MODIFY COLUMN date_evenement DATE NULL;
+ALTER TABLE prestations_mariage MODIFY COLUMN lieu VARCHAR(255) NULL;
+
+ALTER TABLE prestations_mariage
+ADD COLUMN origine_marie VARCHAR(255) NOT NULL,
+ADD COLUMN origine_mariee VARCHAR(255) NOT NULL;
+
+
+ALTER TABLE prestations_mariage
+ADD COLUMN age_marie INT NOT NULL,
+ADD COLUMN age_mariee INT NOT NULL;

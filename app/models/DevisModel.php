@@ -11,46 +11,125 @@ class DevisModel
     }
 
 
-    public function fetchDisponibilites()
+    // public function fetchDisponibilites()
+    // {
+    //     $sql = "SELECT id, date_disponible, horaire, est_reserve 
+    //         FROM disponibilites 
+    //         WHERE est_reserve = 1 
+    //         AND DATE(date_disponible) > CURDATE() 
+    //         AND WEEKDAY(date_disponible) NOT IN (5,6) 
+    //         AND horaire BETWEEN '10:00:00' AND '21:00:00'
+    //         ORDER BY date_disponible, horaire";
+    //     $stmt = $this->db->query($sql);
+    //     $disponibilites = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    //     // Convertir les dates au format Y-m-d 
+    //     foreach ($disponibilites as &$dispo) {
+    //         $dispo['date_disponible'] = date('Y-m-d', strtotime($dispo['date_disponible']));
+    //     }
+
+    //     return $disponibilites;
+    // }
+
+
+    public function Disponibilites()
     {
-        $sql = "SELECT id, date_disponible, horaire, est_reserve FROM disponibilites WHERE est_reserve = 0 ORDER BY date_disponible, horaire";
-        $stmt = $this->db->query($sql);
-        $disponibilites = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    
-        // Convertir les dates au format Y-m-d 
-        foreach ($disponibilites as &$dispo) {
-            $dispo['date_disponible'] = date('Y-m-d', strtotime($dispo['date_disponible']));
+        $joursOuvrables = [1, 2, 3, 4, 5]; // Lundi à Vendredi (0 = Dimanche, 6 = Samedi)
+        $heureDebut = new DateTime('10:00:00', new DateTimeZone('Europe/Paris'));
+        $heureFin = new DateTime('22:00:00', new DateTimeZone('Europe/Paris'));
+        $dateDebut = new DateTime('now +1 day', new DateTimeZone('Europe/Paris'));
+        $dureeCreneau = new DateInterval('PT1H'); // Créneaux d'1 heure
+
+        $disponibilites = [];
+
+        // Date de départ = demain
+        $dateDebut = new DateTime('now +1 day');
+
+        //echo "Date demain : " . $dateDebut->format('Y-m-d') . "\n"; // Affiche demain
+
+        // Générer les créneaux pour les 30 prochains jours
+        for ($i = 0; $i < 365; $i++) {
+
+            $date = (clone $dateDebut)->modify("+$i day");
+
+            // Vérifier si c'est un jour ouvrable
+            if (in_array($date->format('N'), $joursOuvrables)) {
+                $heure = clone $heureDebut;
+                while ($heure < $heureFin) {
+                    $disponibilites[] = [
+                        'date_disponible' => $date->format('Y-m-d'),
+                        'horaire' => $heure->format('H:i:s'),
+                        'est_reserve' => 0 // Par défaut, tout est libre
+                    ];
+                    $heure->add($dureeCreneau);
+                }
+            }
         }
-    
+
+        // Récupérer les créneaux réservés depuis la BDD
+        $sql = "SELECT date_disponible, horaire FROM disponibilites WHERE est_reserve = 1";
+        $stmt = $this->db->query($sql);
+        $reserves = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+
+        // Transformer en tableau associatif pour un accès rapide
+        $reservations = [];
+        foreach ($reserves as $res) {
+            $reservations[$res['date_disponible']][$res['horaire']] = true;
+        }
+
+        // Marquer les créneaux réservés
+        foreach ($disponibilites as &$creneau) {
+            if (isset($reservations[$creneau['date_disponible']][$creneau['horaire']])) {
+                $creneau['est_reserve'] = 1;
+            }
+        }
+
         return $disponibilites;
     }
-    
 
 
 
     public function saveDevisStandard($data)
     {
-        $query = "INSERT INTO prestations (user_id,nom, prenom, email, telephone, date_evenement, rdv_date, rdv_horaire, service, lieu, message, disponibilite_id)
-        VALUES (:user_id, :nom, :prenom, :email, :telephone, :date_evenement, :rdv_date, :rdv_horaire, :service, :lieu, :message, :disponibilite_id)";
+
+        // Initialisation des variables avec les valeurs ou NULL si vides
+        $date_evenement = empty($data['date_evenement']) ? null : $data['date_evenement'];
+        $lieu = empty($data['lieu']) ? null : $data['lieu'];
+        $message = empty($data['message']) ? null : $data['message'];
+
+        // Construction de la requête avec des paramètres conditionnels
+        $query = "INSERT INTO prestations (user_id, nom, prenom, email, telephone, 
+                                      date_evenement, rdv_date, rdv_horaire, 
+                                      service, lieu, message, disponibilite_id)
+              VALUES (:user_id, :nom, :prenom, :email, :telephone, 
+                      :date_evenement, :rdv_date, :rdv_horaire, 
+                      :service, :lieu, :message, :disponibilite_id)";
 
         $stmt = $this->db->prepare($query);
 
-        // Lier les paramètres
-        $stmt->bindParam(':user_id', $data['user_id']); // Ajout du user_id
+        // Lier les paramètres, avec des valeurs par défaut si non renseignées
+        $stmt->bindParam(':user_id', $data['user_id']);
         $stmt->bindParam(':nom', $data['nom']);
         $stmt->bindParam(':prenom', $data['prenom']);
         $stmt->bindParam(':email', $data['email']);
         $stmt->bindParam(':telephone', $data['telephone']);
-        $stmt->bindParam(':date_evenement', $data['date_evenement']);
+
+        // Si la date de l'événement est vide, on n'enregistre pas cette donnée
+        $stmt->bindParam(':date_evenement', $date_evenement);
         $stmt->bindParam(':rdv_date', $data['rdv_date']);
         $stmt->bindParam(':rdv_horaire', $data['rdv_horaire']);
         $stmt->bindParam(':service', $data['service']);
-        $stmt->bindParam(':lieu', $data['lieu']);
-        $stmt->bindParam(':message', $data['message']);
+
+        // Idem pour le lieu et message
+        $stmt->bindParam(':lieu', $lieu);
+        $stmt->bindParam(':message', $message);
+
+        // Disponibilité
         $stmt->bindParam(':disponibilite_id', $data['disponibilite_id']);
 
         if ($stmt->execute()) {
-            // Mise à jour de est_reserve
+            // Mise à jour de 'est_reserve' dans la table 'disponibilites'
             $updateQuery = "UPDATE disponibilites SET est_reserve = 1 WHERE id = :id";
             $updateStmt = $this->db->prepare($updateQuery);
             $updateStmt->bindParam(':id', $data['disponibilite_id']);
@@ -61,20 +140,38 @@ class DevisModel
         return false;
     }
 
-
     public function saveDevisMariage($data)
     {
+        // Initialisation des variables avec les valeurs ou NULL si vides
+        $date_evenement = empty($data['date_evenement']) ? null : $data['date_evenement'];
+        $lieu = empty($data['lieu']) ? null : $data['lieu'];
+        $message = empty($data['message']) ? null : $data['message'];
+        // L'âge peut être laissé NULL si non renseigné
+        $age_marie = empty($data['age_marie']) ? null : $data['age_marie'];
+        $age_mariee = empty($data['age_mariee']) ? null : $data['age_mariee'];
 
-        $query = "INSERT INTO prestations_mariage (user_id, nom_marie, prenom_marie, email_marie, telephone_marie,
-      nom_mariee, prenom_mariee, email_mariee, telephone_mariee, origine_marie, origine_mariee, 
-      lieu, service, date_evenement, rdv_date, rdv_horaire, message, disponibilite_id)
-    VALUES (:user_id, :nom_marie, :prenom_marie, :email_marie, :telephone_marie, :nom_mariee,
-    :prenom_mariee, :email_mariee, :telephone_mariee, :origine_marie, :origine_mariee, 
-    :lieu, :service, :date_evenement, :rdv_date, :rdv_horaire, :message, :disponibilite_id)";
+        // Vérification des origines, elles sont obligatoires
+        if (empty($data['origine_marie']) || empty($data['origine_mariee'])) {
+            // Si une origine est vide, on arrête et on retourne false
+            throw new Exception("L'origine du marié et de la mariée doivent être renseignées.");
+        }
 
+        // Construction de la requête avec des paramètres conditionnels
+        $query = "INSERT INTO prestations_mariage 
+                  (user_id, nom_marie, prenom_marie, email_marie, telephone_marie, 
+                   nom_mariee, prenom_mariee, email_mariee, telephone_mariee, 
+                   age_marie, age_mariee, origine_marie, origine_mariee, 
+                   date_evenement, lieu, message, rdv_date, rdv_horaire, service, disponibilite_id)
+                  VALUES 
+                  (:user_id, :nom_marie, :prenom_marie, :email_marie, :telephone_marie, 
+                   :nom_mariee, :prenom_mariee, :email_mariee, :telephone_mariee, 
+                   :age_marie, :age_mariee, :origine_marie, :origine_mariee, 
+                   :date_evenement, :lieu, :message, :rdv_date, :rdv_horaire, :service, :disponibilite_id)";
+
+        // Préparation de la requête PDO
         $stmt = $this->db->prepare($query);
+
         // Lier les paramètres
-        ///Information des mariées
         $stmt->bindParam(':user_id', $data['user_id']);
         $stmt->bindParam(':nom_marie', $data['nom_marie']);
         $stmt->bindParam(':prenom_marie', $data['prenom_marie']);
@@ -84,41 +181,46 @@ class DevisModel
         $stmt->bindParam(':prenom_mariee', $data['prenom_mariee']);
         $stmt->bindParam(':email_mariee', $data['email_mariee']);
         $stmt->bindParam(':telephone_mariee', $data['telephone_mariee']);
-        $stmt->bindParam(':origine_marie', $data['origine_marie']);
-        $stmt->bindParam(':origine_mariee', $data['origine_mariee']);
-
-        ///Informations de événements
-        $stmt->bindParam(':date_evenement', $data['date_evenement']);
+        $stmt->bindParam(':age_marie', $age_marie);  // Lier l'âge du marié (peut être NULL)
+        $stmt->bindParam(':age_mariee', $age_mariee);  // Lier l'âge de la mariée (peut être NULL)
+        $stmt->bindParam(':origine_marie', $data['origine_marie']);  // Lier l'origine du marié
+        $stmt->bindParam(':origine_mariee', $data['origine_mariee']);  // Lier l'origine de la mariée
+        $stmt->bindParam(':date_evenement', $date_evenement);
+        $stmt->bindParam(':lieu', $lieu);
+        $stmt->bindParam(':message', $message);
+        // Lier les nouvelles informations
         $stmt->bindParam(':rdv_date', $data['rdv_date']);
         $stmt->bindParam(':rdv_horaire', $data['rdv_horaire']);
-        $stmt->bindParam(':message', $data['message']);
         $stmt->bindParam(':service', $data['service']);
-        $stmt->bindParam(':lieu', $data['lieu']);
         $stmt->bindParam(':disponibilite_id', $data['disponibilite_id']);
 
-
-
-
-
-        // Si les données sont insérées avec succès
+        // Exécution de la requête
         if ($stmt->execute()) {
             // Mise à jour de 'est_reserve' dans la table 'disponibilites'
             $updateQuery = "UPDATE disponibilites SET est_reserve = 1 WHERE id = :id";
             $updateStmt = $this->db->prepare($updateQuery);
             $updateStmt->bindParam(':id', $data['disponibilite_id']);
             $updateStmt->execute();
+
             return true;
         }
-
-        // Si l'exécution échoue
         return false;
     }
+
+
+
     public function fetchRendezVous($user_id)
     {
-        // Assure-toi que les deux requêtes renvoient le même nombre de colonnes
-        $sql = "SELECT id, user_id, rdv_date, rdv_horaire, message, service, date_evenement  FROM prestations WHERE user_id = :user_id 
+
+        $sql = "
+                SELECT id, user_id, rdv_date, rdv_horaire, message, service, date_evenement, 'standard' AS type 
+                FROM prestations 
+                WHERE user_id = :user_id
                 UNION 
-                SELECT id, user_id, rdv_date, rdv_horaire, message, service, date_evenement  FROM prestations_mariage WHERE user_id = :user_id";
+                SELECT id, user_id, rdv_date, rdv_horaire, message, service, date_evenement, 'mariage' AS type
+                FROM prestations_mariage 
+                WHERE user_id = :user_id";
+
 
         $stmt = $this->db->prepare($sql);
         $stmt->execute(['user_id' => $user_id]);
@@ -138,6 +240,8 @@ class DevisModel
             $mail->Password = $_ENV['MAIL_PASSWORD']; // mot de passe d'application
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
             $mail->Port = $_ENV['MAIL_PORT'];
+            $mail->SMTPDebug = 2; // Activer le debug (0 pour production)
+            $mail->Debugoutput = 'error_log'; // Stocke les logs dans error_log
 
             $mail->setFrom($_ENV['MAIL_FROM_ADDRESS'], $_ENV['MAIL_FROM_NAME']);
             $mail->addAddress($data['email_marie']); // Adresse du marié
@@ -243,10 +347,16 @@ class DevisModel
          </div> 
          <div class="footer"> © ' . date('Y') . ' DeeJay 13. Tous droits réservés. </div> </div> </body> </html>';
 
-            $mail->send();
+            if (!$mail->send()) {
+                error_log('Erreur envoi mail : ' . $mail->ErrorInfo);
+                return false;
+            }
             return true;
+
+
         } catch (Exception $e) {
-            echo "L'envoi de l'email a échoué. Erreur : {$mail->ErrorInfo}";
+            // Si une exception se produit, on log l'exception et on retourne false
+            error_log('Exception PHPMailer : ' . $e->getMessage());
             return false;
         }
     }
@@ -369,13 +479,14 @@ class DevisModel
          </div> 
          <div class="footer"> © ' . date('Y') . ' DeeJay 13. Tous droits réservés. </div> </div> </body> </html>';
 
-            // Envoi de l'email
-            $mail->send();
-            // echo "Mail envoyé avec succès.";
+            if (!$mail->send()) {
+                error_log('Erreur envoi mail : ' . $mail->ErrorInfo);
+                return false;
+            }
             return true;
         } catch (Exception $e) {
-            echo "L'envoi de l'email a échoué. Erreur : {$mail->ErrorInfo}";
-            echo "Erreur SMTP : " . $mail->ErrorInfo . "<br>";
+            // Si une exception se produit, on log l'exception et on retourne false
+            error_log('Exception PHPMailer : ' . $e->getMessage());
             return false;
         }
     }

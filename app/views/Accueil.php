@@ -11,23 +11,20 @@
 
 <body>
     <?php require_once 'header.php'; // Inclure ton header ?>
-    <?php
 
-
-    // Vérifie si l'utilisateur est connecté
-    if (!isset($_SESSION['user_id'])) {
-        echo "Erreur : utilisateur non connecté.";
-        header('Location: login.php');  // Redirige vers la page de login
-        exit;
-    }
-
-    // Si connecté, afficher les infos de l'utilisateur
-//echo "Bonjour " . $_SESSION['username'];
-    ?>
+<?php
+// // Vérifie si l'utilisateur est connecté
+// if (!isset($_SESSION['user_id'])) {
+//     $message = "Erreur : utilisateur non connecté.";
+//     // Redirige vers la page de login
+// 
+// }
+// // Si connecté, afficher les infos de l'utilisateur
+// echo "Bonjour " . $_SESSION['username'];
+// ?>
     <section class="banniere">
         <img src="public/assets/image/img-accueil.jpeg" alt="Image en noir et blanc" class="bw-image">
         <div>
-
             <h1>
                 <span class="left">Avec Deejay13</span>
                 VIVEZ DES INSTANTS UNIQUE
@@ -92,8 +89,8 @@
                 <img src="public/assets/image/img-gala-accueil.png" alt="">
                 <img src="public/assets/image/img-gala-accueil.png" alt="">
                 <div class="btn-r">
-                    <p>FAITES PARTIE DE 
-                    NOS SUCCESS STORIES</p>
+                    <p>FAITES PARTIE DE
+                        NOS SUCCESS STORIES</p>
                     <div class="line"></div>
                     <button> <a href="index.php?action=devis">Confiez nous votre évènement</a></button>
                 </div>

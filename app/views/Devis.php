@@ -10,7 +10,10 @@
     <!-- Flatpickr CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <!-- Flatpickr JS -->
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr@4.6.13/dist/flatpickr.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr@4.6.13/dist/l10n/fr.js"></script>
+
+
     <!-- Fontawesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
@@ -73,8 +76,8 @@
                                 maxlength="20" required>
                             <div id="error-telephone_marie" class="error-message"></div>
 
-                            <label for="age_marie">Age du marié<span style="color:#A60000;">*</span> </label>
-                            <input placeholder="Age du marié" type="text" id="age_marie" name="age_marie" required>
+                            <label for="age_marie">Age du marié</label>
+                            <input placeholder="Age du marié" type="text" id="age_marie" name="age_marie">
 
                             <label for="origine_marie">Origine du marié<span style="color:#A60000;">*</span> </label>
                             <input placeholder="Origine du marié" type="text" id="origine_marie" name="origine_marie"
@@ -103,8 +106,8 @@
                             <input placeholder="Téléphone de la mariée" type="text" id="telephone_mariee"
                                 name="telephone_mariee" maxlength="20" required>
 
-                            <label for="age_mariee">Age de la mariée<span style="color:#A60000;">*</span> </label>
-                            <input placeholder="Age de la  mariée" type="text" id="age_mariee" name="age_mariee" required>
+                            <label for="age_mariee">Age de la mariée </label>
+                            <input placeholder="Age de la  mariée" type="text" id="age_mariee" name="age_mariee">
                             <label for="origine_mariee">Origine de la mariée<span style="color:#A60000;">*</span> </label>
                             <input placeholder="Origine de la mariée" type="text" id="origine_mariee" name="origine_mariee"
                                 required>
@@ -112,9 +115,9 @@
                     </div>
                     <div class="description">
                         <div class="evenement">
-                            <label for="date_evenement">Date de votre événement<span style="color:#A60000;">*</span>
+                            <label for="date_evenement">Date de votre événement
                             </label>
-                            <input type="date" id="date_evenement" name="date_evenement" required>
+                            <input type="date" id="date_evenement" name="date_evenement">
                             <label for="rdv_date">Choisissez votre date de rendez-vous<span
                                     style="color:#A60000;">*</span></label>
                             <input type="text" id="datepicker" name="rdv_date" placeholder="Sélectionnez une date">
@@ -133,9 +136,10 @@
                                 <option value="Pack Confort">Pack Confort</option>
                                 <option value="Pack Privilège">Pack Privilège</option>
                                 <option value="Pack Royal Dream">Pack Royal Dream</option>
+                                <option value="Demande personnalisée">Demande personnalisée</option>
                             </select>
-                            <label for="lieu">Lieu de l'événement<span style="color:#A60000;">*</span></label>
-                            <input type="text" id="lieu" name="lieu" placeholder="Paris" required>
+                            <label for="lieu">Lieu de l'événement<< /label>
+                                    <input type="text" id="lieu" name="lieu" placeholder="Paris">
 
                         </div>
                     </div>
@@ -183,9 +187,9 @@
                         </div>
 
                         <div class="informations">
-                            <label for="date_evenement">Date de votre événement<span style="color:#A60000;">*</span>
+                            <label for="date_evenement">Date de votre événement
                             </label>
-                            <input type="date" id="date_evenement" name="date_evenement" required>
+                            <input type="date" id="date_evenement" name="date_evenement">
 
 
                             <label for="rdv_date">Choisissez votre date de rendez-vous<span
@@ -212,8 +216,8 @@
                                 <option value="Autre">Demande personnalisée</option>
                             </select>
 
-                            <label for="lieu">Lieu de l'événement<span style="color:#A60000;">*</span></label>
-                            <input type="text" id="lieu" name="lieu" placeholder="Paris" required>
+                            <label for="lieu">Lieu de l'événement</label>
+                            <input type="text" id="lieu" name="lieu" placeholder="Paris">
                         </div>
                     </div>
                     <div class="description"> <label style="margin-top:30px;margin-bottom:20px; "
@@ -228,43 +232,20 @@
                         <div class="loader"></div>
                     </div>
             </div>
-
-
             </form>
         <?php endif; ?>
         </div>
-
     </section>
-
     <?php require_once 'footer.php'; // Inclure ton footer ?>
-
-
 </body>
-
-
-
 <script>
-
-
     document.addEventListener("DOMContentLoaded", function () {
         // Récupération des disponibilités
         fetch('index.php?action=disponibilites')
-            .then(response => response.text())
-            .then(text => {
+            .then(response => response.json())
+            .then(data => {
                 // Vérification de la réponse
-                console.log("📩 Réponse brute du serveur:", text);
-
-                if (!text.trim().startsWith("{") && !text.trim().startsWith("[")) {
-                    throw new Error("⚠️ Réponse invalide : Ce n'est pas du JSON !");
-                }
-
-                let data;
-                try {
-                    data = JSON.parse(text);
-                } catch (e) {
-                    console.error("⚠️ Réponse invalide : Ce n'est pas du JSON !", e);
-                    return;
-                }
+                // console.log("📩 Réponse brute du serveur:", data);
 
                 // Traitement des disponibilités
                 let disponibilitesMap = {};
@@ -274,36 +255,42 @@
                 data.forEach(item => {
                     const key = `${item.date_disponible}-${item.horaire}`;
                     disponibilitesMap[key] = item.id;
-
                     if (!disponibilitesParDate[item.date_disponible]) {
                         disponibilitesParDate[item.date_disponible] = [];
                     }
-
                     if (item.est_reserve === 0) { // Créneaux disponibles
                         disponibilitesParDate[item.date_disponible].push(item.horaire);
                     }
                 });
 
-                // Initialisation de Flatpickr
                 const datepicker = document.getElementById("datepicker");
                 if (datepicker) {
+                    let today = new Date();
+                    let tomorrow = new Date();
+                    tomorrow.setDate(today.getDate() + 1);
+                    let tomorrowStr = tomorrow.toISOString().split('T')[0];
+
+
+                    // Configurer flatpickr
                     flatpickr(datepicker, {
                         dateFormat: "Y-m-d",
+                        minDate: tomorrowStr, // Correction du problème "tomorrow"
+                        locale: flatpickr.l10ns.fr, // Active la langue française
                         disable: [
                             function (date) {
-                                // Désactiver les dates antérieures à aujourd'hui et le jour même
-                                let today = new Date();
-                                let selectedDate = new Date(date);
+                                const dateStr = `${date.getFullYear()}-${('0' + (date.getMonth() + 1)).slice(-2)}-${('0' + date.getDate()).slice(-2)}`;
+                                console.log("Vérification de la date:", dateStr);
 
-                                // Comparer la date sélectionnée avec aujourd'hui
-                                if (selectedDate < today || selectedDate.toISOString().split('T')[0] === today.toISOString().split('T')[0]) {
-                                    return true;  // Désactiver la date
+                                // Bloquer les dates qui ne sont pas dans les disponibilités
+                                if (!disponibilitesParDate[dateStr]) {
+                                    console.log("🔴 Bloqué (pas de disponibilité) :", dateStr);
+                                    return true;
                                 }
 
-                                let dateLocal = new Date(date.getTime() - date.getTimezoneOffset() * 60000);
-                                let dateStr = dateLocal.toISOString().split('T')[0]; // Format YYYY-MM-DD
-                                return !disponibilitesParDate[dateStr]; // Désactiver les dates non disponibles
+                                // Si la date est dans les disponibilités, alors on permet de la sélectionner
+                                return false;
                             }
+
                         ],
                         onChange: (selectedDates, dateStr) => {
                             const horaireSelect = document.getElementById("horaire_select");
@@ -321,6 +308,7 @@
                 } else {
                     console.error("⛔ L'élément #datepicker est introuvable.");
                 }
+
 
                 // Gestion du changement d'horaire
                 const horaireSelect = document.getElementById("horaire_select");
@@ -348,7 +336,8 @@
                             const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
                             if (!emailPattern.test(emailInput.value)) {
                                 document.getElementById('erreur').style.display = 'block';
-                                document.getElementById('erreur').style.display = 'block';
+                            } else {
+                                document.getElementById('erreur').style.display = 'none';
                             }
                         });
                     }
@@ -368,10 +357,6 @@
             .catch(error => console.error('🚨 Erreur de récupération des données:', error));
     });
 
-
-
-
-
     document.getElementById("form-devis").addEventListener("submit", function (event) {
         event.preventDefault(); // Bloque l'envoi par défaut
 
@@ -380,10 +365,9 @@
         if ('<?php echo $typeFormulaire; ?>' === 'mariage') {
             champsObligatoires = ["nom_marie", "prenom_marie", "nom_mariee", "prenom_mariee",
                 "email_marie", "email_mariee", "telephone_marie", "telephone_mariee",
-                "age_marie", "age_mariee", "date_evenement",
-                "service", "lieu"];
+                "service"];
         } else {
-            champsObligatoires = ["nom", "prenom", "email", "telephone", 'date_evenement', 'service', 'lieu'];
+            champsObligatoires = ["nom", "prenom", "email", "telephone", 'service'];
         }
 
         let erreurs = [];
@@ -452,6 +436,60 @@
             validateEmail(this);
         });
     };
+
+    <?php if (isset($_SESSION['message'])): ?>
+  
+        
+        window.onload = function() {
+            // Création du pop-up
+            var modal = document.createElement('div');
+            modal.style.position = 'fixed';
+            modal.style.top = '0';
+            modal.style.left = '0';
+            modal.style.width = '100%';
+            modal.style.height = '100%';
+            modal.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
+            modal.style.display = 'flex';
+            modal.style.alignItems = 'center';
+            modal.style.justifyContent = 'center';
+            modal.style.zIndex = '9999';
+
+            // Contenu du pop-up
+            var modalContent = document.createElement('div');
+            modalContent.style.backgroundColor = '#fff';
+            modalContent.style.padding = '20px';
+            modalContent.style.borderRadius = '8px';
+            modalContent.style.textAlign = 'center';
+
+            var message = document.createElement('p');
+            message.textContent = '<?php echo $_SESSION['message']; ?>';
+            modalContent.appendChild(message);
+
+            var loginButton = document.createElement('button');
+            loginButton.textContent = 'Connectez-vous';
+            loginButton.onclick = function() {
+                window.location.href = 'login.php'; // Redirige vers la page de connexion
+            };
+            modalContent.appendChild(loginButton);
+
+            var signupButton = document.createElement('button');
+            signupButton.textContent = 'Inscrivez-vous';
+            signupButton.onclick = function() {
+                window.location.href = 'signup.php'; // Redirige vers la page d'inscription
+            };
+            modalContent.appendChild(signupButton);
+
+            modal.appendChild(modalContent);
+            document.body.appendChild(modal);
+        }
+    
+<?php 
+    // On enlève le message de la session une fois qu'il est affiché
+    unset($_SESSION['message']); 
+?>
+<?php endif; ?>
+
+
 
 </script>
 

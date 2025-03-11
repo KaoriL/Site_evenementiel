@@ -13,15 +13,30 @@ class Router
         global $db; //Récupère la connexion définie dans config.php
 
         // Lire la page demandée dans l'URL (GET)
-        $action = $_GET['action'] ?? 'home';
+        $action = isset($_GET['action']) ? preg_replace('/[^a-zA-Z0-9_-]/', '', $_GET['action']) : 'home';
 
 
+        // Vérifier si l'utilisateur est connecté
+        $isLoggedIn = isset($_SESSION['user_id']);
+        $userRole = $isLoggedIn ? $_SESSION['role'] : null;
 
         switch ($action) {
             case 'home':
-                require_once __DIR__ . '/../app/controllers/HomeController.php';
-                $controller = new HomeController();
-                $controller->home();
+                if ($isLoggedIn) {
+                    // Rediriger selon le rôle de l'utilisateur
+                    if ($userRole === 'admin') {
+                        require_once __DIR__ . '/../app/controllers/HomeController.php';
+                        $controller = new HomeController();
+                        $controller->homeAdmin(); // Page spécifique pour l'admin
+                    } else {
+                        require_once __DIR__ . '/../app/controllers/HomeController.php';
+                        $controller = new HomeController();
+                        $controller->homeUser(); // Page spécifique pour l'utilisateur classique
+                    }
+                } else {
+                    // Rediriger vers la page d'accueil si non connecté
+                    require_once __DIR__ . '/../app/views/Accueil.php';
+                }
                 break;
 
             case 'devis':
@@ -29,8 +44,6 @@ class Router
                 $controller = new DevisController($db);
                 $controller->submitDevis();
                 break;
-
-
 
             case 'login':
                 require_once __DIR__ . '/../app/controllers/AuthController.php';
@@ -82,12 +95,31 @@ class Router
                 $controller->getRendezVous();
                 break;
 
+            case 'non_connecter':
+                require_once __DIR__ . '/../app/views/Devis.php';
+                break;
+
             case 'presta':
                 require_once __DIR__ . '/../app/views/Prestations.php';
-            break;
+                break;
+
+            case 'contact':
+                require_once __DIR__ . '/../app/views/Contact.php';
+                break;
 
             default:
-                require_once __DIR__ . '/../app/views/Accueil.php';
+                // Par défaut, si l'utilisateur est connecté, redirection vers la page d'accueil
+                // Sinon, rediriger vers la page de login
+                if ($isLoggedIn) {
+                    if ($userRole === 'admin') {
+                        header('Location: index.php?action=home'); // Admin
+                    } else {
+                        header('Location: index.php?action=home'); // Utilisateur
+                    }
+                } else {
+                    header('Location: index.php?action=login'); // Non connecté
+                }
+
                 break;
         }
     }

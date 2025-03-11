@@ -38,7 +38,7 @@
             <ul>
                 <a href=""> À propos</a>
                 <a href=""> Avis</a>
-                <a href="">Contact</a>
+                <a href="index.php?action=contact">Contact</a>
                 <a href="index.php?action=presta">Prestations</a>
                 <a href="index.php?action=home">Accueil</a>
                 <?php if (isset($_SESSION['user_id'])): ?>
