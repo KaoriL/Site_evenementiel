@@ -11,25 +11,16 @@ class DevisModel
     }
 
 
-    // public function fetchDisponibilites()
-    // {
-    //     $sql = "SELECT id, date_disponible, horaire, est_reserve 
-    //         FROM disponibilites 
-    //         WHERE est_reserve = 1 
-    //         AND DATE(date_disponible) > CURDATE() 
-    //         AND WEEKDAY(date_disponible) NOT IN (5,6) 
-    //         AND horaire BETWEEN '10:00:00' AND '21:00:00'
-    //         ORDER BY date_disponible, horaire";
-    //     $stmt = $this->db->query($sql);
-    //     $disponibilites = $stmt->fetchAll(PDO::FETCH_ASSOC);
+// Dans ton modèle
+public function getReservations()
+{
+    // Récupérer les créneaux réservés depuis la BDD
+    $sql = "SELECT date_disponible, horaire FROM disponibilites WHERE est_reserve = 1";
+    $stmt = $this->db->query($sql);
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
 
-    //     // Convertir les dates au format Y-m-d 
-    //     foreach ($disponibilites as &$dispo) {
-    //         $dispo['date_disponible'] = date('Y-m-d', strtotime($dispo['date_disponible']));
-    //     }
 
-    //     return $disponibilites;
-    // }
 
 
     public function Disponibilites()
@@ -93,40 +84,48 @@ class DevisModel
     public function saveDevisStandard($data)
     {
 
-        // Initialisation des variables avec les valeurs ou NULL si vides
+        // 1 Insérer une nouvelle disponibilité et récupérer son ID
+        $insertDispoQuery = "INSERT INTO disponibilites (est_reserve, date_disponible, horaire) 
+                  VALUES (1, :rdv_date, :rdv_horaire)";
+        $stmtDispo = $this->db->prepare($insertDispoQuery);
+        $stmtDispo->execute([
+            ':rdv_date' => $data['rdv_date'],
+            ':rdv_horaire' => $data['rdv_horaire']
+        ]);
+        $disponibilite_id = $this->db->lastInsertId(); // On récupère l'ID généré
+
+
+        // 2 Initialisation des variables avec les valeurs ou NULL si vides
         $date_evenement = empty($data['date_evenement']) ? null : $data['date_evenement'];
         $lieu = empty($data['lieu']) ? null : $data['lieu'];
         $message = empty($data['message']) ? null : $data['message'];
 
-        // Construction de la requête avec des paramètres conditionnels
+        // 3 Insérer le devis avec le `disponibilite_id` généré
         $query = "INSERT INTO prestations (user_id, nom, prenom, email, telephone, 
-                                      date_evenement, rdv_date, rdv_horaire, 
-                                      service, lieu, message, disponibilite_id)
-              VALUES (:user_id, :nom, :prenom, :email, :telephone, 
-                      :date_evenement, :rdv_date, :rdv_horaire, 
-                      :service, :lieu, :message, :disponibilite_id)";
+                date_evenement, rdv_date, rdv_horaire, 
+                service, lieu, message, disponibilite_id)
+                VALUES (:user_id, :nom, :prenom, :email, :telephone, 
+                :date_evenement, :rdv_date, :rdv_horaire, 
+                :service, :lieu, :message, :disponibilite_id)";
+
 
         $stmt = $this->db->prepare($query);
 
-        // Lier les paramètres, avec des valeurs par défaut si non renseignées
+        // 4 Lier les paramètres, avec des valeurs par défaut si non renseignées
         $stmt->bindParam(':user_id', $data['user_id']);
         $stmt->bindParam(':nom', $data['nom']);
         $stmt->bindParam(':prenom', $data['prenom']);
         $stmt->bindParam(':email', $data['email']);
         $stmt->bindParam(':telephone', $data['telephone']);
-
-        // Si la date de l'événement est vide, on n'enregistre pas cette donnée
-        $stmt->bindParam(':date_evenement', $date_evenement);
+        // 4.1Information sur le rendez-vous
         $stmt->bindParam(':rdv_date', $data['rdv_date']);
         $stmt->bindParam(':rdv_horaire', $data['rdv_horaire']);
         $stmt->bindParam(':service', $data['service']);
-
-        // Idem pour le lieu et message
+        $stmt->bindValue(':disponibilite_id', $disponibilite_id, PDO::PARAM_INT); // ⚠️ Utilisation du nouvel ID
+        // 4.2 Si vide on enregistre pas les données 
+        $stmt->bindParam(':date_evenement', $date_evenement);
         $stmt->bindParam(':lieu', $lieu);
         $stmt->bindParam(':message', $message);
-
-        // Disponibilité
-        $stmt->bindParam(':disponibilite_id', $data['disponibilite_id']);
 
         if ($stmt->execute()) {
             // Mise à jour de 'est_reserve' dans la table 'disponibilites'
@@ -140,21 +139,28 @@ class DevisModel
         return false;
     }
 
+
+
     public function saveDevisMariage($data)
     {
-        // Initialisation des variables avec les valeurs ou NULL si vides
+        // 1 Insérer une nouvelle disponibilité et récupérer son ID
+        $insertDispoQuery = "INSERT INTO disponibilites (est_reserve, date_disponible, horaire) 
+VALUES (1, :rdv_date, :rdv_horaire)";
+        $stmtDispo = $this->db->prepare($insertDispoQuery);
+        $stmtDispo->execute([
+            ':rdv_date' => $data['rdv_date'],
+            ':rdv_horaire' => $data['rdv_horaire']
+        ]);
+        $disponibilite_id = $this->db->lastInsertId(); // On récupère l'ID généré
+
+
+        // 2 Initialisation des variables avec les valeurs ou NULL si vides
         $date_evenement = empty($data['date_evenement']) ? null : $data['date_evenement'];
         $lieu = empty($data['lieu']) ? null : $data['lieu'];
         $message = empty($data['message']) ? null : $data['message'];
-        // L'âge peut être laissé NULL si non renseigné
         $age_marie = empty($data['age_marie']) ? null : $data['age_marie'];
         $age_mariee = empty($data['age_mariee']) ? null : $data['age_mariee'];
 
-        // Vérification des origines, elles sont obligatoires
-        if (empty($data['origine_marie']) || empty($data['origine_mariee'])) {
-            // Si une origine est vide, on arrête et on retourne false
-            throw new Exception("L'origine du marié et de la mariée doivent être renseignées.");
-        }
 
         // Construction de la requête avec des paramètres conditionnels
         $query = "INSERT INTO prestations_mariage 
@@ -192,7 +198,7 @@ class DevisModel
         $stmt->bindParam(':rdv_date', $data['rdv_date']);
         $stmt->bindParam(':rdv_horaire', $data['rdv_horaire']);
         $stmt->bindParam(':service', $data['service']);
-        $stmt->bindParam(':disponibilite_id', $data['disponibilite_id']);
+        $stmt->bindValue(':disponibilite_id', $disponibilite_id, PDO::PARAM_INT); // ⚠️ Utilisation du nouvel ID
 
         // Exécution de la requête
         if ($stmt->execute()) {

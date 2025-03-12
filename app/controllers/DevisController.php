@@ -4,23 +4,23 @@ require_once __DIR__ . '/../models/DevisModel.php';
 class DevisController
 {
     private $model;
+    private $db;
 
 
     public function __construct($db)
     {
+        $this->db = $db;  // La connexion à la base de données est passée au contrôleur
         $this->model = new DevisModel($db);
     }
 
-    //Récupère les créneaux disponible 
+    //Récupère les créneaux non disponible  
     public function getDisponibilites()
     {
         header('Content-Type: application/json');
+        //Récuperer les créneaux disponible et reserver
         $disponibilites = $this->model->Disponibilites();
         echo json_encode($disponibilites);
     }
-
-
-
 
     public function submitDevis()
     {   // Vérifie si l'utilisateur est connecté
@@ -29,8 +29,10 @@ class DevisController
             header("Location: index.php?action=non_connecter"); // Redirige à la même page
             exit;
         }
+        
         // Vérifier si le formulaire est soumis 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
             $data = [
                 'user_id' => $_SESSION['user_id'], // Utilisation de l'ID utilisateur connecté
                 'nom' => $_POST['nom'] ?? '',
@@ -45,18 +47,19 @@ class DevisController
                 'service' => $_POST['service'] ?? '',
                 'lieu' => $_POST['lieu'] ?? NULL,
                 'message' => $_POST['message'] ?? '',
-                'disponibilite_id' => $_POST['disponibilite_id'] ?? null,
+                'disponibilite_id' => ($_POST['disponibilite_id'] === 'undefined' || empty($_POST['disponibilite_id'])) ? null : $_POST['disponibilite_id'],
                 // Ajout de la donnée type_prestation
                 'type_prestation' => $_POST['type_prestation'] ?? 'standard',
 
 
             ];
 
-            // Vérifie si disponibilite_id est bien transmis 
-            if (empty($data['disponibilite_id'])) {
-                echo "Erreur : Aucun créneau sélectionné.";
-                return;
-            }
+         // if (empty($data['disponibilite_id'])) {
+         //     // Appel à la fonction pour créer le créneau
+         //     $disponibilite_id = $this->model->creerCreneau($data['rdv_date'], $data['rdv_horaire']);
+         //     $data['disponibilite_id'] = $disponibilite_id;
+            //}
+    
 
             $result = $this->model->saveDevisStandard($data);
             if ($result) {
@@ -124,16 +127,11 @@ class DevisController
                 'service' => $_POST['service'] ?? '',
                 'lieu' => $_POST['lieu'] ?? NULL,
                 'message' => $_POST['message'] ?? '',
-                'disponibilite_id' => $_POST['disponibilite_id'] ?? null,
+                'disponibilite_id' => ($_POST['disponibilite_id'] === 'undefined' || empty($_POST['disponibilite_id'])) ? null : $_POST['disponibilite_id'],
                 'type_prestation' => 'mariage',
 
             ];
 
-            // Vérifie si disponibilite_id est bien transmis 
-            if (empty($data['disponibilite_id'])) {
-                echo "Erreur : Aucun créneau sélectionné.";
-                return;
-            }
 
             $result = $this->model->saveDevisMariage($data);
             if ($result) {

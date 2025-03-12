@@ -468,14 +468,14 @@
             var loginButton = document.createElement('button');
             loginButton.textContent = 'Connectez-vous';
             loginButton.onclick = function() {
-                window.location.href = 'login.php'; // Redirige vers la page de connexion
+                window.location.href = 'index.php?action=login'; // Redirige vers la page de connexion
             };
             modalContent.appendChild(loginButton);
 
             var signupButton = document.createElement('button');
             signupButton.textContent = 'Inscrivez-vous';
             signupButton.onclick = function() {
-                window.location.href = 'signup.php'; // Redirige vers la page d'inscription
+                window.location.href = 'index.php?action=register'; // Redirige vers la page d'inscription
             };
             modalContent.appendChild(signupButton);
 
