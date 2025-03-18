@@ -37,7 +37,7 @@
         <nav>
             <ul>
                 <a href=""> À propos</a>
-                <a href=""> Avis</a>
+                <a href="index.php?action=commentaires">Avis</a>
                 <a href="index.php?action=contact">Contact</a>
                 <a href="index.php?action=presta">Prestations</a>
                 <a href="index.php?action=home">Accueil</a>

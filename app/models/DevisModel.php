@@ -28,7 +28,7 @@ public function getReservations()
         $joursOuvrables = [1, 2, 3, 4, 5]; // Lundi à Vendredi (0 = Dimanche, 6 = Samedi)
         $heureDebut = new DateTime('10:00:00', new DateTimeZone('Europe/Paris'));
         $heureFin = new DateTime('22:00:00', new DateTimeZone('Europe/Paris'));
-        $dateDebut = new DateTime('now +1 day', new DateTimeZone('Europe/Paris'));
+        $dateDebut = new DateTime('now', new DateTimeZone('Europe/Paris')); 
         $dureeCreneau = new DateInterval('PT1H'); // Créneaux d'1 heure
 
         $disponibilites = [];

@@ -81,3 +81,16 @@ ADD COLUMN origine_mariee VARCHAR(255) NOT NULL;
 ALTER TABLE prestations_mariage
 ADD COLUMN age_marie INT NOT NULL,
 ADD COLUMN age_mariee INT NOT NULL;
+
+CREATE TABLE comments (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,  -- L'utilisateur doit être connecté
+    rating INT CHECK (rating BETWEEN 1 AND 5),  -- Note entre 1 et 5
+    comment TEXT NOT NULL,
+    image VARCHAR(255) DEFAULT NULL,  -- Stocke le chemin de l'image
+    video VARCHAR(255) DEFAULT NULL,  -- Stocke le chemin de la vidéo
+    ip_address VARCHAR(45) NOT NULL,  -- Adresse IP pour éviter le spam
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
+

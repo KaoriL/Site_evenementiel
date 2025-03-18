@@ -1,122 +1,314 @@
 import { Calendar } from "@fullcalendar/core";
 import dayGridPlugin from "@fullcalendar/daygrid";
+import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
-import frLocale from "@fullcalendar/core/locales/fr"; // Importer la langue française
+import frLocale from "@fullcalendar/core/locales/fr";
+import Swal from "sweetalert2";
 
-document.addEventListener("DOMContentLoaded", function () {
-  const calendarEl = document.getElementById("calendar");
+var CalendarApp = (function () {
+  // Fonction pour gérer l'affichage des événements et le bouton "Voir plus"
+  function handleEventDisplay(eventsContainer) {
+    // Obtenir tous les événements
+    const events = eventsContainer.querySelectorAll(".fc-event");
 
-  // Récupérer les créneaux réservés depuis l'API PHP avec fetch depuis index.php?action=disponibilites
-  fetch("index.php?action=disponibilites")
-    .then((response) => response.json())
-    .then((data) => {
-      const eventsByDate = {};
+    // Limiter à 2 événements visibles
+    const maxVisible = 2;
 
-      // Traitement des disponibilités récupérées
-      data.forEach((item) => {
-        const key = `${item.date_disponible}-${item.horaire}`;
+    // Si plus de 2 événements, on cache les événements excédentaires
+    if (events.length > maxVisible) {
+      for (let i = maxVisible; i < events.length; i++) {
+        events[i].style.display = "none"; // Cacher les événements supplémentaires
+      }
 
-        let color = "green"; // Par défaut (disponible)
-        if (item.est_reserve === 1) {
-          color = item.prestation_type === "mariage" ? "blue" : "pink"; // Bleu pour mariage, rose pour autre prestation
+      // Créer le bouton "Voir plus"
+      const seeMoreButton = document.createElement("button");
+      seeMoreButton.textContent = "Voir plus";
+      seeMoreButton.classList.add("see-more-button"); // Ajouter une classe CSS pour le styliser
+      eventsContainer.appendChild(seeMoreButton);
+
+      // Ajouter un événement de clic pour afficher les événements supplémentaires
+      seeMoreButton.addEventListener("click", function () {
+        for (let i = maxVisible; i < events.length; i++) {
+          events[i].style.display = "block"; // Afficher les événements cachés
         }
+        seeMoreButton.style.display = "none"; // Cacher le bouton "Voir plus"
+      });
+    }
+  }
 
-        if (item.est_reserve === 1) {
-          // Grouper les événements par date pour gérer l'affichage limité
-          if (!eventsByDate[item.date_disponible]) {
-            eventsByDate[item.date_disponible] = [];
-          }
+  var initCalendar = function () {
+    var calendarEl = document.getElementById("kt_docs_fullcalendar_selectable");
+    if (!calendarEl) {
+      console.error("Élément #kt_docs_fullcalendar_selectable introuvable !");
+      return;
+    }
 
-          eventsByDate[item.date_disponible].push({
+    fetch("index.php?action=getPrestationsParDate")
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Données récupérées :", data); // Vérification
+        const events = data
+          .filter((item) => item.est_reserve === 1) // Ne montrer que les réservations
+          .map((item) => ({
             title: `Réservé (${item.horaire})`,
             start: `${item.date_disponible}T${item.horaire}`,
-            color: color,
+            end: `${item.date_disponible}`,
+            color: item.color,
+            id: item.disponibilite_id, // Utiliser l'ID de la disponibilité ici
             extendedProps: {
               prestation_type: item.prestation_type,
+              prestation_id: item.id, // Ajout de l'ID de la prestation
+              disponibilite_id: item.disponibilite_id,
+              client_email: item.client_email,
             },
-          });
-        }
-      });
+          }));
 
-      // Convertir les événements en tableau, en limitant l'affichage à 2 par jour
-      const events = [];
-      Object.keys(eventsByDate).forEach((date) => {
-        const eventList = eventsByDate[date];
-        eventList.slice(0, 2).forEach((event) => events.push(event));
+        var calendar = new Calendar(calendarEl, {
+          plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
+          initialDate: new Date().toISOString().split("T")[0],
+          locale: frLocale,
+          headerToolbar: {
+            left: "prev,next today",
+            center: "title",
+            right: "dayGridMonth,timeGridWeek,timeGridDay",
+          },
+          navLinks: true,
+          selectable: true,
+          selectMirror: true,
+          editable: true,
+          dayMaxEvents: true, // Limiter à un certain nombre d'événements visibles
+          events: events,
 
-        if (eventList.length > 2) {
-          // Ajouter un événement spécial pour signaler plus de réservations
-          events.push({
-            title: `+${eventList.length - 2} autres réservations`,
-            start: `${date}T00:00:00`,
-            color: "gray",
-            extendedProps: {
-              isMoreIndicator: true,
-              fullEvents: eventList, // Stocker tous les événements pour affichage détaillé
-            },
-          });
-        }
-      });
+          // Event click pour afficher les détails
+          eventClick: function (info) {
+            // Récupérer les informations de l'événement
+            const event = info.event;
+            const prestationId = event.extendedProps.prestation_id; // Ajout de l'ID de la prestation
+            const disponibiliteId = event.id;
+            const eventName = event.title;
+            const eventStart = event.start.toLocaleString(); // Afficher la date et l'heure de l'événement
+            const eventEnd = event.end
+              ? event.end.toLocaleString()
+              : "Non spécifiée";
+            const prestationType = event.extendedProps.prestation_type; // Type de prestation
+            const clientEmail = event.extendedProps.client_email; // Email du client pour l'envoi de mail
 
-      // Initialisation du calendrier avec les événements
-      const calendar = new Calendar(calendarEl, {
-        plugins: [dayGridPlugin, interactionPlugin],
-        locale: frLocale, // Définir la langue en français
-        initialView: "dayGridMonth",
-        events: events, // Utilisation des événements dynamiques
-        eventClick: function (info) {
-          if (info.event.extendedProps.isMoreIndicator) {
-            // Afficher tous les événements d'un jour s'il y a plus de 2 réservations
-            alert(
-              "Réservations complètes :\n" +
-                info.event.extendedProps.fullEvents
-                  .map((e) => e.title)
-                  .join("\n")
-            );
-          } else {
-            alert("Vous avez cliqué sur un événement : " + info.event.title);
-          }
-        },
-        // Personnalisation des événements
-        eventContent: function (info) {
-          const prestationType = info.event.extendedProps.prestation_type;
-          const content = document.createElement("div");
-          content.classList.add("event-content");
-          content.innerHTML = info.event.title;
+            // Afficher une fenêtre modale avec les détails de l'événement et les boutons
+            Swal.fire({
+              title: eventName,
+              html: `<div><strong>ID de la prestation:</strong> ${prestationId}</div>
+            <div><strong>ID de la disponibilité:</strong> ${disponibiliteId}</div>
+                                <div><strong>Nom de l'événement:</strong> ${eventName}</div>
+                                <div><strong>Start:</strong> ${eventStart}</div>
+                                <div><strong>End:</strong> ${eventEnd}</div>
+                                <div><strong>Type de prestation:</strong> ${prestationType}</div>
+                                <div class="mt-3">
+                                    <button id="moveEvent" class="btn btn-info mr-2">Déplacer</button>
+                                    <button id="deleteEvent" class="btn btn-danger">Supprimer</button>
+                                </div>
+                            `,
+              showCancelButton: false,
+              focusConfirm: false,
+              customClass: {
+                confirmButton: "btn btn-primary",
+                cancelButton: "btn btn-active-light",
+              },
+              didOpen: function () {
+                // Gestion des actions des boutons après l'ouverture de la fenêtre
+                document
+                  .getElementById("moveEvent")
+                  .addEventListener("click", function () {
+                    // Ouvrir un autre Swal pour déplacer l'événement avec un Flatpickr
+                    Swal.fire({
+                      title: "Choisissez une nouvelle date et heure",
+                      html: `<input type="text" id="flatpickr" class="form-control" />`,
+                      didOpen: function () {
+                        flatpickr("#flatpickr", {
+                          enableTime: true,
+                          dateFormat: "Y-m-d H:i",
+                          defaultDate: event.start, // Pré-sélectionner la date de l'événement actuel
+                        });
+                      },
+                      showCancelButton: true,
+                      confirmButtonText: "Déplacer",
+                      cancelButtonText: "Annuler",
+                      customClass: {
+                        confirmButton: "btn btn-primary",
+                        cancelButton: "btn btn-active-light",
+                      },
+                    }).then((result) => {
+                      if (result.isConfirmed) {
+                        const newDate =
+                          document.getElementById("flatpickr").value;
+                        if (newDate) {
+                          // Mettre à jour l'événement avec la nouvelle date
+                          const newStart = new Date(newDate);
+                          event.setStart(newStart);
+                          event.setEnd(new Date(newStart.getTime() + 3600000)); // Par exemple, ajouter 1h comme durée
+                          console.log("newStart:", newStart);
+                          console.log("disponibiliteId:", disponibiliteId);
+                          // Assurez-vous de corriger l'heure selon le fuseau horaire local si nécessaire
+                          const localDate = new Date(
+                            newStart.getTime() -
+                              newStart.getTimezoneOffset() * 60000
+                          ); // Ajuster avec le décalage horaire
 
-          if (prestationType === "mariage") {
-            content.style.borderColor = "blue";
-          } else {
-            content.style.borderColor = "pink";
-          }
+                          // Récupérer l'heure locale ajustée
+                          const newLocalTime = localDate
+                            .toISOString()
+                            .split('T')[1].split('Z')[0].slice(0, 8); // Récupérer l'heure au format "HH:mm:ss"
 
-          return { domNodes: [content] };
-        },
-        // Personnalisation des week-ends
-        dayCellClassNames: function (info) {
-          const day = info.date.getDay();
-          if (day === 6 || day === 0) {
-            return ["weekend"]; // Ajouter la classe pour les week-ends
-          }
-          return [];
-        },
-        // Personnalisation de l'affichage du jour actuel
-        dayHeaderClassNames: function (info) {
-          const today = new Date();
-          if (
-            info.date.getFullYear() === today.getFullYear() &&
-            info.date.getMonth() === today.getMonth() &&
-            info.date.getDate() === today.getDate()
-          ) {
-            return ["today"]; // Appliquer une classe CSS pour le jour actuel
-          }
-          return [];
-        },
-      });
+                          // Préparer la nouvelle date pour la requête
+                          const newDateForDb = localDate
+                            .toISOString()
+                            .split("T")[0]; // Formater la date sans l'heure
 
-      calendar.render();
-    })
-    .catch((error) => {
-      console.error("Erreur lors de la récupération des données :", error);
-    });
+                          // Log des informations pour vérifier
+                          console.log("newStart:", newStart); // Afficher la date initiale
+                          console.log("newLocalTime:", newLocalTime); // Afficher l'heure locale ajustée
+                          console.log("newDateForDb:", newDateForDb); // Afficher la date san
+                          // Avant d'envoyer la requête, vérifie que tout est là
+                          if (!newStart || !event.id) {
+                            Swal.fire(
+                              "Erreur",
+                              "Données manquantes pour la mise à jour de l'événement.",
+                              "error"
+                            );
+                            return; // Empêche l'envoi de la requête si des données manquent
+                          }
+
+                          // Envoi de la mise à jour à la base de données via AJAX
+                          fetch("index.php?action=update_event", {
+                            method: "POST",
+                            headers: {
+                              "Content-Type": "application/json",
+                            },
+                            body: JSON.stringify({
+                              event_id: disponibiliteId, // Assurer que c'est bien event_id
+                              new_date: newDateForDb, // Date sans l'heure
+                              new_time: newLocalTime, // Heure séparée
+                              type: prestationType, // Type de prestation récupéré
+                              email: clientEmail, // Email du client récupéré
+                            }),
+                          })
+                            .then((response) => response.json())
+                            .then((data) => {
+                              console.log(data); // Ajoute ceci pour vérifier la réponse
+                              if (data.status === "success") {
+                                calendar.refetchEvents();
+                                Swal.fire(
+                                  "L'événement a été déplacé avec succès !"
+                                );
+                              } else {
+                                Swal.fire(
+                                  "Erreur",
+                                  "Impossible de déplacer l'événement.",
+                                  "error"
+                                );
+                              }
+                            })
+                            .catch((error) => {
+                              console.error("Erreur de mise à jour :", error);
+                              Swal.fire(
+                                "Erreur lors de la mise à jour de l'événement"
+                              );
+                            });
+                        }
+                      }
+                    });
+                  });
+
+                // Gestion du bouton supprimer l'événement
+                document
+                  .getElementById("deleteEvent")
+                  .addEventListener("click", function () {
+                    // Confirmation avant suppression
+                    Swal.fire({
+                      text: "Êtes-vous sûr de vouloir supprimer cet événement ?",
+                      icon: "warning",
+                      showCancelButton: true,
+                      confirmButtonText: "Oui, supprimer",
+                      cancelButtonText: "Non, annuler",
+                      customClass: {
+                        confirmButton: "btn btn-danger",
+                        cancelButton: "btn btn-active-light",
+                      },
+                    }).then((result) => {
+                      if (result.isConfirmed) {
+                        // Supprimer l'événement de la base de données via AJAX
+                        fetch("index.php?action=delete_event", {
+                          method: "POST",
+                          headers: {
+                            "Content-Type": "application/json",
+                          },
+                          body: JSON.stringify({
+                            event_id: event.id,
+                          }),
+                        })
+                          .then((response) => response.json())
+                          .then((data) => {
+                            // Supprimer l'événement du calendrier
+                            event.remove();
+                            Swal.fire("L'événement a été supprimé avec succès");
+                          })
+                          .catch((error) => {
+                            console.error(
+                              "Erreur lors de la suppression :",
+                              error
+                            );
+                            Swal.fire(
+                              "Erreur lors de la suppression de l'événement"
+                            );
+                          });
+                      }
+                    });
+                  });
+              },
+            });
+          },
+
+          // Personnalisation des événements après leur rendu
+          eventDidMount: function (info) {
+            const currentDate = new Date();
+            const eventStartDate = new Date(info.event.start);
+
+            // // Si l'événement est passé, on le stylise avec un fond gris foncé
+            // if (eventStartDate < currentDate) {
+            //     info.el.style.backgroundColor = '#333'; // Gris foncé
+            //     info.el.style.color = 'white'; // Texte blanc
+            //     info.el.style.opacity = '0.7'; // Légèrement transparent
+            // }
+
+            // // Personnalisation pour le type de prestation (mariage/pink)
+            // if (info.event.extendedProps.prestation_type === 'mariage') {
+            //     info.el.style.borderColor = 'blue';
+            // } else {
+            //     info.el.style.borderColor = 'green';
+            // }
+
+            // Après le rendu, gérer le "Voir plus" pour limiter les événements visibles
+            handleEventDisplay(info.el);
+          },
+
+          validRange: {
+            start: null, // Les dates passées seront grisées
+          },
+        });
+
+        calendar.render();
+      })
+      .catch((error) =>
+        console.error("Erreur lors de la récupération des données :", error)
+      );
+  };
+
+  return {
+    init: function () {
+      initCalendar();
+    },
+  };
+})();
+
+document.addEventListener("DOMContentLoaded", function () {
+  CalendarApp.init();
 });

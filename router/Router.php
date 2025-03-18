@@ -107,6 +107,39 @@ class Router
                 require_once __DIR__ . '/../app/views/Contact.php';
                 break;
 
+            case 'update_event':
+                require_once __DIR__ . '/../app/controllers/AdminController.php';
+                $controller = new AdminController($db);
+                $controller->updateEvent();
+                break;
+            case 'delete_event':
+                require_once __DIR__ . '/../app/controllers/AdminController.php';
+                $controller = new AdminController($db);
+                $controller->deleteEvent();
+                break;
+            case 'send_email_update':
+                require_once __DIR__ . '/../app/controllers/AdminController.php';
+                $controller = new AdminController($db);
+                $controller->sendEmailUpdate();
+                break;
+            case 'getPrestationsParDate':
+                require_once __DIR__ . '/../app/controllers/AdminController.php';
+                $controller = new AdminController($db);
+                $controller->getPrestationsParDate();
+                break;
+            case 'commentaires':
+                require_once __DIR__ . '/../app/controllers/CommentController.php';
+                $controller = new CommentController($db);
+                $controller->showComments();
+                break;
+            // Ajouter un commentaire
+            case 'addComment':
+                require_once __DIR__ . '/../app/controllers/CommentController.php';
+                $controller = new CommentController($db);
+                $controller->submitComment();
+                break;
+
+
             default:
                 // Par défaut, si l'utilisateur est connecté, redirection vers la page d'accueil
                 // Sinon, rediriger vers la page de login

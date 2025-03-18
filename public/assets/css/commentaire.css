@@ -1,0 +1,405 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.stars {
+  display: flex;
+  font-size: 20px;
+  color: gold;
+}
+
+.star {
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.star.filled {
+  color: gold;
+}
+
+.star.empty {
+  color: gray;
+}
+
+.fond-comment {
+  /* L'image de fond */
+  background-image: url('..//image/img-commentaire.jpg');
+  height: 100vh; /* L'image occupe tout l'écran */
+  background-attachment: fixed; /* L'effet parallax se crée avec cette propriété */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  
+}
+/* From Uiverse.io by ArturCodeCraft */ 
+/* <reset-style> ============================ */
+a {
+  text-decoration: none;
+}
+/* <main-style> ============================ */
+.main__scroll-text {
+  color: rgba(28,28,30,1);
+}
+
+.main__action:hover .main__scroll-box {
+  animation: scroll-down 3s infinite;
+}
+
+/* Animate scroll icon */
+@keyframes scroll-down {
+  0%, 100% {
+    transform: translateY(0rem);
+    opacity: 1;
+  }
+
+  35% {
+    transform: translateY(1rem);
+    opacity: 0;
+  }
+
+  70% {
+    transform: translateY(-1rem);
+    opacity: 0;
+  }
+}
+.fond-comment h1{
+  color: white;
+  font-size: 32px;
+  font-family: 'Black-Mango';
+}
+.commentaire {
+  width: 70%;
+min-width: 600px;
+max-width: 1500px;
+  
+  background-color: white;
+  padding: 20px;
+}
+
+.center {
+  width: 100%;
+box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 10%;
+}
+
+.galerie {
+  width: 100%;
+}
+
+.rating-summary {
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+}
+.comment_recent {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  padding-top: 10px;
+  gap: 10px;
+  
+}
+
+.comment-box {
+  width: 45%;
+  height: 20%;
+  min-height: 190px;
+  border: solid 1px #959595;
+  padding: 10px 15px 10px 15px;
+  box-sizing: border-box;
+}
+
+.en-tete {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+.centre_comment {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 10px;
+  position: relative;
+}
+
+.comment-date {
+  display: block; /* Pour qu'il prenne toute la largeur et soit bien en bas */
+  text-align: right; /* Aligné à droite */
+  font-size: 12px;
+  color: gray;
+  margin-top: 10px; /* Petit espace au-dessus */
+}
+h4 {
+  font-family: "Poppins-semibold";
+}
+h2 {
+  font-family: "Montserrat-semibold";
+}
+
+.comment-media {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  box-sizing: border-box;
+}
+
+.media-single{
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+}
+.media-single img,video{
+    max-width: 150px;
+    height: 100px;
+    width: 100px;
+    object-fit: cover;
+}
+.media-preview {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.media-preview img,
+.media-preview video {
+  max-width: 150px;
+  height: 100px;
+  width: 100px;
+  filter: brightness(0.7);
+  object-fit: cover;
+}
+
+.overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  padding: 5px 10px;
+  border-radius: 50%;
+  font-size: 1.2em;
+}
+
+.lightbox {
+  display: none;
+  z-index: 10;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  justify-content: center;
+  align-items: center;
+}
+
+.lightbox-content {
+  position: relative;
+  width: 80%;
+  max-width: 800px;
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.all-comments{
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 10px 0 0 0 ;
+}
+
+.media-container {
+  display: flex;
+  overflow: hidden;
+  width: 100%;
+  position: relative;
+}
+
+.media-item {
+  min-width: 100%;
+}
+
+.prev,
+.next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  font-size: 2em;
+}
+
+.prev {
+  left: 10px;
+}
+
+.next {
+  right: 10px;
+}
+
+.close {
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  font-size: 2em;
+  cursor: pointer;
+  z-index: 7;
+}
+
+.close:hover {
+  color: #959595;
+}
+
+.comment-text {
+  display: inline; /* Texte et "Voir plus" sur la même ligne */
+  word-wrap: break-word;
+  color: #4b4b4b;
+  font-family: "Poppins-Regular";
+  
+  box-sizing: border-box;
+}
+
+.see-more {
+  color: #755833;
+  cursor: pointer;
+  font-weight: bold;
+  display: inline; /* Collé au texte */
+  margin-left: 3px; /* Petit espace pour éviter d’être collé aux lettres */
+}
+
+.media-gallery {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  width: 100%;
+  margin: auto;
+  flex-direction: row;
+  position: relative;
+}
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  width: 100%;
+}
+
+.gallery-grid img,
+.gallery-grid video {
+  width: 100%;
+  box-sizing: border-box;
+  object-fit: cover;
+  height: auto;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.gallery-more {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+}
+
+/* Modal plein écran */
+.media-modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  justify-content: center;
+  align-items: center;
+}
+
+.media-modal .media-content {
+  max-width: 90%;
+  max-height: 90%;
+}
+
+.media-modal img,
+.media-modal video {
+  width: 100%;
+  height: auto;
+}
+
+.close-modal {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  font-size: 30px;
+  color: white;
+  cursor: pointer;
+}
+
+.popup {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    justify-content: center;
+    align-items: center;
+}
+
+.popup-content {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    width: 80%;
+    max-height: 80%;
+    overflow-y: auto;
+}
+
+.close-popup {
+    float: right;
+    font-size: 25px;
+    cursor: pointer;
+}
+
+.show-more-comments {
+    display: block;
+    margin: 20px auto;
+    padding: 10px;
+    background: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
