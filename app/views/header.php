@@ -42,8 +42,6 @@
                 <a href="index.php?action=presta">Prestations</a>
                 <a href="index.php?action=home">Accueil</a>
                 <?php if (isset($_SESSION['user_id'])): ?>
-                    <a href="index.php?action=rdv">Mes rendez-vous</a>
-                    <a href="index.php?action=mes_devis">Mes devis</a>
                     <a href="index.php?action=logout"><i class="fa-solid fa-power-off"></i></a>
                 <?php else: ?>
                     <a href="index.php?action=login"><i class="fa-solid fa-user"></i></a>
@@ -57,15 +55,13 @@
         <nav id="navMenu">
             <ul>
                 <a href="index.php?action=home"><i class="fa-solid fa-house"></i> Accueil</a>
-                <a href=""><i class="fa-solid fa-music"></i> Prestations</a>
-                <a href=""><i class="fa-solid fa-address-book"></i> Contact</a>
-                <a href=""><i class="fa-solid fa-comments"></i> Avis</a>
+                <a href="index.php?action=presta"><i class="fa-solid fa-music"></i> Prestations</a>
+                <a href="index.php?action=contact"><i class="fa-solid fa-address-book"></i> Contact</a>
+                <a href="index.php?action=commentaires"><i class="fa-solid fa-comments"></i> Avis</a>
                 <a href=""><i class="fa-solid fa-users"></i> À propos</a>
 
 
                 <?php if (isset($_SESSION['user_id'])): ?>
-                    <a href="index.php?action=rdv"><i class="fa-solid fa-calendar"></i> Mes rendez-vous</a>
-                    <a href="index.php?action=mes_devis"><i class="fa-solid fa-receipt"></i> Mes devis</a>
                     <a href="index.php?action=logout"><i class="fa-solid fa-power-off"></i> Déconnexion</a>
                 <?php else: ?>
                     <a href="index.php?action=login"><i class="fa-solid fa-user"></i> Connexion</a>

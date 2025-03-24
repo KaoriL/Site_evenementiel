@@ -18,59 +18,61 @@ $shownComments = array_slice($comments, 0, $maxComments);
     <?php require_once 'header.php'; // Inclure ton header ?>
     <div class="fond-comment">
         <section class="center">
-            <div class="commentaire">
-
+            <h1>AVIS</h1>
+            <div class="commentaire flex column gap">
+            <h3 class="text-left">Galerie des avis</h3>
                 <div class="comment-gallery">
-                    <h2>Galerie des avis</h2>
-                    <?php
-                    $media = [];
-                    foreach ($comments as $comment) {
-                        if (!empty($comment['image'])) {
-                            $media[] = ['type' => 'image', 'src' => $comment['image']];
+                    <div class="gallery-grid flex gap ">
+                        <?php
+                        $totalMedia = 0;
+                        foreach ($comments as $comment) {
+                            if (!empty($comment['image']) || !empty($comment['video'])) {
+                                $totalMedia++;
+                            }
                         }
-                        if (!empty($comment['video'])) {
-                            $media[] = ['type' => 'video', 'src' => $comment['video']];
-                        }
-                    }
-                    $totalMedia = count($media);
-                    ?>
-                    <div class="gallery-grid">
-                        <?php foreach (array_slice($media, 0, 5) as $index => $item): ?>
-                            <div class="gallery-item <?= ($index === 4 && $totalMedia > 5) ? 'gallery-more' : '' ?>"
-                                data-index="<?= $index ?>">
-                                <?php if ($item['type'] === 'image'): ?>
-                                    <img src="<?= $item['src'] ?>" alt="Image" class="open-media">
-                                <?php else: ?>
-                                    <video muted class="open-media">
-                                        <source src="<?= $item['src'] ?>" type="video/mp4">
-                                    </video>
-                                <?php endif; ?>
-                                <?php if ($index === 4 && $totalMedia > 5): ?>
-                                    <div class="overlay open-gallery" onclick="openFullGallery()">+<?= $totalMedia - 5 ?></div>
-                                <?php endif; ?>
-                            </div>
-                        <?php endforeach; ?>
+
+                        $count = 0;
+                        foreach ($comments as $index => $comment):
+                            if ($count >= 4)
+                                break; // Afficher seulement 5 éléments
+                            if (!empty($comment['image']) || !empty($comment['video'])):
+                                $count++;
+                                ?>
+                                <div class="gallery-item <?= ($count === 5 && $totalMedia > 5) ? 'gallery-more' : '' ?>"
+                                    data-index="<?= $index ?>">
+                                    <?php if (!empty($comment['image'])): ?>
+                                        <img src="<?= $comment['image'] ?>" alt="Image" class="open-media"
+                                            data-index="<?= $index ?>">
+                                    <?php else: ?>
+                                        <video controls class="open-media" data-index="<?= $index ?>">
+                                            <source src="<?= $comment['video'] ?>" type="video/mp4">
+                                        </video>
+                                    <?php endif; ?>
+                                    <?php if ($count === 4 && $totalMedia > 4): ?>
+                                        <div class="overlay open-gallery"><p>+<?= $totalMedia - 4 ?></p></div>
+                                    <?php endif; ?>
+                                </div>
+                            <?php endif; endforeach; ?>
                     </div>
                 </div>
-
-                <!-- Popup pour afficher un média seul -->
+                <!-- ✅ Popup pour afficher un média seul -->
                 <div class="single-media-modal">
                     <span class="close-single-modal" onclick="closeFullScreen()">&times;</span>
                     <div class="media-content"></div>
+                    <button class="prev" onclick="prevMedial()">&#10094;</button>
+                    <button class="next" onclick="nextMedial()">&#10095;</button>
                 </div>
 
-                <!-- Popup pour la galerie complète -->
+                <!-- ✅ Popup pour la galerie complète -->
                 <div class="media-modal">
                     <span class="close-modal" onclick="closeFullGallery()">&times;</span>
                     <div class="media-content grid"></div>
-                    <!-- Le contenu des médias sera ajouté ici -->
                 </div>
-
 
                 <div class="avis">
                     <div>
                         <div class="rating-summary">
-                            <h2>Avis récents</h2>
+                            <h3 class="text-left">Avis récents</h3>
                             <p id="averageRating"></p>
                             <p id="commentCount"></p>
                             <div id="stars" class="stars">
@@ -80,10 +82,10 @@ $shownComments = array_slice($comments, 0, $maxComments);
                     </div>
 
                     <!------------------------------------------------- COMMENTAIRES RÉCENTS----------------------------------------->
-                    <div class="comment_recent">
+                    <div class="comment_recent" id="comment-recent">
                         <?php foreach ($shownComments as $comment): ?>
                         <div class="comment-box">
-                            <div class="en-tete">
+                            <div class="en-tete flex row gap border-box align-center">
                                 <h4>
                                     <?= htmlspecialchars($comment['username']) ?>
                                 </h4>
@@ -91,7 +93,8 @@ $shownComments = array_slice($comments, 0, $maxComments);
                                     <?= str_repeat('★', $comment['rating']) . str_repeat('☆', 5 - $comment['rating']) ?>
                                 </p>
                             </div>
-                            <div class="centre_comment">
+                            <h5 class="text-left "><?= htmlspecialchars($comment['prestation']) ?></h5> 
+                            <div class="centre_comment flex row ">
                                 <p class="comment-text"
                                     data-full-text="<?= nl2br(htmlspecialchars($comment['comment'])) ?>">
                                     <!-- Le JS va gérer l'affichage du "Voir plus" ici -->
@@ -139,11 +142,11 @@ $shownComments = array_slice($comments, 0, $maxComments);
                     <div id="commentPopup" class="popup">
                         <div class="popup-content">
                             <span class="close-popup" onclick="closePopup()">&times;</span>
-                            <h2>Tous les commentaires</h2>
+                            <h3 class="left">Tous les commentaires</h3>
                             <div class="all-comments">
                                 <?php foreach ($comments as $comment): ?>
                                 <div class="comment-box">
-                                    <div class="en-tete">
+                                    <div class="en-tete flex row gap border-box align-center">
                                         <h4>
                                             <?= htmlspecialchars($comment['username']) ?>
                                         </h4>
@@ -151,7 +154,8 @@ $shownComments = array_slice($comments, 0, $maxComments);
                                             <?= str_repeat('★', $comment['rating']) . str_repeat('☆', 5 - $comment['rating']) ?>
                                         </p>
                                     </div>
-                                    <div class="centre_comment">
+                                    <h5><?= htmlspecialchars($comment['prestation']) ?></h5> 
+                                    <div class="centre_comment flex row">
                                         <p class="comment-text"
                                             data-full-text="<?= nl2br(htmlspecialchars($comment['comment'])) ?>">
                                         </p>
@@ -203,10 +207,9 @@ $shownComments = array_slice($comments, 0, $maxComments);
                     </div>
                 </div>
             </div>
-
         </section>
-        <!--<a href="index.php?action=addComment">Ajoutcomment</a>-->
     </div>
+    <a href="index.php?action=addComment">Ajoutcomment</a>
     <?php require_once 'footer.php'; // Inclure ton footer ?>
 
 
@@ -250,11 +253,18 @@ $shownComments = array_slice($comments, 0, $maxComments);
 
     // Affichage de la note et des commentaires
     displayRating(comments);
-
     let currentMediaIndex = 0;
 
     function openLightbox(element) {
-        document.querySelector('.lightbox').style.display = 'flex';
+        let lightbox = document.querySelector('.lightbox');
+        let mediaItems = document.querySelectorAll('.media-item');
+
+        if (mediaItems.length === 0) {
+            console.error("Aucun média trouvé !");
+            return;
+        }
+
+        lightbox.style.display = 'flex';
         currentMediaIndex = 0;
         showMedia(currentMediaIndex);
     }
@@ -265,22 +275,44 @@ $shownComments = array_slice($comments, 0, $maxComments);
 
     function showMedia(index) {
         let mediaItems = document.querySelectorAll('.media-item');
+
+        if (mediaItems.length === 0) {
+            console.error("Erreur : aucun média disponible !");
+            return;
+        }
+
+        // Vérification que l'index est valide
+        if (index < 0) {
+            index = mediaItems.length - 1;
+        } else if (index >= mediaItems.length) {
+            index = 0;
+        }
+
+        currentMediaIndex = index;
+
+        console.log(`Affichage du média ${currentMediaIndex} / ${mediaItems.length - 1}`);
+
         mediaItems.forEach((item, i) => {
-            item.style.display = i === index ? 'block' : 'none';
+            item.style.display = (i === index) ? 'block' : 'none';
         });
     }
 
     function nextMedia() {
         let mediaItems = document.querySelectorAll('.media-item');
+        if (mediaItems.length === 0) return;
+
         currentMediaIndex = (currentMediaIndex + 1) % mediaItems.length;
         showMedia(currentMediaIndex);
     }
 
     function prevMedia() {
         let mediaItems = document.querySelectorAll('.media-item');
+        if (mediaItems.length === 0) return;
+
         currentMediaIndex = (currentMediaIndex - 1 + mediaItems.length) % mediaItems.length;
         showMedia(currentMediaIndex);
     }
+
 
     document.addEventListener("DOMContentLoaded", function () {
         document.querySelectorAll(".comment-text").forEach(comment => {
@@ -303,6 +335,7 @@ $shownComments = array_slice($comments, 0, $maxComments);
         if (comment.classList.contains("expanded")) {
             comment.innerHTML = `${comment.dataset.truncatedText}<span class="see-more" onclick="toggleComment(this)">... Voir plus</span>`;
             comment.classList.remove("expanded");
+
         } else {
             comment.innerHTML = `${comment.dataset.fullText}<span class="see-more" onclick="toggleComment(this)"> Voir moins</span>`;
             comment.classList.add("expanded");
@@ -312,79 +345,153 @@ $shownComments = array_slice($comments, 0, $maxComments);
     document.addEventListener("DOMContentLoaded", function () {
         let galleryItems = document.querySelectorAll(".open-media");
         let galleryMore = document.querySelector(".open-gallery");
+        let currentMediaIndex = 0;
 
-        // Ouvrir une image ou vidéo seule
-        galleryItems.forEach(item => {
+
+        // ✅ Ouvrir un média en fullscreen
+        galleryItems.forEach((item, index) => {
             item.addEventListener("click", function () {
-                showFullScreen(item.outerHTML);
+                openFullScreen(parseInt(this.dataset.index));
             });
         });
 
-        // Ouvrir toute la galerie quand on clique sur +X
+        // ✅ Ouvrir toute la galerie complète
         if (galleryMore) {
             galleryMore.addEventListener("click", openFullGallery);
         }
-    });
 
-    // Afficher un média en plein écran
-    function showFullScreen(mediaHTML) {
-        let modalContent = document.querySelector(".single-media-modal .media-content");
-        let modal = document.querySelector(".single-media-modal");
+        function openFullScreen(index) {
+            currentMediaIndex = index;
+            let modalContent = document.querySelector(".single-media-modal .media-content");
+            let modal = document.querySelector(".single-media-modal");
 
-        if (!modalContent || !modal) {
-            console.error("Erreur : .single-media-modal ou .media-content introuvable.");
-            return;
+            if (!modalContent || !modal) {
+                console.error("Erreur : .single-media-modal ou .media-content introuvable.");
+                return;
+            }
+
+            modalContent.innerHTML = getMediaElement(index);
+            modal.style.display = "flex";
         }
 
-        modalContent.innerHTML = mediaHTML;
-        modal.style.display = "flex";
+        function openFullGallery() {
+            let fullGallery = document.querySelector(".media-modal .media-content");
+            let modal = document.querySelector(".media-modal");
+            fullGallery.innerHTML = "";
+
+            comments.forEach((comment, index) => {
+
+                // Si le commentaire contient une image, on crée un élément image
+                if (comment.image) {
+                    let imageElement = document.createElement("img");
+                    imageElement.src = comment.image;
+                    imageElement.classList.add("open-media");
+                    imageElement.dataset.index = index;
+                    imageElement.onclick = function () {
+                        openFullScreen(index);
+                    };
+                    fullGallery.appendChild(imageElement);
+                }
+
+                // Si le commentaire contient une vidéo, on crée un élément vidéo
+                if (comment.video) {
+                    let videoElement = document.createElement("video");
+                    videoElement.controls = true;
+                    let source = document.createElement("source");
+                    source.src = comment.video;
+                    source.type = "video/mp4";
+                    videoElement.appendChild(source);
+                    videoElement.classList.add("open-media");
+                    videoElement.dataset.index = index;
+                    videoElement.onclick = function () {
+                        openFullScreen(index);
+                    };
+                    fullGallery.appendChild(videoElement);
+                }
+            });
+
+            modal.style.display = "flex";
+        }
+    });
+
+
+    function getMediaElement(index) {
+        let comment = comments[index];
+        if (!comment) return "";
+
+        let mediaHTML = "";
+
+        // Si une image existe, on l'ajoute dans un conteneur dédié
+        if (comment.image) {
+            mediaHTML += `<div class="media-item image-item" >
+                        <img src="${comment.image}" class="media-item">
+                      </div>`;
+        }
+
+        // Si une vidéo existe, on l'ajoute dans un conteneur dédié
+        if (comment.video) {
+            mediaHTML += `<div class="media-item video-item">
+                        <video controls class="media-item"><source src="${comment.video}" type="video/mp4"></video>
+                      </div>`;
+        }
+
+        return mediaHTML;
     }
 
 
-    // Fermer l'affichage plein écran
+    // ✅ Fonction pour afficher le média actif
+    function showMedial(index) {
+        let modalContent = document.querySelector(".single-media-modal .media-content");
+        modalContent.innerHTML = getMediaElement(index);
+    }
+
+
+    function closeFullGallery() {
+        document.querySelector(".media-modal").style.display = "none";
+    }
     function closeFullScreen() {
         document.querySelector(".single-media-modal").style.display = "none";
     }
 
-    // Ouvrir toute la galerie en pop-up
-    function openFullGallery() {
-        let fullGallery = document.querySelector(".media-modal .media-content");
-        let modal = document.querySelector(".media-modal");
 
-        fullGallery.innerHTML = "";
-        document.querySelectorAll(".comment-gallery .gallery-item img, .comment-gallery .gallery-item video").forEach(media => {
-            let clone = media.cloneNode(true);
-            clone.onclick = function () {
-                showFullScreen(clone.outerHTML);
-            };
-            fullGallery.appendChild(clone);
+
+
+
+    // ✅ Passer au média suivant
+    function nextMedial() {
+        let totalMedia = comments.length;
+        currentMediaIndex = (currentMediaIndex + 1) % totalMedia;
+        showMedial(currentMediaIndex);
+    }
+    // ✅ Revenir au média précédent
+    function prevMedial() {
+        let totalMedia = comments.length;
+        currentMediaIndex = (currentMediaIndex - 1 + totalMedia) % totalMedia;
+        showMedial(currentMediaIndex);
+    }
+
+    function handleResponsiveComments() {
+    const commentContainer = document.getElementById('comment-recent');
+    const comments = commentContainer.querySelectorAll('.comment-box');
+
+    if (window.innerWidth <= 768) {
+        // Affiche uniquement les 2 premiers commentaires
+        comments.forEach((comment, index) => {
+            comment.style.display = index < 2 ? 'block' : 'none';
         });
-
-        modal.style.display = "flex";
+    } else {
+        // Affiche tous les commentaires en mode non responsive
+        comments.forEach(comment => {
+            comment.style.display = 'block';
+        });
     }
+}
 
-    // Fermer la galerie complète
-    function closeFullGallery() {
-        document.querySelector(".media-modal").style.display = "none";
-    }
-    // Fonction de navigation dans la galerie complète
-    let currentGalleryIndex = 0;
+// Ajouter un écouteur pour détecter le redimensionnement de la fenêtre
+window.addEventListener('resize', handleResponsiveComments);
 
-    function navigateGallery(direction) {
-        const allMedia = document.querySelectorAll(".media-modal .media-content img, .media-modal .media-content video");
-
-        if (allMedia.length === 0) return;
-
-        currentGalleryIndex += direction;
-
-        if (currentGalleryIndex < 0) currentGalleryIndex = allMedia.length - 1;
-        if (currentGalleryIndex >= allMedia.length) currentGalleryIndex = 0;
-
-        const modalContent = document.querySelector(".media-modal .media-content");
-        modalContent.innerHTML = allMedia[currentGalleryIndex].outerHTML;
-    }
-
-
+// Appeler la fonction au chargement de la page
+document.addEventListener('DOMContentLoaded', handleResponsiveComments);
 
 
 </script>

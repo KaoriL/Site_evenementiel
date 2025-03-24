@@ -10,7 +10,7 @@
 }
 
 .bw-image {
-  filter: grayscale(100%);
+  filter: grayscale(100%) brightness(50%);
   z-index: 0;
   width: 100%;
   height: 600px;
@@ -21,7 +21,7 @@
 .banniere div {
   width: 100%;
   height: 100%;
-  background-color: #00000072;
+
   z-index: 2;
   position: relative;
   display: flex;

@@ -83,18 +83,28 @@ class AuthController
             }
 
             // Si pas d'erreurs, on enregistre l'utilisateur
-            if (empty($this->errors)) {
-                if ($this->userModel->registerUser($username, $email, $password)) {
-                    $_SESSION['user'] = [
-                        'username' => $username,
-                        'email' => $email
-                    ];
-                    header('Location: index.php?action=home');
+            if ($this->userModel->registerUser($username, $email, $password)) {
+                // Récupérer l'utilisateur inscrit pour récupérer son ID et son rôle
+                $user = $this->userModel->getUserByEmail($email);
+
+                if ($user) {
+                    $_SESSION['user_id'] = $user['id'];
+                    $_SESSION['username'] = $user['username'];
+                    $_SESSION['email'] = $user['email'];
+                    $_SESSION['role'] = $user['role'];
+
+                    // Redirection selon le rôle
+                    if ($user['role'] === 'admin') {
+                        header('Location: index.php?action=home');
+                    } else {
+                        header('Location: index.php?action=home');
+                    }
                     exit;
                 } else {
-                    $this->errors[] = "Erreur lors de l'inscription.";
+                    $this->errors[] = "Problème lors de la récupération des informations.";
                 }
             }
+
             $errors = $this->errors;
             require_once __DIR__ . '/../views/login.php';
         } else {

@@ -138,6 +138,11 @@ class Router
                 $controller = new CommentController($db);
                 $controller->submitComment();
                 break;
+            case 'getLatestComments':
+                require_once __DIR__ . '/../app/controllers/CommentController.php';
+                $controller = new CommentController($db);
+                $controller->getLatestComments();
+                break;
 
 
             default:

@@ -1,27 +1,3 @@
-* {
-  margin: 0;
-  padding: 0;
-}
-
-.stars {
-  display: flex;
-  font-size: 20px;
-  color: gold;
-}
-
-.star {
-  cursor: pointer;
-  transition: color 0.3s;
-}
-
-.star.filled {
-  color: gold;
-}
-
-.star.empty {
-  color: gray;
-}
-
 .fond-comment {
   /* L'image de fond */
   background-image: url("..//image/img-commentaire.jpg");
@@ -37,6 +13,7 @@
   align-items: center;
   position: relative;
 }
+
 /* From Uiverse.io by ArturCodeCraft */
 /* <reset-style> ============================ */
 a {
@@ -71,16 +48,15 @@ a {
 }
 .fond-comment h1 {
   color: white;
-  font-size: 32px;
+  font-size: clamp(32px, 2vw, 80px) !important;
   font-family: "Black-Mango";
 }
 .commentaire {
-  width: 70%;
-  min-width: 600px;
-  max-width: 1500px;
-
+  width: 80%;
+  max-width: 1200px;
   background-color: white;
   padding: 20px;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 
 .center {
@@ -92,6 +68,7 @@ a {
   padding-top: 10%;
   padding-bottom: 10%;
   background-color: #311c0c47;
+  flex-direction: column;
 }
 
 .galerie {
@@ -109,15 +86,17 @@ a {
   width: 100%;
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-around;
   padding-top: 10px;
   gap: 10px;
 }
 
 .comment-box {
-  width: 45%;
-  height: 20%;
-  min-height: 190px;
+  width: 49%;
+  height: auto !important;
+  min-height: 70px;
+  
+  min-width: 340px;
+  max-width: 800px;
   border: solid 1px #959595;
   padding: 10px 15px 10px 15px;
   box-sizing: border-box;
@@ -125,19 +104,11 @@ a {
 
 .en-tete {
   width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  box-sizing: border-box;
+  justify-content:left ;
 }
 
 .centre_comment {
-  display: flex;
-  flex-direction: row;
   justify-content: space-between;
-  align-items: center;
-  padding-top: 10px;
   position: relative;
 }
 
@@ -154,24 +125,14 @@ h4 {
 h2 {
   font-family: "Montserrat-semibold";
   text-align: left;
-  margin-bottom: 10px;
+  font-size: clamp(16px, 2vw, 32px) !important;
 }
 
-.comment-gallery {
-  margin-top: 20px;
-}
-.comment-media {
-  position: relative;
-  width: 100px;
+
+.comment-media video {
   height: 100px;
-  box-sizing: border-box;
-}
-
-.comment-media video{
-  max-width: 150px;
-height: 100px;
-width: 100px;
-object-fit: cover;
+  width: 100px;
+  object-fit: cover;
 }
 
 .media-single {
@@ -179,13 +140,11 @@ object-fit: cover;
   display: inline-block;
   cursor: pointer;
 }
-.media-single img
- {
+.media-single img {
   max-width: 150px;
   height: 100px;
   width: 100px;
   object-fit: cover;
-  
 }
 .media-preview {
   position: relative;
@@ -209,9 +168,12 @@ object-fit: cover;
   transform: translate(-50%, -50%);
   background: rgba(0, 0, 0, 0.7);
   color: white;
-  padding: 5px 10px;
-  border-radius: 50%;
+  width: 100%;
+  height: 100%;
   font-size: 1.2em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .lightbox {
@@ -253,7 +215,10 @@ object-fit: cover;
 }
 
 .media-item {
-  min-width: 100%;
+  width: 100%;
+  max-width: 600px;
+  min-width: 300px;
+  display: block;
 }
 
 .prev,
@@ -295,7 +260,7 @@ object-fit: cover;
   word-wrap: break-word;
   color: #4b4b4b;
   font-family: "Poppins-Regular";
-text-align: left;
+  text-align: left;
   box-sizing: border-box;
   padding-right: 5px;
 }
@@ -342,7 +307,6 @@ text-align: left;
   overflow-x: auto;
   background: #fff;
   border-radius: 10px;
-  
 }
 
 .media-modal .media-content img,
@@ -356,7 +320,7 @@ text-align: left;
 }
 .media-modal .media-content img:hover,
 .media-modal .media-content video:hover {
-    transform: scale(1.1);
+  transform: scale(1.1);
 }
 
 .fullscreen-media {
@@ -366,7 +330,15 @@ text-align: left;
   transition: none;
 }
 
-.close-single-modal,.close-modal {
+.media-container .media-item video {
+  /* Styles spécifiques à la vidéo dans le lightbox */
+  max-width: 100%;
+  height: auto;
+  width: 100%;
+}
+
+.close-single-modal,
+.close-modal {
   position: absolute;
   top: 15px;
   right: 20px;
@@ -414,19 +386,10 @@ text-align: left;
   border-radius: 5px;
 }
 
-.gallery-grid {
-  display: flex;
-  gap: 10px;
-  justify-content: center;
-}
-
 .gallery-item {
   position: relative;
-  width: 150px;
-  height: 150px;
   cursor: pointer;
   overflow: hidden;
-  border-radius: 5px;
 }
 
 .gallery-item img,
@@ -434,7 +397,7 @@ text-align: left;
   width: 150px;
   height: 150px;
   object-fit: cover;
-  border-radius: 5px;
+  
 }
 
 .gallery-more .overlay {
@@ -448,4 +411,20 @@ text-align: left;
   align-items: center;
   justify-content: center;
   border-radius: 5px;
+}
+
+@media (max-width: 768px) {
+  .gallery-item img,
+  .gallery-item video {
+    width: 70px;
+    height: 70px;
+    object-fit: cover;
+  }
+
+  .media-modal .media-content {
+    grid-template-columns: repeat(2, 5fr);
+  }
+  h1{
+    margin: 10%;
+  }
 }

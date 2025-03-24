@@ -438,9 +438,9 @@
     };
 
     <?php if (isset($_SESSION['message'])): ?>
-  
-        
-        window.onload = function() {
+
+
+        window.onload = function () {
             // Création du pop-up
             var modal = document.createElement('div');
             modal.style.position = 'fixed';
@@ -460,21 +460,44 @@
             modalContent.style.padding = '20px';
             modalContent.style.borderRadius = '8px';
             modalContent.style.textAlign = 'center';
+            modalContent.style.width = '300px';
+            modalContent.style.height = '300px';
+            modalContent.style.display = 'flex';
+            modalContent.style.flexWrap = 'wrap';
+            modalContent.style.justifyContent = 'space-around'
 
-            var message = document.createElement('p');
+            var message = document.createElement('h1');
+            message.style.width = '100%'
+            message.style.textAlign = 'center'
+            message.style.fontFamily = 'Montserrat-regular'
+            message.style.fontSize = '26px'
             message.textContent = '<?php echo $_SESSION['message']; ?>';
             modalContent.appendChild(message);
 
             var loginButton = document.createElement('button');
             loginButton.textContent = 'Connectez-vous';
-            loginButton.onclick = function() {
+            loginButton.style.padding = '10px';
+            loginButton.style.maxHeight = '50px';
+            loginButton.style.textAlign = 'center';
+            loginButton.style.borderRadius = '8px';
+            loginButton.style.backgroundColor = '#043f98';
+            loginButton.style.color = 'white';
+            loginButton.style.border = "solid transparent"
+            loginButton.onclick = function () {
                 window.location.href = 'index.php?action=login'; // Redirige vers la page de connexion
             };
             modalContent.appendChild(loginButton);
 
             var signupButton = document.createElement('button');
             signupButton.textContent = 'Inscrivez-vous';
-            signupButton.onclick = function() {
+            signupButton.style.padding = '10px';
+            signupButton.style.maxHeight = '50px';
+            signupButton.style.textAlign = 'center';
+            signupButton.style.borderRadius = '8px';
+            signupButton.style.backgroundColor = '#043f98';
+            signupButton.style.color = 'white';
+            signupButton.style.border = "solid transparent"
+            signupButton.onclick = function () {
                 window.location.href = 'index.php?action=register'; // Redirige vers la page d'inscription
             };
             modalContent.appendChild(signupButton);
@@ -482,12 +505,12 @@
             modal.appendChild(modalContent);
             document.body.appendChild(modal);
         }
-    
-<?php 
-    // On enlève le message de la session une fois qu'il est affiché
-    unset($_SESSION['message']); 
-?>
-<?php endif; ?>
+
+        <?php
+        // On enlève le message de la session une fois qu'il est affiché
+        unset($_SESSION['message']);
+        ?>
+    <?php endif; ?>
 
 
 

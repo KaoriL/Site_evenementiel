@@ -8,6 +8,22 @@ class CommentModel
         $this->db = $db;
     }
 
+    public function getCommentsWithLimit($limit, $offset)
+{
+    $query = "SELECT c.*, u.username FROM comments c 
+              JOIN users u ON c.user_id = u.id
+              ORDER BY c.created_at DESC 
+              LIMIT :limit OFFSET :offset";
+              
+    $stmt = $this->db->prepare($query);
+    $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+    $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
+    $stmt->execute();
+    
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+    
     public function getAllComments()
     {
         $query = "SELECT c.*, u.username FROM comments c 
@@ -19,14 +35,14 @@ class CommentModel
     }
 
     // Fonction pour insérer un commentaire avec image et vidéo (si présents)
-    public function submitComment($user_id, $rating, $comment, $imagePath = null, $videoPath = null, $ip_address, )
+    public function submitComment($user_id, $rating, $comment,$prestation, $imagePath = null, $videoPath = null, $ip_address, )
     {
         // Préparer la requête SQL pour insérer un commentaire
-        $stmt = $this->db->prepare("INSERT INTO comments (user_id, rating, comment, image, video, ip_address) 
-                                    VALUES (?, ?, ?, ?, ?, ?)");
+        $stmt = $this->db->prepare("INSERT INTO comments (user_id, rating, comment, prestation, image, video, ip_address) 
+                                    VALUES (?,?, ?, ?, ?, ?, ?)");
 
         // Exécuter la requête avec les paramètres
-        $stmt->execute([$user_id, $rating, $comment, $imagePath, $videoPath, $ip_address]);
+        $stmt->execute([$user_id, $rating, $comment,$prestation, $imagePath, $videoPath, $ip_address]);
 
         // Vérifier si l'insertion a réussi
         if ($stmt->rowCount() > 0) {

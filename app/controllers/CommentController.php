@@ -12,6 +12,17 @@ class CommentController
         $this->commentModel = new CommentModel($db); // Assure-toi que le modèle est bien instancié
 
     }
+    
+    public function getLatestComments()
+    {
+        $comments = $this->commentModel->getCommentsWithLimit(8, 0); // On prend les 4 plus récents
+    
+        // Retourner les commentaires au format JSON
+        header('Content-Type: application/json');
+        echo json_encode($comments);
+        exit;
+    }
+    
 
     public function showComments()
     {
@@ -38,32 +49,37 @@ class CommentController
             $comment = htmlspecialchars($_POST['comment']);
             $rating = $_POST['rating'];
             $user_id = $_SESSION['user_id'];
-
+            $prestation = htmlspecialchars($_POST['prestation']);
+            if ($prestation === "autre" && !empty($_POST['autre_prestation'])) {
+                $prestation = htmlspecialchars($_POST['autre_prestation']);
+            }
             // Handling image upload
             $imagePath = '';
             if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
                 $imagePath = $this->commentModel->handleFileUpload(
-                    $_FILES['image'], 
-                    ['image/jpeg', 'image/png', 'image/gif'], 
-                    2 * 1024 * 1024, 'public/uploads/images/');
+                    $_FILES['image'],
+                    ['image/jpeg', 'image/png', 'image/gif'],
+                    2 * 1024 * 1024,
+                    'public/uploads/images/'
+                );
             }
 
             // Traiter la vidéo
             $videoPath = '';  // Par défaut, pas de vidéo
-        if (isset($_FILES['video']) && $_FILES['video']['error'] === UPLOAD_ERR_OK) {
-            $videoPath = $this->commentModel->handleFileUpload(
-                $_FILES['video'],
-                ['video/mp4', 'video/webm', 'video/ogg'],
-                10 * 1024 * 1024, // Taille max 10MB
-                'public/uploads/videos/'
-            );
-        }
+            if (isset($_FILES['video']) && $_FILES['video']['error'] === UPLOAD_ERR_OK) {
+                $videoPath = $this->commentModel->handleFileUpload(
+                    $_FILES['video'],
+                    ['video/mp4', 'video/webm', 'video/ogg'],
+                    10 * 1024 * 1024, // Taille max 10MB
+                    'public/uploads/videos/'
+                );
+            }
 
 
             $ip_address = $_SERVER['REMOTE_ADDR']; // L'adresse IP
 
             // Insérer le commentaire dans la base de données via le modèle
-            $result = $this->commentModel->submitComment($user_id, $rating, $comment, $imagePath, $videoPath, $ip_address);
+            $result = $this->commentModel->submitComment($user_id, $rating, $comment,$prestation, $imagePath, $videoPath, $ip_address);
 
             if ($result) {
                 header("Location: index.php?action=commentaires");
