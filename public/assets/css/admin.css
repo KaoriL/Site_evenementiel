@@ -600,6 +600,7 @@ header {
 }
 .show {
   display: block;
+<<<<<<< HEAD
 }
 
 .menu-container {
@@ -676,3 +677,6 @@ header {
       display: none;
   }
 }
+=======
+}
+>>>>>>> 3551d93 (Message décrivant tes modifications locales)
