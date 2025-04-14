@@ -19,12 +19,11 @@
 
 <body>
     <section class="flex">
-        <div class="flex column gap p-20 border-box bg-black">
-            <div class="flex between">
-                <h4 class="c-white grand">DEEEJAY13</h4>
-                <!-- From Uiverse.io by JulanDeAlb -->
+        <div class="menu-container">
+            <div class="header">
+                <h4 class="brand">DEEEJAY13</h4>
                 <label class="hamburger">
-                    <input type="checkbox">
+                    <input type="checkbox" id="menu-toggle">
                     <svg viewBox="0 0 32 32">
                         <path class="line line-top-bottom"
                             d="M27 10 13 10C10.8 10 9 8.2 9 6 9 3.5 10.8 2 13 2 15.2 2 17 3.8 17 6L17 26C17 28.2 18.8 30 21 30 23.2 30 25 28.2 25 26 25 23.8 23.2 22 21 22L7 22">
@@ -33,14 +32,17 @@
                     </svg>
                 </label>
             </div>
-            <ul class="flex gap column p-20">
-                <li><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+            <ul class="nav-links" id="menu">
+                <li>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                         class="bi bi-grid" viewBox="0 0 16 16">
-                        <path
-                            d="M1 2.5A1.5 1.5 0 0 1 2.5 1h3A1.5 1.5 0 0 1 7 2.5v3A1.5 1.5 0 0 1 5.5 7h-3A1.5 1.5 0 0 1 1 5.5zM2.5 2a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5zm6.5.5A1.5 1.5 0 0 1 10.5 1h3A1.5 1.5 0 0 1 15 2.5v3A1.5 1.5 0 0 1 13.5 7h-3A1.5 1.5 0 0 1 9 5.5zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5zM1 10.5A1.5 1.5 0 0 1 2.5 9h3A1.5 1.5 0 0 1 7 10.5v3A1.5 1.5 0 0 1 5.5 15h-3A1.5 1.5 0 0 1 1 13.5zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5zm6.5.5A1.5 1.5 0 0 1 10.5 9h3a1.5 1.5 0 0 1 1.5 1.5v3a1.5 1.5 0 0 1-1.5 1.5h-3A1.5 1.5 0 0 1 9 13.5zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5z" />
-                    </svg><a href="">Tableau de bord</a></li>
+                        <path d="M1 2.5A1.5 ... (le reste inchangé)" />
+                    </svg>
+                    <a href="#">Tableau de bord</a>
+                </li>
             </ul>
         </div>
+
 
         <div class="dashboard p-50 p-10">
             <header>

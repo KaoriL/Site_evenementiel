@@ -601,3 +601,78 @@ header {
 .show {
   display: block;
 }
+
+.menu-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 20px;
+  background: black;
+  box-sizing: border-box;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.brand {
+  color: white;
+  font-size: 1.5rem;
+}
+
+.hamburger input {
+  display: none;
+}
+
+.hamburger svg {
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  fill: white;
+}
+
+/* Masque le menu sur mobile */
+.nav-links {
+  display: none;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 20px 0;
+}
+
+.nav-links li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.nav-links a {
+  color: white;
+  text-decoration: none;
+}
+
+/* Affiche le menu quand le checkbox est coché */
+#menu-toggle:checked ~ .nav-links {
+  display: flex;
+}
+
+/* Affichage desktop */
+@media (min-width: 768px) {
+  .menu-container {
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+  }
+
+  .nav-links {
+      display: flex !important;
+      flex-direction: row;
+      gap: 2rem;
+      padding: 0;
+  }
+
+  .hamburger {
+      display: none;
+  }
+}
