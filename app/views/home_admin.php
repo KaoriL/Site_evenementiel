@@ -19,7 +19,7 @@
 
 <body>
     <section class="flex">
-        <div class="flex column gap p-20 border-box bg-black">
+        <div class="menu-container">
             <div class="flex between">
                 <h4 class="c-white grand">DEEEJAY13</h4>
                 <!-- From Uiverse.io by JulanDeAlb -->
