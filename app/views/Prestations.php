@@ -15,9 +15,9 @@
     <a href="index.php?action=devis_mariage&type=mariage">mariage</a>
     <a href="index.php?action=mariage">presta</a>-->
 
-    <section class="banniere">
-        <img src="public/assets/image/img-presta.jpeg" alt="Image en noir et blanc" class="bw-image">
-        <div>
+    <section class="banniere w100">
+        <img src="public/assets/image/couple_africain_pesta.jpeg" alt="Image en noir et blanc" class="bw-image cover w100 absolute">
+        <div class="w100 h100 relative flex center align-center wrap column">
             <h1>
                 NOS PRESTATIONS
             </h1>

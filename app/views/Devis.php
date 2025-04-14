@@ -39,8 +39,6 @@
                 nous vous proposons un rendez-vous en visioconférence. Cela nous permettra de discuter de vos besoins
                 spécifiques et de vous fournir un devis clair,
                 détaillé et parfaitement adapté à vos attentes.
-
-
             </p>
             <div class="fond2"></div>
         </div>
@@ -138,7 +136,7 @@
                                 <option value="Pack Royal Dream">Pack Royal Dream</option>
                                 <option value="Demande personnalisée">Demande personnalisée</option>
                             </select>
-                            <label for="lieu">Lieu de l'événement<< /label>
+                            <label for="lieu">Lieu de l'événement </label>
                                     <input type="text" id="lieu" name="lieu" placeholder="Paris">
 
                         </div>
@@ -464,13 +462,14 @@
             modalContent.style.height = '300px';
             modalContent.style.display = 'flex';
             modalContent.style.flexWrap = 'wrap';
-            modalContent.style.justifyContent = 'space-around'
+            modalContent.style.justifyContent = 'space-around';
 
             var message = document.createElement('h1');
-            message.style.width = '100%'
-            message.style.textAlign = 'center'
-            message.style.fontFamily = 'Montserrat-regular'
-            message.style.fontSize = '26px'
+            message.style.width = '100%';
+            message.style.textAlign = 'center';
+            message.style.fontSize = '26px';
+            message.style.color = 'rgb(0, 0, 0)';
+            message.style.fontFamily = 'Montserrat-regular';
             message.textContent = '<?php echo $_SESSION['message']; ?>';
             modalContent.appendChild(message);
 
@@ -480,9 +479,10 @@
             loginButton.style.maxHeight = '50px';
             loginButton.style.textAlign = 'center';
             loginButton.style.borderRadius = '8px';
-            loginButton.style.backgroundColor = '#043f98';
+            loginButton.style.backgroundColor = '#1E3A8A';
+            loginButton.style.cursor = 'pointer';
             loginButton.style.color = 'white';
-            loginButton.style.border = "solid transparent"
+            loginButton.style.border = "solid transparent";
             loginButton.onclick = function () {
                 window.location.href = 'index.php?action=login'; // Redirige vers la page de connexion
             };
@@ -494,8 +494,9 @@
             signupButton.style.maxHeight = '50px';
             signupButton.style.textAlign = 'center';
             signupButton.style.borderRadius = '8px';
-            signupButton.style.backgroundColor = '#043f98';
+            signupButton.style.backgroundColor = '#3B82F6';
             signupButton.style.color = 'white';
+            signupButton.style.cursor = 'pointer';
             signupButton.style.border = "solid transparent"
             signupButton.onclick = function () {
                 window.location.href = 'index.php?action=register'; // Redirige vers la page d'inscription

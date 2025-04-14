@@ -33,7 +33,7 @@ class AuthController
                 // Vérification du rôle
                 if ($user['role'] === 'admin') {
                     $_SESSION['role'] = 'admin';  // On enregistre le rôle
-                    header('Location: index.php?action=home');  // Redirige vers le tableau de bord admin
+                    header('Location: index.php?action=home-admin');  // Redirige vers le tableau de bord admin
                 } else {
                     $_SESSION['role'] = 'user';  // Rôle utilisateur
                     header('Location: index.php?action=home');  // Redirige vers la page d'accueil

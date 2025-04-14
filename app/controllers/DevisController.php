@@ -24,17 +24,17 @@ class DevisController
 
     public function submitDevis()
     {   // Vérifie si l'utilisateur est connecté
-        if (!isset($_SESSION['user_id'])) {
-            $_SESSION['message'] = "Vous devez être connecté pour faire une demande de rendez-vous";
-            header("Location: index.php?action=non_connecter"); // Redirige à la même page
-            exit;
-        }
+        //if (!isset($_SESSION['user_id'])) {
+         //   $_SESSION['message'] = "Vous devez être connecté pour faire une demande de rendez-vous";
+         //  header("Location: index.php?action=non_connecter"); // Redirige à la même page
+          //  exit;
+      //  }
         
         // Vérifier si le formulaire est soumis 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             $data = [
-                'user_id' => $_SESSION['user_id'], // Utilisation de l'ID utilisateur connecté
+                //'user_id' => $_SESSION['user_id'], // Utilisation de l'ID utilisateur connecté
                 'nom' => $_POST['nom'] ?? '',
                 'prenom' => $_POST['prenom'] ?? '',
                 'email' => $_POST['email'] ?? '',
@@ -77,7 +77,7 @@ class DevisController
 
                 $this->model->sendTelegramNotification($message);
                 $_SESSION['devis_data'] = $data;
-
+                $_SESSION['flash_source'] = "devis";
                 header("Location: index.php?action=confirmation");
                 exit;
             } else {
@@ -97,16 +97,16 @@ class DevisController
         //var_dump($_POST);
 
         // Vérifie si l'utilisateur est connecté
-        if (!isset($_SESSION['user_id'])) {
-            $_SESSION['message'] = "Vous devez être connecté pour faire une demande de rendez-vous";
-            header("Location: formulaire_devis.php"); // Redirige à la même page
-            exit;
-        }
+       // if (!isset($_SESSION['user_id'])) {
+       //    $_SESSION['message'] = "Vous devez être connecté pour faire une demande de rendez-vous";
+        //    header("Location: formulaire_devis.php"); // Redirige à la même page
+        //    exit;
+       // }
 
         if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
             $data = [
-                'user_id' => $_SESSION['user_id'], // Utilisation de l'ID utilisateur connecté
+               // 'user_id' => $_SESSION['user_id'], // Utilisation de l'ID utilisateur connecté
                 'nom_marie' => $_POST['nom_marie'] ?? '',
                 'prenom_marie' => $_POST['prenom_marie'] ?? '',
                 'nom_mariee' => $_POST['nom_mariee'] ?? '',
@@ -161,7 +161,9 @@ class DevisController
 
                 $this->model->sendTelegramNotification($message);
                 $_SESSION['devis_data'] = $data;
-                header("Location: index.php?action=confirmation");
+            $_SESSION['flash_source'] = "devis";
+            header("Location: index.php?action=confirmation");
+            
                 exit;
 
                 if ($success) {
@@ -201,20 +203,7 @@ class DevisController
         }
     }
 
-    public function getRendezVous()
-    {
-        // Vérifie si l'utilisateur est connecté
-        if (!isset($_SESSION['user_id'])) {
-            echo "Erreur : utilisateur non connecté.";
-            return;
-        }
-
-        $user_id = $_SESSION['user_id'];
-        $rendez_vous = $this->model->fetchRendezVous($user_id); // Récupère les rendez-vous avec l'ID utilisateur
-
-        require_once __DIR__ . '/../views/rdv.php';  // Passe la variable à la vue
-    }
-
+    
 
 
 

@@ -1,3 +1,9 @@
+body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden; /* Cache les débordements horizontaux */
+}
+
 .banniere {
   width: 100%;
   height: 600px;
@@ -34,7 +40,6 @@
   width: 100%;
   text-align: center;
   padding-top: 20px;
-
 }
 
 .pack {
@@ -63,7 +68,7 @@
 .sommaire {
   width: 60%;
   border: solid 1px;
-  border-image: linear-gradient(to right, #FFE998, #7a5c32, #FFE998, #7a5c32);
+  border-image: linear-gradient(to right, #ffe998, #7a5c32, #ffe998, #7a5c32);
   border-image-slice: 1;
   margin-top: 20px;
   background-color: #66666664;
@@ -108,7 +113,7 @@ h2 {
   font-family: "Black-mango";
   font-size: 46px;
   border-bottom: solid 1px;
-  border-image: linear-gradient(to right, #FFE998, #7a5c32);
+  border-image: linear-gradient(to right, #ffe998, #7a5c32);
   border-image-slice: 1;
 }
 
@@ -128,7 +133,6 @@ p {
 
 .img-essentiel {
   width: 400px;
-  padding: 50px;
   height: 400px;
 }
 
@@ -139,7 +143,23 @@ p {
   border-top-left-radius: 200px;
   border-top-right-radius: 200px;
 }
-
+.img-essentiel img,
+.img-fond {
+  max-width: 100%; /* Limite la largeur de l'image */
+  display: block; /* Supprime les espaces blancs autour de l'image */
+}
+.description {
+  max-width: 100%; /* Limite la largeur */
+  word-wrap: break-word; /* Coupe les mots trop longs */
+  box-sizing: border-box; /* Inclut les paddings et bordures dans la largeur totale */
+}
+.essentiel {
+  display: flex;
+  flex-wrap: wrap; /* Permet aux éléments de passer à la ligne */
+  justify-content: center; /* Centre les éléments */
+  max-width: 100%; /* Limite la largeur */
+  overflow: hidden; /* Cache les débordements */
+}
 .essentiel ul {
   width: 90%;
   list-style-type: none;
@@ -170,10 +190,10 @@ button a {
   text-decoration: none;
   color: white;
   border-radius: 7px;
-  font-family: 'Poppins-Regular';
+  font-family: "Poppins-Regular";
 }
 
-.btn{
+.btn {
   width: 100%;
   text-align: center;
   margin-top: 20px;
@@ -184,12 +204,12 @@ button {
   padding: 10px 20px;
   border-radius: 7px;
   border: solid 0px transparent;
-  background: linear-gradient(to right,#FFE998, #7a5c32);
-  border-color: #FFE998;
+  background: linear-gradient(to right, #ffe998, #7a5c32);
+  border-color: #ffe998;
   font-size: 14px;
   font-weight: 600;
   letter-spacing: 2px;
-  
+
   overflow: hidden;
   box-shadow: 0 0 0 0 transparent;
   -webkit-transition: all 0.2s ease-in;
@@ -198,13 +218,12 @@ button {
 }
 
 button:hover {
-  background: linear-gradient(to left, #FFE998, #7a5c32);
+  background: linear-gradient(to left, #ffe998, #7a5c32);
   box-shadow: 0 0 30px 5px #ecddbb;
   -webkit-transition: all 0.2s ease-out;
   -moz-transition: all 0.2s ease-out;
   transition: all 0.2s ease-out;
   border: solid 0px;
-  
 }
 
 button:hover::before {
@@ -254,9 +273,8 @@ button:active {
   transition: box-shadow 0.2s ease-in;
 }
 
-
-h5{
-  font-family: 'Poppins-semibold';
+h5 {
+  font-family: "Poppins-semibold";
   color: white;
   margin-top: 30px;
   width: 100%;
@@ -264,17 +282,18 @@ h5{
   margin-bottom: 20px;
 }
 
-.confort{
+.confort {
   width: 100%;
   display: flex;
   justify-content: right;
-  height: 660px;
-  max-height: 700px;
+  position: relative;
 }
 
-.img-confort{
+.img-confort {
   width: 100%;
-
+  height: 100%;
+  max-height: max-content;
+  min-height: min-content;
   position: absolute;
   z-index: 2;
   display: flex;
@@ -282,70 +301,61 @@ h5{
   box-sizing: border-box;
 }
 
-.img-fond{
+.img-fond {
   width: 100%;
-  height: 660px;
-  max-height: 700px;
   object-fit: cover;
   object-position: center 15%;
   box-sizing: border-box;
 }
 
-.confort .description{
+.confort .description {
   z-index: 3;
-  height: 660px;
-
   width: 50%;
   position: relative;
   background-color: #000000a6;
-  padding: 30px 30px 0 30px ;
+  padding: 30px 30px 0 30px;
   color: white;
-  font-family: 'Poppins-Regular';
+  font-family: "Poppins-Regular";
   box-sizing: border-box;
-  
 }
 
-.description ul{
+.description ul {
   margin-top: 50px;
 }
 
-span{
-  font-family: 'Poppins-semibold';
+span {
+  font-family: "Poppins-semibold";
 }
 
-.left{
-  width: 50%;
-}
-h6{
-  font-family: 'Poppins-light';
+h6 {
+  font-family: "Poppins-light";
   font-size: 14px;
   margin-top: 20px;
   color: white;
   margin-bottom: 20px;
-
 }
 
-.privilege{
+.privilege {
   width: 100%;
   display: flex;
   padding-top: 30px;
 }
 
-.privilege .description{
+.privilege .description {
   width: 100%;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  font-family: 'Poppins-Regular';
+  font-family: "Poppins-Regular";
   box-sizing: border-box;
 }
 
-.img-privilege{
+.img-privilege {
   width: 30%;
   display: flex;
   position: relative;
 }
-.img-priv{
+.img-priv {
   width: 80%;
   height: 500px;
   object-fit: cover;
@@ -353,7 +363,7 @@ h6{
   position: relative;
 }
 
-.img-priv2{
+.img-priv2 {
   width: 150px;
   height: 250px;
   object-fit: cover;
@@ -362,20 +372,18 @@ h6{
   bottom: 0;
   right: 0;
   filter: grayscale(100%);
-
-  
 }
 
-.royal{
+.royal {
   width: 100%;
- height: auto;
+  height: auto;
   display: flex;
   justify-content: center;
   position: relative; /* Ajouté pour positionner .img-royal */
   overflow: hidden;
 }
 
-.img-royal{
+.img-royal {
   width: 100%;
   height: 100%;
   position: absolute;
@@ -385,39 +393,101 @@ h6{
   box-sizing: border-box;
 }
 
-.img-fond-royal{
+.img-fond-royal {
   width: 100%;
   object-fit: cover;
   box-sizing: border-box;
 }
 
-.royal .description{
+.royal .description {
   z-index: 3;
   position: relative;
   width: 70%;
   padding: 40px;
+  max-width: 1000px;
   background-color: #000000ae;
   margin-top: 10%;
   margin-bottom: 10%;
-  font-family: 'Poppins-Regular';
+  font-family: "Poppins-Regular";
 }
 
-.royal h2{
+.royal h2 {
   color: white;
   text-align: center;
   border: solid transparent;
 }
 
-.royal h3{
+.royal h3 {
   color: white;
   text-align: center;
 }
 
-.royal p{
+.royal p {
   color: white;
   text-align: center;
   width: 100%;
-  
+
   word-wrap: break-word;
-overflow-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+@media (max-width: 768px) {
+  .description {
+    width: 100% !important; /* Réduit la largeur */
+    text-align: center !important; /* Centre le texte */
+    display: flex;
+    flex-direction: column; /* Empile les éléments verticalement */
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .confort .description {
+    text-align: left !important;
+    gap: 10px;
+  }
+
+  .confort .description h2 {
+    width: 100%;
+  }
+
+  .confort .description h3 {
+    margin: 0;
+  }
+
+ h5 {
+    width: 80%;
+    margin: 0;
+  }
+  .container,
+  .description {
+    margin: 0 auto; /* Centre le conteneur */
+    padding: 0 15px; /* Ajoute un padding interne */
+    max-width: 100%; /* Limite la largeur à 100% */
+    box-sizing: border-box; /* Inclut les paddings et bordures dans la largeur totale */
+  }
+
+  .img-privilege{
+    width: 100%;
+    align-items: center;
+  }
+
+  .img-priv2{
+    bottom: unset;
+    border: solid 1px transparent;
+    border-color: #0c0602;
+  }
+
+  .left{
+    text-align: left;
+  }
+
+  .royal .description{
+    width: 90% !important;
+    padding: 10px;
+  }
+
+  ul{
+    text-align: left;
+  }
 }

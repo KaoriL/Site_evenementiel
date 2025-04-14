@@ -9,6 +9,7 @@
     margin: 1em;
     appearance: none;
     --color: white;
+
     border-left: 6.4721359549996em solid transparent;
     border-right: 6.4721359549996em solid transparent;
     border-bottom: 4em solid var(--color);
@@ -40,7 +41,7 @@
   .radio-input > .star:hover,
   .radio-input > .star:checked ~ .star,
   .radio-input > .star:checked {
-    --color: yellow;
+    --color: gold;
   }
   
   .radio-input > .star:checked ~ .star,
@@ -61,4 +62,15 @@
       transform: rotate(360deg);
     }
   }
-  
+
+@media(max-width:768px){
+    form{
+        width: 75% !important;
+    }
+}
+
+
+
+
+
+

@@ -23,22 +23,24 @@
     <?php endif; ?>
 
 
-    <form class="flex column w50 bg-white bor-radius10 p-20" action="index.php?action=addComment" method="POST"
+    <form class="flex column w50 bg-white bor-radius10 p-20 gap align-center m-w500" action="index.php?action=addComment" method="POST"
         enctype="multipart/form-data">
         <h3 class="text-center">Un avis sur votre événement ?<br> Partagez-le avec nous !</h3>
-        <label for="rating">Note (1 à 5 étoiles) :</label>
-        <!-- From Uiverse.io by Ratinax -->
-        <div class="radio-input" >
-            <input name="rating" value="1" type="radio" class="star s1" />
-            <input name="rating" value="2" type="radio" class="star s2" />
-            <input name="rating" value="3" type="radio" class="star s3" />
-            <input name="rating" value="4" type="radio" class="star s4" />
-            <input name="rating" value="5" type="radio" class="star s5" />
-        </div>
+        <div class="flex column align-center w100">
+            <label for="rating">Note sur 5</label>
+            <!-- From Uiverse.io by Ratinax -->
+            <div class="radio-input">
+                <input name="rating" value="5" type="radio" class="star s5" />
+                <input name="rating" value="4" type="radio" class="star s4" />
+                <input name="rating" value="3" type="radio" class="star s3" />
+                <input name="rating" value="2" type="radio" class="star s2" />
+                <input name="rating" value="1" type="radio" class="star s1" />
 
+            </div>
+        </div>
         <br>
-        <label for="prestation">Prestation utilisée :</label>
-        <select name="prestation" id="prestation" required>
+        <label for="prestation">Prestation choisi :</label>
+        <select class="w100 border-box p-10 c-grey bor-radius10" name="prestation" id="prestation" required>
             <option value="" disabled selected>Choisissez une prestation</option>
             <option value="Pack Essentiel">Pack Essensiel</option>
             <option value="Pack Confort">Pack Confort</option>
@@ -46,13 +48,13 @@
             <option value="Pack Royal Dream">Pack Royal Dream</option>
             <option value="Anniversaire">Anniversaire</option>
             <option value="Soirée privée">Soirée privée</option>
-            <option value="Soirée privée">Gala</option>
+            <option value="Gala">Gala</option>
             <option value="autre">Autre</option>
         </select>
         <br>
 
         <label for="comment">Commentaire :</label>
-        <textarea name="comment" id="comment" rows="4" required></textarea>
+        <textarea class="w100 bor-radius10" name="comment" id="comment" rows="4" required></textarea>
         <br>
         <label for="image">Image (optionnelle) :</label>
         <input type="file" name="image" accept="image/*">
@@ -62,7 +64,7 @@
         <input type="file" name="video" accept="video/*">
         <p id="video-error" class="error-message" style="color: red;"></p>
         <br>
-        <button type="submit">Envoyer</button>
+        <button class=""type="submit">Envoyer</button>
     </form>
 
 </body>

@@ -22,15 +22,15 @@
 // // Si connecté, afficher les infos de l'utilisateur
 // echo "Bonjour " . $_SESSION['username'];
 // ?>
-    <section class="banniere">
+    <section class="banniere w100">
         <img src="public/assets/image/img-accueil.jpeg" alt="Image en noir et blanc" class="bw-image">
         <div>
             <h1>
-                <span class="left">Avec Deejay13</span>
+                <span class="left absolute w80">Avec Deejay13</span>
                 VIVEZ DES INSTANTS UNIQUE
-                <span class="right">Pour des souvenirs éternels</span>
+                <span class="right absolute w80">Pour des souvenirs éternels</span>
             </h1>
-            <button>
+            <button class="button">
                 <a href="index.php?action=presta">Prestations</a>
             </button>
 
@@ -45,13 +45,13 @@
         <div id="essentiel" class="essentiel">
             <div class="description" id="description">
                 <h2>PACK CONFORT</h2>
-                <h3>PARCE QUE VOUS LE MERITEZ</h3>
+                <h3 class="c-white">PARCE QUE VOUS LE MERITEZ</h3>
                 <p>Un pack pensé pour votre bien-être
                     et votre tranquillité, avec tout ce dont
                     vous avez besoin pour briller sans stress.
                 </p>
 
-                <button> <a href="index.php?action=devis&type=mariage">
+                <button class="button"> <a href="index.php?action=devis&type=mariage">
                     Je veux ce moment de confort</a></button>
             </div>
             <div class="img-essentiel" id="img-essentiel">
@@ -65,7 +65,7 @@
 
         <div class="gala">
             <div class="img-gala">
-                <img src="public/assets/image/img-gala-accueil.png" alt="">
+                <img src="public/assets/image/gala_img_accueil_dj_lumiere.jpg" alt="">
             </div>
             <div class="description">
                 <h2>UN GALA <br>D'EXCEPTION</h2>
@@ -75,7 +75,7 @@
                     en un véritable spectacle magique, qui restera gravé dans les mémoires.
                 </p>
                 <div class="btn-r">
-                    <button> <a href="index.php?action=devis">Créer mon gala inoubliable</a></button>
+                    <button class="button"> <a href="index.php?action=devis">Créer mon gala inoubliable</a></button>
                 </div>
 
             </div>
@@ -95,7 +95,7 @@
                     <p>FAITES PARTIE DE
                         NOS SUCCESS STORIES</p>
                     <div class="line"></div>
-                    <button> <a href="index.php?action=devis">Confiez nous votre évènement</a></button>
+                    <button class="button"> <a href="index.php?action=devis">Confiez nous votre évènement</a></button>
                 </div>
             </div>
         </div>

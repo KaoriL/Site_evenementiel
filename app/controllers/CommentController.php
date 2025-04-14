@@ -12,17 +12,39 @@ class CommentController
         $this->commentModel = new CommentModel($db); // Assure-toi que le modèle est bien instancié
 
     }
-    
-    public function getLatestComments()
-    {
-        $comments = $this->commentModel->getCommentsWithLimit(8, 0); // On prend les 4 plus récents
-    
+
+
+public function getLatestComments()
+{
+    try {
+        // Log avant de récupérer les commentaires
+        error_log("Tentative de récupération des derniers commentaires");
+
+        // Récupérer les commentaires avec une limite de 8
+        $comments = $this->commentModel->getCommentsWithLimit(8, 0);
+
+        // Vérifier si les commentaires sont vides
+        if (empty($comments)) {
+            error_log("Aucun commentaire trouvé");
+        }
+
         // Retourner les commentaires au format JSON
         header('Content-Type: application/json');
         echo json_encode($comments);
-        exit;
+
+        // Log après avoir retourné la réponse
+        error_log("Commentaires récupérés avec succès");
+    } catch (Exception $e) {
+        // En cas d'erreur, enregistrer l'erreur dans le log
+        error_log("Erreur lors de la récupération des commentaires : " . $e->getMessage());
+        echo json_encode(['error' => 'Erreur lors de la récupération des commentaires']);
     }
-    
+
+    exit;
+}
+
+
+
 
     public function showComments()
     {
@@ -79,10 +101,12 @@ class CommentController
             $ip_address = $_SERVER['REMOTE_ADDR']; // L'adresse IP
 
             // Insérer le commentaire dans la base de données via le modèle
-            $result = $this->commentModel->submitComment($user_id, $rating, $comment,$prestation, $imagePath, $videoPath, $ip_address);
+            $result = $this->commentModel->submitComment($user_id, $rating, $comment, $prestation, $imagePath, $videoPath, $ip_address);
 
             if ($result) {
-                header("Location: index.php?action=commentaires");
+                $_SESSION['flash_source'] = "commentaire";
+                $_SESSION['flash_message'] = "Votre commentaire a bien été soumis, il est en cours de validation.";
+                header("Location: index.php?action=confirmation");
                 exit;
             } else {
                 echo "Une erreur est survenue lors de l'ajout du commentaire.";

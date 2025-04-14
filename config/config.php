@@ -1,4 +1,9 @@
 <?php
+
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
@@ -13,8 +18,8 @@ $dotenv->load();
 //var_dump(getenv('DB_USER'));
 
 // Affichage des variables d'environnement
-//echo $_ENV['DB_HOST']; // localhost
-//echo $_ENV['DB_USER']; // Affiche "root"
+//echo $_ENV['DB_HOST']; // 
+//echo $_ENV['DB_USER']; // 
 
 // Variables pour la connexion à la base de données
 $dbHost = $_ENV['DB_HOST'];

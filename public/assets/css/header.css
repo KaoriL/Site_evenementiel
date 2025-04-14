@@ -4,42 +4,22 @@
   padding: 0;
 }
 header {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  padding: 20px;
-  position: fixed;
-  flex-direction: row-reverse;
   z-index: 10;
-  width: 100%;
   transition: background-color 0.4s ease-in-out, padding 0.3s ease-in-out;
 }
 
 header.scrolled {
   background-color: #0f0f0f;
 }
-.milieu {
-  width: 50%;
-  display: flex;
-  flex-wrap: wrap;
-  text-align: center;
-  justify-content: center;
-}
+
 .milieu h2 {
   font-family: "Black-Mango";
   color: white;
-  width: 100%;
   text-align: center;
   border-bottom: solid 0px;
-  font-size: 24px;
+  font-size: clamp(20px, 5vw, 45px) !important;
 }
 
-.milieu p {
-  font-family: "Montserrat-regular";
-  color: white;
-  text-align: center;
-  width: 100%;
-}
 
 header button {
   font-size: 20px;
@@ -78,6 +58,28 @@ header button:hover {
   display: none;
 }
 
+.logo{
+  text-align: center;
+  display: inline-block;
+}
+
+.logo span{
+  right: 0;
+  bottom: 0;
+  text-align: right;
+  position: absolute;
+  white-space: nowrap;
+  margin-bottom: -5px;
+  font-size: clamp(10px,2vw,18px) !important;
+}
+.gradient{
+  font-size: 30px;
+}
+
+.logo-img{
+    width: 100px;
+    
+}
 /*--------------------------------    Responsive      ----------------------------------------------------- */
 @media (max-width: 768px) {
   .hamburger {
@@ -154,6 +156,10 @@ header button:hover {
     border-radius: 10px;
     top: 0;
   }
+
+  
+  
+  
 
   #navMenu a {
     color: #ffffff;

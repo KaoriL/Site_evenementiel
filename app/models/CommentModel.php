@@ -9,25 +9,55 @@ class CommentModel
     }
 
     public function getCommentsWithLimit($limit, $offset)
-{
-    $query = "SELECT c.*, u.username FROM comments c 
+    {
+        $query = "SELECT c.*, u.username FROM comments c 
               JOIN users u ON c.user_id = u.id
+              WHERE c.status = 'approved'
               ORDER BY c.created_at DESC 
               LIMIT :limit OFFSET :offset";
-              
-    $stmt = $this->db->prepare($query);
-    $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
-    $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
-    $stmt->execute();
-    
-    return $stmt->fetchAll(PDO::FETCH_ASSOC);
-}
 
-    
+        $stmt = $this->db->prepare($query);
+        $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+        $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function getPendingComments()
+    {
+        $stmt = $this->db->prepare("SELECT c.*, u.username FROM comments c
+                                    JOIN users u ON c.user_id = u.id
+                                    WHERE c.status = 'pending'
+                                    ORDER BY c.created_at DESC");
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    // Fonction pour récupérer le nombre de commentaires en attente
+    public function getPendingCommentsCount()
+    {
+        $stmt = $this->db->prepare("SELECT COUNT(*) FROM comments WHERE status = 'pending'");
+        $stmt->execute();
+        return $stmt->fetchColumn(); // Retourne le nombre de commentaires en attente
+    }
+
+    public function getCommentById($commentId)
+    {
+        $stmt = $this->db->prepare("SELECT c.*, u.username FROM comments c
+                                JOIN users u ON c.user_id = u.id
+                                WHERE c.id = :commentId");
+        $stmt->bindParam(':commentId', $commentId, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC); // Retourne un seul commentaire
+    }
+
+
+
     public function getAllComments()
     {
         $query = "SELECT c.*, u.username FROM comments c 
                   JOIN users u ON c.user_id = u.id
+                  WHERE c.status = 'approved'
                   ORDER BY c.created_at DESC";
         $stmt = $this->db->prepare($query);
         $stmt->execute();
@@ -35,14 +65,14 @@ class CommentModel
     }
 
     // Fonction pour insérer un commentaire avec image et vidéo (si présents)
-    public function submitComment($user_id, $rating, $comment,$prestation, $imagePath = null, $videoPath = null, $ip_address, )
+    public function submitComment($user_id, $rating, $comment, $prestation, $imagePath = null, $videoPath = null, $ip_address, )
     {
         // Préparer la requête SQL pour insérer un commentaire
         $stmt = $this->db->prepare("INSERT INTO comments (user_id, rating, comment, prestation, image, video, ip_address) 
                                     VALUES (?,?, ?, ?, ?, ?, ?)");
 
         // Exécuter la requête avec les paramètres
-        $stmt->execute([$user_id, $rating, $comment,$prestation, $imagePath, $videoPath, $ip_address]);
+        $stmt->execute([$user_id, $rating, $comment, $prestation, $imagePath, $videoPath, $ip_address]);
 
         // Vérifier si l'insertion a réussi
         if ($stmt->rowCount() > 0) {
@@ -58,26 +88,26 @@ class CommentModel
         if (empty($file['name'])) {
             return '';  // Aucun fichier, on renvoie une chaîne vide
         }
-    
+
         // Vérifier la taille du fichier
         if ($file['size'] > $maxSize) {
             return 'Le fichier dépasse la taille maximale autorisée.';
         }
-    
+
         // Vérifier le type MIME
         $mimeType = mime_content_type($file['tmp_name']);
         if (!in_array($mimeType, $allowedTypes)) {
             return 'Le type de fichier n\'est pas autorisé.';
         }
-    
+
         // Vérifier s'il y a une erreur d'upload
         if ($file['error'] !== UPLOAD_ERR_OK) {
             return 'Une erreur est survenue lors du téléchargement du fichier.';
         }
-    
+
         // Générer un nom de fichier unique pour éviter les conflits
         $uniqueName = uniqid() . '.' . pathinfo($file['name'], PATHINFO_EXTENSION);
-    
+
         // Déplacer le fichier vers le répertoire de destination
         $destination = $uploadDir . $uniqueName;
         if (move_uploaded_file($file['tmp_name'], $destination)) {
@@ -86,7 +116,30 @@ class CommentModel
             return 'Le fichier n\'a pas pu être déplacé.';
         }
     }
-    
+
+    public function updateCommentStatus($id, $status)
+    {
+        $sql = "UPDATE comments SET status = ? WHERE id = ?";
+        $this->db->prepare($sql)->execute([$status, $id]);
+    }
+
+    public function deleteComment($id)
+    {
+        $sql = "DELETE FROM comments WHERE id = ?";
+        $this->db->prepare($sql)->execute([$id]);
+    }
+
+    // Méthode pour récupérer l'email de l'utilisateur par ID de commentaire
+    public function getUserEmailByCommentId($commentId)
+    {
+        $stmt = $this->db->prepare("SELECT u.email FROM comments c
+                                JOIN users u ON c.user_id = u.id
+                                WHERE c.id = :commentId");
+        $stmt->bindParam(':commentId', $commentId, PDO::PARAM_INT);
+        $stmt->execute();
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $result ? $result['email'] : null;
+    }
 
 }
 ?>

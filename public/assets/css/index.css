@@ -1,6 +1,152 @@
+
+.comment-gallery {
+  max-width: 1200px;
+  width: 100%;
+}
+
+.gallery-grid {
+  display: grid;
+  gap: 8px;
+  grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
+  max-width: 100%;
+}
+.p-10p{
+  padding-bottom: 10% !important;
+}
+.gallery-item {
+  width: 150px;
+  height: 150px;
+  overflow: hidden;
+}
+
+.gallery-item img,
+.gallery-item video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.gallery-more {
+  width: 150px;
+  height: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.6);
+  color: white;
+  font-size: 20px;
+  font-weight: bold;
+  cursor: pointer;
+  position: absolute; /* Position absolue pour se mettre sur le dernier élément */
+}
+
+.gallery-container {
+  position: relative; /* Permet de positionner le +X correctement */
+}
+
+@media (max-width: 768px) {
+  .gallery-more {
+      width: 70px;
+      height: 70px;
+  }
+}
+
+@media (max-width: 768px) {
+  .gallery-item {
+      width: 70px;
+      height: 70px;
+  }
+}
+
+
+/* Responsive : écran max 768px (tablette et mobile) */
+
+
+  .section {
+    flex-direction: row; /* par défaut */
+
+  }
+/* Responsive : écran max 768px (tablette et mobile) */
+@media screen and (max-width: 768px) {
+    .section {
+        flex-direction: column-reverse !important; /* inverse l'ordre */
+    }
+
+    .h3,
+    .imae_deejay13 {
+        width:90% !important; /* pour que ça prenne toute la largeur */
+    }
+    .teams{
+      width: 90% !important;
+      height: 200px !important;
+    }
+    .team{
+      width: 60% !important;
+      height: 200px !important;
+      min-height: 200px !important;
+    }
+
+    .icons-overlay{
+      left: 20px !important;
+      right: auto !important;
+      background-color: #0c0602 !important;
+      padding: 10px !important;
+      border-radius: 10px !important;
+      position: absolute !important;
+      bottom: 10px !important;
+      display: flex !important;
+      gap: 10px !important;
+      z-index: 1 !important;
+    }
+}       
+
+
+body{
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden; /* Cache les débordements horizontaux */
+  
+}
+
+
+/*--------------------------------    POSITION     ----------------------------------------------------- */
+.absolute{
+  position: absolute;
+}
+.relative{
+  position: relative;
+}
+
+.fixed{
+  position: fixed;
+}
+
+.sticky{
+  position: sticky;
+}
+
+.hidden{
+  overflow:hidden;
+}
+
+
+/*---------------------------------- SHADOW ----------------------------------------------------------*/
+.shadow{
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}
 /*--------------------------------    Alignement      ----------------------------------------------------- */
 .center{
   justify-content: center;
+}
+
+.between{
+  justify-content: space-between;
+}
+.right{
+  justify-content: right;
+}
+
+.around{
+  justify-content: space-around;
 }
 .align-center{
   align-items: center;
@@ -21,11 +167,23 @@
 .gap{
   gap: 10px;
 }
+
+.wrap{
+  flex-wrap: wrap;
+}
+
+.gap50{
+  gap: 50px;
+}
 .column{
   flex-direction: column;
 }
 .row{
   flex-direction: row;
+}
+
+.row-reverse{
+  flex-direction: row-reverse;
 }
 .border-box{
   box-sizing: border-box;
@@ -36,12 +194,63 @@
   height: 100vh;
 }
 
+.h100{
+  height: 100%;
+}
+
+.h80{
+  height: 80%;
+}
+
+/* Width en pourcentage*/
+.w20{
+  width: 20%;
+}
+.w25{
+  width: 25%;
+}
+.w30{
+  width: 30%;
+}
+
+.w35{
+  width: 35%;
+}
+.w40{
+  width: 40%;
+}
+.w50{
+  width: 50%;
+}
+.w60{
+  width: 60%;
+}
 .w75{
   width: 75%;
 }
+.w80{
+  width: 80%;
+}
+.w90{
+  width: 90%;
+}
+.w100{
+  width: 100%;
+}
 
-.w50{
-  width: 50%;
+.m-w500{
+  max-width: 500px;
+}
+
+.m-w100{
+  max-width: 100%;
+}
+
+.h-20{
+  height: 20px;
+}
+.h-400{
+  height:400px;
 }
 
 /*--------------------------------    COULEURS    ----------------------------------------------------- */
@@ -49,8 +258,56 @@
   background-color: #0c0602;
 }
 
+.bg-trans{
+  background-color: #66666664;
+}
+
 .bg-white{
   background-color: rgb(232, 232, 232);
+}
+
+.bg-white2{
+  background-color: rgb(255, 255, 255);
+}
+
+.bg-beige{
+  background-color: #f2e9d3;
+}
+
+.team{
+  width: 100%;
+  height: 540px;
+ 
+}
+.icons-overlay {
+  position: absolute;
+  bottom:10%; /* Ajuste selon ton besoin */
+  right: 0;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 10px;
+}
+.icons-overlay a, .icons-overlay i{
+  color: white;
+  font-size: 32px;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+.c-grey{
+  color: #545454;
+}
+
+.c-white{
+  color: white;
+}
+.c-beige{
+  color: #ecddbb;
+}
+.c-brown{
+  color: #492e0d !important;
+}
+.c-noir{
+  color: #0c0602 !important;
 }
 
 /*BORDURES*/
@@ -58,39 +315,231 @@
 .bor-radius10{
   border-radius: 10px;
 }
+
+.bor-or{
+  border: solid 1px ;
+  border-image: linear-gradient(to right, #FFE998, #7a5c32, #FFE998, #7a5c32);
+  border-image-slice: 1;
+}
 /*--------------------------------    ESPACEMENT    ----------------------------------------------------- */
 .p-20{
   padding: 20px;
 }
+.p-10{
+  padding: 10px;
+}
+.p-50{
+  padding: 50px;
+}
+.m-10{
+  margin: 10px;
+}
+.p-top-50{
+  padding-top:50px;
+}
+.p-bottom-50{
+  padding-bottom:50px;
+}
 
-/*----------------------------   h1 h2 h3 h4 h5 h6 p  -------------------------------*/
-h1, h2 {
+.top-20{
+  top: 20px;
+}
+/*----------------------------   h1 h2 h3 h4 h5 h6 p label -------------------------------*/
+h1{
   font-family: 'Black-mango';
+  font-size: clamp(32px, 2vw, 64px) ;
+  color: white;
+}
+h2 {
+  font-family: 'Black-mango';
+  font-size: clamp(32px, 2vw, 48px);
 }
 h3{
-  font-family: 'Montserrat-semibold';
-  font-size: clamp(16px, 2vw, 32px) !important;
+  font-family: 'Montserrat-regular';
+  font-size: clamp(16px, 2vw, 28px) ;
 }
 h4,h5{
   font-family: 'Poppins-semibold';
 }
-h6{
+h6,label{
   font-family: 'Montserrat-regular';
 }
 p{
   font-family: 'Poppins-Regular';
+  font-size: clamp(14px, 2vw, 20px) ;
+  word-break: break-word ;
+  word-wrap: break-word;
+}
+.montserrat-light{
+  font-family: 'Poppins-light';
+}
+a{
+  text-decoration: none;
+  font-family: 'Poppins-Regular';
+}
+
+li{
+  list-style-type: none;
+  color: #ffffff;
+  font-family: 'Poppins-Regular';
+}
+
+/*---------------------------- Taille du texte -------------------------------*/
+.petit{
+  font-size: clamp(12px, 2vw, 14px) !important;
+}
+
+.moyen{
+  font-size: clamp(14px, 2vw, 16px) !important;
+}
+
+.grand{
+  font-size: clamp(22px, 2vw, 28px) !important;
+}
+
+/*----------------------------  Menue -------------------------------*/
+/* From Uiverse.io by JulanDeAlb */ 
+.hamburger {
+  cursor: pointer;
+}
+
+.hamburger input {
+  display: none;
+}
+
+.hamburger svg {
+  /* The size of the SVG defines the overall size */
+  height: 3em;
+  /* Define the transition for transforming the SVG */
+  transition: transform 600ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.line {
+  fill: none;
+  stroke: white;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 3;
+  /* Define the transition for transforming the Stroke */
+  transition: stroke-dasharray 600ms cubic-bezier(0.4, 0, 0.2, 1),
+              stroke-dashoffset 600ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.line-top-bottom {
+  stroke-dasharray: 12 63;
+}
+
+.hamburger input:checked + svg {
+  transform: rotate(-45deg);
+}
+
+.hamburger input:checked + svg .line-top-bottom {
+  stroke-dasharray: 20 300;
+  stroke-dashoffset: -32.42;
 }
 
 
+/*----------------------------   BOUTONS -------------------------------*/
+.button a {
+  font-size: clamp(14px, 2vw, 16px) !important;
+  text-decoration: none;
+  color: #492e0d;
+  border-radius: 7px;
+  font-family: "Poppins-semibold";
+}
 
+.button {
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.3); /* Ombre douce */
+  margin-top: 30px;
+  position: relative;
+  padding: 10px 20px;
+  border-radius: 7px;
+  border: solid 0px transparent;
+  background: linear-gradient(to right, #ffe998, #7a5c32);
+  border-color: #ffe998;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  right: 0;
+  overflow: hidden;
+  -webkit-transition: all 0.2s ease-in;
+  -moz-transition: all 0.2s ease-in;
+  transition: all 0.2s ease-in;
+}
+
+.button:hover {
+  background: linear-gradient(to left, #ffe998, #7a5c32);
+  box-shadow: 0 0 30px 5px #ecddbb;
+  -webkit-transition: all 0.2s ease-out;
+  -moz-transition: all 0.2s ease-out;
+  transition: all 0.2s ease-out;
+  border: solid 0px;
+}
+
+.button:hover::before {
+  -webkit-animation: sh02 0.5s 0s linear;
+  -moz-animation: sh02 0.5s 0s linear;
+  animation: sh02 0.5s 0s linear;
+}
+
+.button::before {
+  content: "";
+  display: block;
+  width: 0px;
+  height: 86%;
+  position: absolute;
+  top: 7%;
+  left: 0%;
+  opacity: 0;
+  background: #fff;
+  box-shadow: 0 0 50px 30px #fff;
+  -webkit-transform: skewX(-20deg);
+  -moz-transform: skewX(-20deg);
+  -ms-transform: skewX(-20deg);
+  -o-transform: skewX(-20deg);
+  transform: skewX(-20deg);
+}
+
+@keyframes sh02 {
+  from {
+    opacity: 0;
+    left: 0%;
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+    left: 100%;
+  }
+}
+
+.button:active {
+  box-shadow: 0 0 0 0 transparent;
+  -webkit-transition: box-shadow 0.2s ease-in;
+  -moz-transition: box-shadow 0.2s ease-in;
+  transition: box-shadow 0.2s ease-in;
+}
 
 /*AUTRES*/
+.right {
+  margin-bottom: -10px;
+  right: 0;
+  text-align: right;
+  bottom: 0; /* Aligne verticalement au texte principal */
+}
+span {
+  font-family: "Montserrat-regular";
+  color: white;
+  font-size: 18px;
 
-
-
+  white-space: nowrap; /* Empêche le retour à la ligne */
+}
 .ruban {
   width: 100%;
-  height: 40px;
+  padding: 0px 20px 0 20px;
   color: white;
   border-bottom: solid 1px;
   border-top: solid 1px;
@@ -101,6 +550,8 @@ p{
   align-items: center;
   text-align: center;
   font-family: "Montserrat-regular";
+  padding: 10px;
+  box-sizing: border-box;
 }
 
 .centre {
@@ -159,6 +610,46 @@ p{
 .star.empty {
   color: gray;
 }
+
+/*----------------------------   IMAGES -------------------------------*/
+.phot1{
+  filter: grayscale(100%);
+  width: 50%;
+  height: 65%;
+  max-width: 300px;
+  max-height: 400px;
+  object-fit: cover;
+  box-sizing: border-box;
+  left: 0;
+  bottom: 0;
+  position: absolute;
+}
+.phot2{
+  width: 80%;
+  height:80%;
+  max-width: 600px;
+max-height: 800px;
+  object-fit: cover;
+  box-sizing: border-box;
+}
+
+.t-32px{
+  font-size: 32px!important;
+}
+
+.imae_deejay13{
+  width: 40%;
+  position: relative;
+  padding: 20px;
+  max-width: 650px;
+}
+
+
+
+
+.cover{
+  object-fit: cover;
+}
 /*--------------------------------    TYPOGRAPHIE      ----------------------------------------------------- */
 
 @font-face {
@@ -199,4 +690,24 @@ p{
 * {
   margin: 0;
   padding: 0;
+}
+
+@media (max-width : 768px){
+  .banniere{
+    height: 350px;
+  }
+
+  .bw-image{
+    height: 350px;
+  }
+
+  .img-essentiel {
+    width: 90%; /* Réduit la largeur de l'image */
+    margin-right: 0; /* Supprime la marge */
+    justify-content: center;
+  }
+
+  h2{
+    border-bottom: none;
+  }
 }

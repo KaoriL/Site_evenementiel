@@ -18,26 +18,28 @@ class Router
 
         // Vérifier si l'utilisateur est connecté
         $isLoggedIn = isset($_SESSION['user_id']);
+        $confirmaton = $_SESSION['flash_source'] ?? null;
         $userRole = $isLoggedIn ? $_SESSION['role'] : null;
 
         switch ($action) {
-            case 'home':
-                if ($isLoggedIn) {
-                    // Rediriger selon le rôle de l'utilisateur
-                    if ($userRole === 'admin') {
-                        require_once __DIR__ . '/../app/controllers/HomeController.php';
-                        $controller = new HomeController();
-                        $controller->homeAdmin(); // Page spécifique pour l'admin
-                    } else {
-                        require_once __DIR__ . '/../app/controllers/HomeController.php';
-                        $controller = new HomeController();
-                        $controller->homeUser(); // Page spécifique pour l'utilisateur classique
-                    }
+
+            case 'home-admin':
+                if ($isLoggedIn && $userRole === 'admin') {
+                    require_once __DIR__ . '/../app/controllers/AdminController.php';
+                    $adminController = new AdminController($db);
+                    $adminController->showAdminHome();
                 } else {
-                    // Rediriger vers la page d'accueil si non connecté
-                    require_once __DIR__ . '/../app/views/Accueil.php';
+                    header('Location: index.php?action=login');
+                    exit;
                 }
                 break;
+
+            case 'home':
+                    require_once __DIR__ . '/../app/controllers/HomeController.php';
+                    $controller = new HomeController();
+                    $controller->homeUser();
+                break;
+
 
             case 'devis':
                 require_once __DIR__ . '/../app/controllers/DevisController.php';
@@ -69,6 +71,12 @@ class Router
                 $controller->submitDevisMariage();
                 break;
 
+            case 'getPendingCommentsCount':
+                require_once __DIR__ . '/../app/controllers/AdminController.php';
+                $controller = new AdminController($db);
+                $controller->getPendingCommentsCount();
+                break;
+
             case 'disponibilites': // Ajout de la route pour récupérer les dates et horaires disponibles
                 require_once __DIR__ . '/../app/controllers/DevisController.php';
                 $controller = new DevisController($db);
@@ -76,17 +84,24 @@ class Router
                 break;
 
             case 'confirmation':
-                require_once __DIR__ . '/../app/controllers/DevisController.php';
-                $controller = new DevisController($db);
-                $controller->traiterDevis();
+                if ($confirmaton === 'devis') {
+                    require_once __DIR__ . '/../app/controllers/DevisController.php';
+                    $controller = new DevisController($db);
+                    $controller->traiterDevis();
+                } elseif($confirmaton === 'commentaire') {
+                    require_once 'app/views/confirmation.php';
+                    exit;
+                }
                 break;
-
             case 'mention-legales':
                 require_once 'app/views/Mentions-legales.php';
                 break;
 
             case 'mariage':
                 require_once 'app/views/Presta_mariage.php';
+                break;
+            case 'apropos':
+                require_once 'app/views/A_propos.php';
                 break;
 
             case 'rdv':
@@ -127,6 +142,23 @@ class Router
                 $controller = new AdminController($db);
                 $controller->getPrestationsParDate();
                 break;
+            case 'deleteComment':
+                require_once __DIR__ . '/../app/controllers/AdminController.php';
+                $controller = new AdminController($db);
+                $controller->deleteComment();
+                break;
+
+            case 'approveComment':
+                require_once __DIR__ . '/../app/controllers/AdminController.php';
+                $controller = new AdminController($db);
+                $controller->approveComment();
+                break;
+
+            case 'pending-comments':
+                require_once __DIR__ . '/../app/controllers/AdminController.php';
+                $controller = new AdminController($db);
+                $controller->pendingComments();
+                break;
             case 'commentaires':
                 require_once __DIR__ . '/../app/controllers/CommentController.php';
                 $controller = new CommentController($db);
@@ -150,12 +182,12 @@ class Router
                 // Sinon, rediriger vers la page de login
                 if ($isLoggedIn) {
                     if ($userRole === 'admin') {
-                        header('Location: index.php?action=home'); // Admin
+                        header('Location: index.php?action=home_admin'); // Admin
                     } else {
                         header('Location: index.php?action=home'); // Utilisateur
                     }
                 } else {
-                    header('Location: index.php?action=login'); // Non connecté
+                    header('Location: index.php?action=home'); // Non connecté
                 }
 
                 break;

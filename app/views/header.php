@@ -11,7 +11,7 @@
 </head>
 
 <body>
-    <header>
+    <header class="flex wrap center p-20 fixed row-reverse w100 align-center">
         <!-- From Uiverse.io by JulanDeAlb -->
         <label class="hamburger">
             <input type="checkbox" id="menuToggle">
@@ -23,20 +23,17 @@
             </svg>
         </label>
         <nav>
-        <a class="gradient" href="https://www.instagram.com/deejay13officiel/?hl=fr"><i
+        <a class="gradient" target="blank" href="https://www.instagram.com/deejay13officiel/?hl=fr"><i
         class="fa-brands fa-instagram"></i></a>
+        <a class="gradient" target="blank" href="https://wa.me/33698292678?text=Bonjour%20j'aimerais%20vous%20contacter%20pour%20en%20savoir%20plus."><i class="fa-brands fa-whatsapp"></i></a>
+        
         </nav>
-        
-        
-        <div class="milieu">
-            <h2>DEEJAY 13</h2>
-            <p>100% JESUS</p>
+        <div class="milieu w40 flex wrap center text-center">
+           <img src="public/assets/image/logo.png" alt="logo" class="logo-img">
         </div>
-        
-        
         <nav>
             <ul>
-                <a href=""> À propos</a>
+                <a href="index.php?action=apropos"> À propos</a>
                 <a href="index.php?action=commentaires">Avis</a>
                 <a href="index.php?action=contact">Contact</a>
                 <a href="index.php?action=presta">Prestations</a>
@@ -48,17 +45,13 @@
                 <?php endif; ?>
             </ul>
         </nav>
-           
-           
-       
-
         <nav id="navMenu">
             <ul>
                 <a href="index.php?action=home"><i class="fa-solid fa-house"></i> Accueil</a>
                 <a href="index.php?action=presta"><i class="fa-solid fa-music"></i> Prestations</a>
                 <a href="index.php?action=contact"><i class="fa-solid fa-address-book"></i> Contact</a>
                 <a href="index.php?action=commentaires"><i class="fa-solid fa-comments"></i> Avis</a>
-                <a href=""><i class="fa-solid fa-users"></i> À propos</a>
+                <a href="index.php?action=apropos"><i class="fa-solid fa-users"></i> À propos</a>
 
 
                 <?php if (isset($_SESSION['user_id'])): ?>
@@ -69,19 +62,6 @@
                 <?php endif; ?>
             </ul>
         </nav>
-
-
-
-
-
-
-
-
-
-
-
-
-
     </header>
 
     <script>

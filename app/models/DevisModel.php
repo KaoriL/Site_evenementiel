@@ -101,10 +101,10 @@ public function getReservations()
         $message = empty($data['message']) ? null : $data['message'];
 
         // 3 Insérer le devis avec le `disponibilite_id` généré
-        $query = "INSERT INTO prestations (user_id, nom, prenom, email, telephone, 
+        $query = "INSERT INTO prestations ( nom, prenom, email, telephone, 
                 date_evenement, rdv_date, rdv_horaire, 
                 service, lieu, message, disponibilite_id)
-                VALUES (:user_id, :nom, :prenom, :email, :telephone, 
+                VALUES ( :nom, :prenom, :email, :telephone, 
                 :date_evenement, :rdv_date, :rdv_horaire, 
                 :service, :lieu, :message, :disponibilite_id)";
 
@@ -112,7 +112,7 @@ public function getReservations()
         $stmt = $this->db->prepare($query);
 
         // 4 Lier les paramètres, avec des valeurs par défaut si non renseignées
-        $stmt->bindParam(':user_id', $data['user_id']);
+       
         $stmt->bindParam(':nom', $data['nom']);
         $stmt->bindParam(':prenom', $data['prenom']);
         $stmt->bindParam(':email', $data['email']);
@@ -164,12 +164,12 @@ VALUES (1, :rdv_date, :rdv_horaire)";
 
         // Construction de la requête avec des paramètres conditionnels
         $query = "INSERT INTO prestations_mariage 
-                  (user_id, nom_marie, prenom_marie, email_marie, telephone_marie, 
+                  ( nom_marie, prenom_marie, email_marie, telephone_marie, 
                    nom_mariee, prenom_mariee, email_mariee, telephone_mariee, 
                    age_marie, age_mariee, origine_marie, origine_mariee, 
                    date_evenement, lieu, message, rdv_date, rdv_horaire, service, disponibilite_id)
                   VALUES 
-                  (:user_id, :nom_marie, :prenom_marie, :email_marie, :telephone_marie, 
+                  ( :nom_marie, :prenom_marie, :email_marie, :telephone_marie, 
                    :nom_mariee, :prenom_mariee, :email_mariee, :telephone_mariee, 
                    :age_marie, :age_mariee, :origine_marie, :origine_mariee, 
                    :date_evenement, :lieu, :message, :rdv_date, :rdv_horaire, :service, :disponibilite_id)";
@@ -178,7 +178,7 @@ VALUES (1, :rdv_date, :rdv_horaire)";
         $stmt = $this->db->prepare($query);
 
         // Lier les paramètres
-        $stmt->bindParam(':user_id', $data['user_id']);
+      
         $stmt->bindParam(':nom_marie', $data['nom_marie']);
         $stmt->bindParam(':prenom_marie', $data['prenom_marie']);
         $stmt->bindParam(':email_marie', $data['email_marie']);
@@ -212,20 +212,16 @@ VALUES (1, :rdv_date, :rdv_horaire)";
         }
         return false;
     }
-
-
-
     public function fetchRendezVous($user_id)
     {
 
         $sql = "
-                SELECT id, user_id, rdv_date, rdv_horaire, message, service, date_evenement, 'standard' AS type 
+                SELECT id, rdv_date, rdv_horaire, message, service, date_evenement, 'standard' AS type 
                 FROM prestations 
-                WHERE user_id = :user_id
                 UNION 
-                SELECT id, user_id, rdv_date, rdv_horaire, message, service, date_evenement, 'mariage' AS type
+                SELECT id, rdv_date, rdv_horaire, message, service, date_evenement, 'mariage' AS type
                 FROM prestations_mariage 
-                WHERE user_id = :user_id";
+               ";
 
 
         $stmt = $this->db->prepare($sql);
@@ -259,7 +255,7 @@ VALUES (1, :rdv_date, :rdv_horaire)";
             $mail->ContentType = 'text/html';
             $mail->Subject = 'Confirmation de votre rendez-vous en ligne';
 
-            $dateEvenement = date('d-m-Y', strtotime($data['date_evenement']));
+            $dateEvenement = !empty($data['date_evenement']) ? date('d-m-Y', strtotime($data['date_evenement'])) : 'Non définie';
             $rdvDate = date('d-m-Y', strtotime($data['rdv_date']));
             $rdvHoraire = date('H:i', strtotime($data['rdv_horaire']));
 
@@ -336,7 +332,7 @@ VALUES (1, :rdv_date, :rdv_horaire)";
         <div class="banner">
         <img src="cid:bannerImage" alt="Bannière">
         </div> <div class="content">
-        <p>Bonjour <strong>' . htmlspecialchars($data['prenom_mariee']) . '&'
+        <p>Bonjour <strong>' . htmlspecialchars($data['prenom_mariee']) . ' & '
                 . htmlspecialchars($data['prenom_marie'])
                 . '</strong>,</p> <p>Nous vous confirmons votre rendez-vous en visio le :</p> <h2>'
                 . $rdvDate
@@ -345,11 +341,11 @@ VALUES (1, :rdv_date, :rdv_horaire)";
                 . '</h3> <p>Votre lien Zoom pour le rendez-vous :</p> <a href="https://us02web.zoom.us/j/81806042119" class="button" style="color:white;">LIEN ZOOM</a>
          <div class="info-box">
          <p><strong>Récapitulatif de vos informations :</strong></p> 
-         <p>Date de votre événement : ' . $dateEvenement . '</p> 
-         <p>Lieu de votre événement : ' . htmlspecialchars($data['lieu'])
-                . '</p> <p>Prestation : ' . htmlspecialchars($data['service'])
-                . '</p> <p>Message : ' . nl2br(htmlspecialchars($data['message']))
-                . '</p> </div> <p>Nous vous enverrons plus d&apos;informations prochainement.</p> 
+         <p><strong>Date de votre évènement : </strong> ' . $dateEvenement . '</p> 
+         <p><strong>Lieu de votre évènement : </strong> ' . htmlspecialchars($data['lieu'])
+                . '</p> <p><strong>Prestation : </strong>' . htmlspecialchars($data['service'])
+                . '</p> <p><strong>Message : </strong>' . nl2br(htmlspecialchars($data['message']))
+                . '</p> </div> <p>Vous pouvez nous contacter au 06 98 29 26 78</p> 
          </div> 
          <div class="footer"> © ' . date('Y') . ' DeeJay 13. Tous droits réservés. </div> </div> </body> </html>';
 
